@@ -1,0 +1,42 @@
+:root {
+  /* Colors - Rick & Morty Theme */
+  --color-primary: #00B5CC;    /* Portal Green/Blue */
+  --color-secondary: #B8E986;  /* Morty Yellow/Green */
+  --color-accent: #FF6B6B;     /* Rick's Portal Gun */
+  --color-background: #1A1A1A; /* Dark background */
+  --color-surface: #2D2D2D;    /* Card surfaces */
+  --color-text: #FFFFFF;
+  --color-text-secondary: #B0B0B0;
+  
+  /* Status Colors */
+  --color-alive: #55CC44;
+  --color-dead: #D63D2E;
+  --color-unknown: #9E9E9E;
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+  
+  /* Borders */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+}
