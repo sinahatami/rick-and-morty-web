@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback, memo } from 'react';
-import { Loader2, Search, X, ChevronUp, AlertCircle } from 'lucide-react';
+import { Loader2, Search, X, ChevronUp, AlertCircle, FilterX, LayoutGrid } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+
 import { FilterPanel } from './FilterPanel';
 import { CharacterCard } from './CharacterCard';
-import { useDebounce } from '../hooks/useDebounce';
-import { useSimplifiedCharacters } from '../hooks/useSimplifiedCharacters';
-import { Character } from '../types';
+import { Character } from '~/types';
+import { useDebounce } from '~/hooks/useDebounce';
+import { useSimplifiedCharacters } from '~/hooks/useSimplifiedCharacters';
+
+// --- Types ---
 
 interface FilterOptions {
   species: string[];
@@ -20,7 +23,8 @@ interface URLFilters {
   gender?: string;
 }
 
-// Extract unique values from characters array
+// --- Utilities ---
+
 const extractFilterOptions = (characters: Character[]): FilterOptions => {
   const speciesSet = new Set<string>();
   const genderSet = new Set<string>();
@@ -39,123 +43,56 @@ const extractFilterOptions = (characters: Character[]): FilterOptions => {
   };
 };
 
-// Get initial filters from URL
 const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => {
-  const filters: URLFilters = {};
-
-  const name = searchParams.get('name');
-  const status = searchParams.get('status');
-  const species = searchParams.get('species');
-  const gender = searchParams.get('gender');
-
-  if (name) filters.name = name;
-  if (status) filters.status = status;
-  if (species) filters.species = species;
-  if (gender) filters.gender = gender;
-
-  return filters;
+  return {
+    name: searchParams.get('name') || undefined,
+    status: searchParams.get('status') || undefined,
+    species: searchParams.get('species') || undefined,
+    gender: searchParams.get('gender') || undefined,
+  };
 };
 
-// Update URL with filters
-const updateUrlWithFilters = (
-  router: ReturnType<typeof useRouter>,
-  filters: URLFilters,
-  searchParams: URLSearchParams
-) => {
-  const params = new URLSearchParams(searchParams.toString());
+// --- Sub-components ---
 
-  // Clear existing filter params
-  ['name', 'status', 'species', 'gender'].forEach(key => {
-    params.delete(key);
-  });
-
-  // Add new filter params
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value && value.trim() !== '') {
-      params.set(key, value.toString());
-    }
-  });
-
-  const queryString = params.toString();
-  router.push(queryString ? `?${queryString}` : '', { scroll: false });
-};
-
-// Memoized loading component
 const LoadingState = memo(() => (
-  <div className="flex flex-col justify-center items-center py-16 space-y-4">
-    <div className="relative">
-      <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent blur-lg" />
+  <div className="flex flex-col justify-center items-center py-24 space-y-6">
+    <div className="relative flex items-center justify-center">
+      <div className="absolute h-20 w-20 bg-primary/10 rounded-full animate-ping" />
+      <Loader2 className="h-12 w-12 animate-spin text-primary relative z-10" />
     </div>
-    <div className="text-text-secondary text-lg font-medium">Loading characters...</div>
-    <p className="text-text-tertiary text-sm text-center max-w-md">
-      Exploring the multiverse for Rick, Morty, and all their friends
-    </p>
-  </div>
-));
-
-LoadingState.displayName = 'LoadingState';
-
-// Memoized error component
-const ErrorState = memo(({ error, onRetry }: { error: Error; onRetry: () => void }) => (
-  <div className="text-center py-16 space-y-6">
-    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 border-2 border-red-100 mb-2">
-      <AlertCircle className="h-10 w-10 text-red-500" />
-    </div>
-    <div className="space-y-2">
-      <h3 className="text-xl font-bold text-text-primary">Failed to load characters</h3>
-      <div className="text-text-secondary text-sm max-w-md mx-auto">
-        {error.message || 'An unexpected error occurred while fetching characters.'}
-      </div>
-    </div>
-    <div className="pt-4">
-      <button
-        onClick={onRetry}
-        className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
-      >
-        <Loader2 className="h-4 w-4 animate-spin" />
-        Try Again
-      </button>
+    <div className="text-center space-y-2">
+      <div className="text-gray-900 text-xl font-bold italic">Wubba Lubba Dub Dub!</div>
+      <p className="text-gray-500 text-sm font-medium">Scanning the multiverse for characters...</p>
     </div>
   </div>
 ));
 
-ErrorState.displayName = 'ErrorState';
-
-// Memoized empty state component
 const EmptyState = memo(({ onClearFilters }: { onClearFilters: () => void }) => (
-  <div className="text-center py-16 space-y-6">
-    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-50 border-2 border-gray-100 mb-2">
-      <Search className="h-10 w-10 text-gray-400" />
+  <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-gray-50/50 rounded-[2rem] border-2 border-dashed border-gray-200">
+    <div className="p-4 bg-white rounded-full shadow-sm mb-4">
+      <FilterX className="h-10 w-10 text-gray-400" />
     </div>
-    <div className="space-y-2">
-      <h3 className="text-xl font-bold text-text-primary">No characters found</h3>
-      <p className="text-text-tertiary text-sm max-w-md mx-auto">
-        No characters match your search criteria. Try adjusting your filters or search term.
-      </p>
-    </div>
-    <div className="pt-4">
-      <button
-        onClick={onClearFilters}
-        className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors font-medium shadow-lg hover:shadow-xl"
-      >
-        Clear All Filters
-      </button>
-    </div>
+    <h3 className="text-xl font-bold text-gray-900 mb-2">Dimension Not Found</h3>
+    <p className="text-gray-500 max-w-xs mb-8">
+      No characters match those specific criteria in this timeline.
+    </p>
+    <button
+      onClick={onClearFilters}
+      className="px-8 py-3 bg-gray-900 text-white rounded-xl font-bold text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg cursor-pointer"
+    >
+      Clear All Filters
+    </button>
   </div>
 ));
 
-EmptyState.displayName = 'EmptyState';
+// --- Main Component ---
 
-// Main CharacterList component
 export function CharacterList() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // State for filters
   const [filters, setFilters] = useState<URLFilters>(() => getInitialFiltersFromUrl(searchParams));
   const [searchQuery, setSearchQuery] = useState(filters.name || '');
-  const [showFilters, setShowFilters] = useState(false);
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     species: [],
     gender: [],
@@ -163,10 +100,8 @@ export function CharacterList() {
   });
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Debounce search query
   const debouncedSearch = useDebounce(searchQuery, 500);
 
-  // Use the simplified characters hook
   const {
     characters,
     isLoading,
@@ -184,283 +119,182 @@ export function CharacterList() {
     gender: filters.gender,
   });
 
-  // Update URL when filters change
+  // URL Synchronization
   useEffect(() => {
-    updateUrlWithFilters(
-      router,
-      {
-        name: debouncedSearch,
-        status: filters.status,
-        species: filters.species,
-        gender: filters.gender,
-      },
-      searchParams
-    );
-  }, [debouncedSearch, filters, router, searchParams]);
+    const params = new URLSearchParams();
+    if (debouncedSearch) params.set('name', debouncedSearch);
+    if (filters.status) params.set('status', filters.status);
+    if (filters.species) params.set('species', filters.species);
+    if (filters.gender) params.set('gender', filters.gender);
 
-  // Extract filter options from characters
+    const query = params.toString();
+    router.push(query ? `?${query}` : '', { scroll: false });
+  }, [debouncedSearch, filters, router]);
+
+  // Extract filters from dynamic data
   useEffect(() => {
     if (characters.length > 0) {
-      const options = extractFilterOptions(characters);
-      setFilterOptions(options);
+      setFilterOptions(extractFilterOptions(characters));
     }
   }, [characters]);
 
-  // Handle scroll for scroll-to-top button
+  // Scroll visibility
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
-    };
+    const handleScroll = () => setShowScrollTop(window.scrollY > 500);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle search input change
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  }, []);
-
-  // Handle filter change
-  const handleFilterChange = useCallback(
-    (newFilters: { status?: string; species?: string; gender?: string }) => {
-      setFilters(prev => ({
-        ...prev,
-        ...newFilters,
-      }));
-      setShowFilters(false);
-    },
-    []
-  );
-
-  // Clear all filters
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
     setFilters({});
-    setShowFilters(false);
-
-    // Also clear URL params
-    const params = new URLSearchParams(searchParams.toString());
-    ['name', 'status', 'species', 'gender'].forEach(key => {
-      params.delete(key);
-    });
-    router.push(params.toString() ? `?${params.toString()}` : '', { scroll: false });
-  }, [router, searchParams]);
-
-  // Scroll to top
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  // Check if any filters are active
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender
   );
 
-  // Calculate showing count
-  const showingCount = characters.length;
-
-  // Loading state
-  if (isLoading && characters.length === 0) {
-    return <LoadingState />;
-  }
-
-  // Error state
-  if (isError && characters.length === 0) {
-    return <ErrorState error={error || new Error('Unknown error')} onRetry={refetch} />;
-  }
+  if (isLoading && characters.length === 0) return <LoadingState />;
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-text-primary">Characters</h1>
-          <p className="text-text-secondary">
-            Browse through all characters from the Rick and Morty universe
-          </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+      {/* Header & Search */}
+      <section className="space-y-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-1">
+            <h1 className="text-5xl font-black text-gray-900 tracking-tight">Characters</h1>
+            <p className="text-gray-400 font-medium text-lg">
+              Exploring{' '}
+              <span className="text-gray-900 font-black text-xl italic tracking-tighter decoration-primary/30 underline underline-offset-4">
+                {totalCount.toLocaleString()}
+              </span>
+              <span className="ml-1 tracking-widest uppercase text-[13px] font-bold text-gray-400">
+                souls across the cosmos
+              </span>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-2xl shadow-sm">
+            <LayoutGrid className="h-4 w-4 text-primary" />
+            <span className="text-sm font-bold text-gray-700">{characters.length} Visible</span>
+          </div>
         </div>
 
-        {/* Search and Filter Bar */}
-        <div className="space-y-4 md:space-y-0 md:flex md:items-center md:gap-4">
-          {/* Search Input */}
-          <div className="relative flex-1">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-text-tertiary" />
-            </div>
+        <div className="flex flex-col md:flex-row gap-4 items-center">
+          {/* Search Input Container */}
+          <div className="relative flex-1 w-full group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
             <input
               type="text"
               value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Filter by name..."
-              className="w-full pl-10 pr-4 py-3.5 bg-white border border-border rounded-xl text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary transition-all duration-200 shadow-sm hover:shadow-md"
-              aria-label="Search characters by name"
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search by name..."
+              className="
+        w-full h-14 /* Exactly matches Filter button height */
+        pl-12 pr-12
+        bg-white border border-gray-200 rounded-2xl 
+        shadow-sm focus:ring-4 focus:ring-primary/10 focus:border-primary 
+        transition-all text-gray-900 font-medium placeholder:text-gray-400
+      "
             />
-          </div>
-
-          {/* Filter and Clear Buttons */}
-          <div className="flex items-center gap-3">
-            <FilterPanel
-              filters={filters}
-              filterOptions={filterOptions}
-              onFilterChange={handleFilterChange}
-              onClose={() => setShowFilters(false)}
-            />
-
-            {hasActiveFilters && (
+            {searchQuery && (
               <button
-                onClick={handleClearFilters}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-gray-100 border border-border rounded-xl text-text-primary hover:bg-gray-200 transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95"
-                aria-label="Clear all filters"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
               >
-                <X className="h-5 w-5" />
-                <span className="hidden sm:inline">Clear</span>
+                <X className="h-4 w-4 text-gray-400" />
               </button>
             )}
           </div>
+
+          {/* Filter Button Wrapper */}
+          <div className="w-full md:w-auto">
+            <FilterPanel
+              filters={filters}
+              filterOptions={filterOptions}
+              onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
+            />
+          </div>
         </div>
-
-        {/* Active Filters Display */}
+        {/* Active Tags */}
         {hasActiveFilters && (
-          <div className="flex flex-wrap items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <div className="text-sm font-medium text-blue-800">Active filters:</div>
-
-            {filters.species && (
-              <div className="inline-flex items-center bg-white border border-blue-300 rounded-lg px-3 py-2 shadow-sm">
-                <span className="text-sm text-gray-700 font-medium mr-1">Species:</span>
-                <span className="text-sm text-blue-700 font-semibold">{filters.species}</span>
-                <button
-                  onClick={() => setFilters(prev => ({ ...prev, species: undefined }))}
-                  className="ml-2 text-gray-400 hover:text-red-500 hover:bg-gray-100 p-1 rounded transition-colors"
-                  aria-label="Remove species filter"
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <span className="text-xs font-black text-gray-400 uppercase tracking-widest">
+              Active Filters
+            </span>
+            {Object.entries({ ...filters, name: searchQuery }).map(([key, value]) => {
+              if (!value) return null;
+              return (
+                <div
+                  key={key}
+                  className="flex items-center gap-2 pl-3 pr-1.5 py-2 bg-primary/5 border border-primary/10 rounded-xl"
                 >
-                  <X className="h-3 w-3" />
-                </button>
-              </div>
-            )}
-
-            {filters.gender && (
-              <div className="inline-flex items-center bg-white border border-blue-300 rounded-lg px-3 py-2 shadow-sm">
-                <span className="text-sm text-gray-700 font-medium mr-1">Gender:</span>
-                <span className="text-sm text-blue-700 font-semibold">{filters.gender}</span>
-                <button
-                  onClick={() => setFilters(prev => ({ ...prev, gender: undefined }))}
-                  className="ml-2 text-gray-400 hover:text-red-500 hover:bg-gray-100 p-1 rounded transition-colors"
-                  aria-label="Remove gender filter"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </div>
-            )}
-
-            {filters.status && (
-              <div className="inline-flex items-center bg-white border border-blue-300 rounded-lg px-3 py-2 shadow-sm">
-                <span className="text-sm text-gray-700 font-medium mr-1">Status:</span>
-                <span className="text-sm text-blue-700 font-semibold">{filters.status}</span>
-                <button
-                  onClick={() => setFilters(prev => ({ ...prev, status: undefined }))}
-                  className="ml-2 text-gray-400 hover:text-red-500 hover:bg-gray-100 p-1 rounded transition-colors"
-                  aria-label="Remove status filter"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </div>
-            )}
-
+                  <span className="text-xs font-bold text-primary/60 uppercase">{key}:</span>
+                  <span className="text-sm font-black text-primary">{value}</span>
+                  <button
+                    onClick={() =>
+                      key === 'name'
+                        ? setSearchQuery('')
+                        : setFilters(p => ({ ...p, [key]: undefined }))
+                    }
+                    className="p-1 hover:bg-primary/10 rounded-lg text-primary transition-colors cursor-pointer"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              );
+            })}
             <button
               onClick={handleClearFilters}
-              className="ml-auto text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 px-3 py-2 hover:bg-blue-100 rounded-lg transition-colors"
+              className="text-sm font-bold text-red-500 hover:bg-red-50 px-3 py-2 rounded-xl transition-colors cursor-pointer"
             >
-              <X className="h-4 w-4" />
-              Clear all
+              Clear All
             </button>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* Stats and Results Section */}
-      <div className="space-y-6">
-        {/* Stats Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-surface border border-border rounded-xl">
-          <div className="space-y-1">
-            <div className="text-sm text-text-secondary">
-              {!hasActiveFilters && totalCount > 0 ? (
-                <>
-                  Total characters in the multiverse:{' '}
-                  <span className="text-text-primary font-bold">{totalCount.toLocaleString()}</span>
-                </>
-              ) : (
-                <>
-                  Showing: <span className="text-text-primary font-bold">{showingCount}</span>{' '}
-                  character{showingCount !== 1 ? 's' : ''}
-                  {hasActiveFilters && ' (filtered)'}
-                </>
-              )}
-            </div>
-            {hasActiveFilters && totalCount > 0 && (
-              <div className="text-xs text-text-tertiary">
-                Out of {totalCount.toLocaleString()} total characters
-              </div>
-            )}
-          </div>
-
-          {hasActiveFilters && (
-            <button
-              onClick={handleClearFilters}
-              className="self-start sm:self-center text-sm text-red-600 hover:text-red-800 font-medium flex items-center gap-1.5 px-3 py-2 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              <X className="h-4 w-4" />
-              Clear all filters
-            </button>
-          )}
-        </div>
-
-        {/* Characters Grid */}
-        {characters.length === 0 && !isLoading ? (
+      {/* Grid Content */}
+      <section>
+        {characters.length === 0 ? (
           <EmptyState onClearFilters={handleClearFilters} />
         ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="space-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {characters.map(character => (
                 <CharacterCard key={character.id} character={character} />
               ))}
             </div>
 
-            {/* Load More Button */}
-            {hasNextPage && characters.length > 0 && (
-              <div className="text-center pt-8">
+            {hasNextPage && (
+              <div className="flex flex-col items-center gap-6 py-10">
                 <button
                   onClick={() => fetchNextPage()}
                   disabled={isFetchingNextPage}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5 min-w-72"
-                  aria-label="Load more characters"
+                  className="group relative px-12 py-4 bg-white border-2 border-gray-900 rounded-2xl font-black text-gray-900 hover:bg-gray-900 hover:text-white transition-all active:scale-95 disabled:opacity-50 cursor-pointer shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 flex items-center gap-3"
                 >
                   {isFetchingNextPage ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Loading...
-                    </>
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
-                    'LOAD MORE'
+                    <>
+                      LOAD MORE
+                      <ChevronUp className="h-5 w-5 rotate-180 group-hover:translate-y-1 transition-transform" />
+                    </>
                   )}
                 </button>
-                <p className="text-text-tertiary text-sm mt-3">
-                  Showing {showingCount} of {totalCount} characters
-                </p>
               </div>
             )}
-          </>
+          </div>
         )}
-      </div>
+      </section>
 
-      {/* Scroll to Top Button */}
+      {/* Floaties */}
       {showScrollTop && (
         <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 bg-white p-3.5 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 transition-all duration-300 hover:scale-110 border border-border group"
-          aria-label="Scroll to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-10 right-10 p-4 bg-gray-900 text-white rounded-2xl shadow-2xl hover:bg-primary transition-all hover:-translate-y-2 cursor-pointer z-50 border-4 border-white"
         >
-          <ChevronUp className="h-6 w-6 text-text-primary group-hover:text-primary transition-colors" />
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <ChevronUp className="h-6 w-6" />
         </button>
       )}
     </div>

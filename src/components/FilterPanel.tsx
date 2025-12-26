@@ -28,11 +28,7 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
   };
 
   const handleReset = () => {
-    const resetFilters = {
-      status: '',
-      species: '',
-      gender: '',
-    };
+    const resetFilters = { status: '', species: '', gender: '' };
     setLocalFilters(resetFilters);
     onFilterChange(resetFilters);
     setIsOpen(false);
@@ -40,138 +36,116 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
   };
 
   const handleSelectChange = (type: 'status' | 'species' | 'gender', value: string) => {
-    const newFilters = { ...localFilters, [type]: value || '' };
-    setLocalFilters(newFilters);
+    setLocalFilters(prev => ({ ...prev, [type]: value || '' }));
   };
 
-  // Close panel when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    if (isOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
+
+  const activeCount = [filters.status, filters.species, filters.gender].filter(Boolean).length;
 
   return (
     <div className="relative" ref={panelRef}>
+      {/* Main Toggle Button - h-14 for search bar alignment */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors group shadow-sm hover:shadow-md min-w-[200px]"
+        className={`
+          flex items-center justify-center gap-2 px-6 h-14
+          bg-white border transition-all duration-300
+          rounded-2xl shadow-sm hover:shadow-md cursor-pointer
+          w-full md:w-auto md:min-w-[180px]
+          ${
+            isOpen || activeCount > 0
+              ? 'border-blue-600 text-blue-600 ring-4 ring-blue-50'
+              : 'border-gray-200 text-gray-700 hover:border-gray-300'
+          }
+        `}
       >
-        <Filter className="h-5 w-5 text-blue-600 group-hover:scale-110 transition-transform" />
-        <span className="font-medium text-sm">ADVANCED FILTERS</span>
-        {isOpen ? (
-          <ChevronUp className="h-4 w-4 ml-1 text-gray-500" />
-        ) : (
-          <ChevronDown className="h-4 w-4 ml-1 text-gray-500" />
-        )}
+        <Filter className={`h-5 w-5 ${activeCount > 0 ? 'fill-blue-600' : 'text-gray-400'}`} />
+        <span className="font-bold text-sm tracking-wide uppercase">
+          {activeCount > 0 ? `Filters (${activeCount})` : 'Filters'}
+        </span>
+        <ChevronDown
+          className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 z-50 w-96 bg-white border border-gray-200 rounded-lg shadow-xl">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900">Filters</h3>
+        <div className="absolute top-full right-0 mt-3 z-50 w-80 md:w-96 bg-white border border-gray-100 rounded-[2rem] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div className="p-7 space-y-7">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-black text-gray-900 tracking-tight">Filter Characters</h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-gray-700 p-1 hover:bg-gray-100 rounded"
-                aria-label="Close filters"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
               >
-                <X className="h-5 w-5" />
+                <X className="h-5 w-5 text-gray-400" />
               </button>
             </div>
 
+            {/* Selection Inputs */}
             <div className="space-y-6">
-              {/* Species Filter - SELECT INPUT */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Species</label>
-                <div className="relative">
-                  <select
-                    value={localFilters.species || ''}
-                    onChange={e => handleSelectChange('species', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none pr-10"
-                  >
-                    <option value="">All Species</option>
-                    {filterOptions.species.map(species => (
-                      <option key={species} value={species}>
-                        {species}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-4 w-4 text-gray-500" />
+              {[
+                { id: 'species', label: 'Species', options: filterOptions.species },
+                { id: 'gender', label: 'Gender', options: filterOptions.gender },
+                { id: 'status', label: 'Status', options: filterOptions.status },
+              ].map(group => (
+                <div key={group.id} className="space-y-2.5">
+                  <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">
+                    {group.label}
+                  </label>
+                  <div className="relative group">
+                    <select
+                      value={(localFilters as any)[group.id] || ''}
+                      onChange={e => handleSelectChange(group.id as any, e.target.value)}
+                      className="
+                        w-full h-13 pl-5 pr-12 
+                        bg-gray-50 border border-gray-100 rounded-2xl
+                        text-sm font-bold text-gray-900 
+                        appearance-none cursor-pointer transition-all
+                        hover:bg-gray-100 hover:border-gray-200
+                        focus:bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-600
+                        outline-none
+                      "
+                    >
+                      <option value="">All {group.label}s</option>
+                      {group.options.map(opt => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    {/* Visual Chevron replacement for native appearance */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-gray-600 transition-colors">
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
 
-              {/* Gender Filter - SELECT INPUT */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Gender</label>
-                <div className="relative">
-                  <select
-                    value={localFilters.gender || ''}
-                    onChange={e => handleSelectChange('gender', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none pr-10"
-                  >
-                    <option value="">All Gender</option>
-                    {filterOptions.gender.map(gender => (
-                      <option key={gender} value={gender}>
-                        {gender}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-4 w-4 text-gray-500" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Status Filter - SELECT INPUT */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
-                <div className="relative">
-                  <select
-                    value={localFilters.status || ''}
-                    onChange={e => handleSelectChange('status', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none pr-10"
-                  >
-                    <option value="">All Status</option>
-                    {filterOptions.status.map(status => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <ChevronDown className="h-4 w-4 text-gray-500" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3 pt-6 border-t border-gray-200">
-                <button
-                  onClick={handleReset}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg font-semibold transition-colors shadow-sm"
-                >
-                  Reset All
-                </button>
-                <button
-                  onClick={handleApply}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-semibold transition-colors shadow-sm"
-                >
-                  Apply Filters
-                </button>
-              </div>
+            {/* Actions */}
+            <div className="flex gap-4 pt-2">
+              <button
+                onClick={handleReset}
+                className="flex-1 py-4 text-gray-500 font-bold text-sm hover:text-red-500 transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+              <button
+                onClick={handleApply}
+                className="flex-[2] py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm shadow-xl shadow-blue-100 transition-all active:scale-95 cursor-pointer"
+              >
+                Apply Filters
+              </button>
             </div>
           </div>
         </div>
