@@ -5,6 +5,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 import Navigation from '~/components/Navigation';
 
+import { ErrorBoundary } from '~/components/shared/ErrorBoundary';
+import { GlobalLoading } from '~/components/shared/GlobalLoading';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
     () =>
@@ -21,11 +24,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
+        <GlobalLoading />
         <Navigation />
-        <main className="container mx-auto px-4 py-8">
+        <ErrorBoundary>
           <Component {...pageProps} />
-        </main>
+        </ErrorBoundary>
       </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

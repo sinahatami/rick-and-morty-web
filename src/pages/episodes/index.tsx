@@ -1,24 +1,16 @@
 import Head from 'next/head';
+import { EpisodeList } from '~/components/EpisodeList'; // Uncomment this
 
-const EpisodesPage = () => (
-  <>
-    <Head>
-      <title>Rick and Morty - Episodes</title>
-      <meta
-        name="description"
-        content="Explore episodes from Rick and Morty universe"
-      />
-    </Head>
-    <div className="min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-white">Episodes</h1>
-      <p className="text-gray-400 mb-8">
-        Explore episodes from the Rick & Morty universe
-      </p>
-      <div className="text-center py-12 text-gray-500">
-        Episodes page coming soon...
-      </div>
-    </div>
-  </>
-);
-
-export default EpisodesPage;
+export default function EpisodesPage() {
+  return (
+    <>
+      <Head>
+        <title>Episodes | Rick and Morty</title>
+        <meta name="description" content="Browse all episodes from the Rick and Morty series" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <EpisodeList />
+    </>
+  );
+}

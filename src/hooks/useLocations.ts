@@ -1,18 +1,17 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useDebounce } from './useDebounce';
-import { Character } from '~/types';
 import { apiClient } from '~/lib/api-client';
+import { Location, PaginatedResponse } from '~/types/api';
+import { useDebounce } from './useDebounce';
+import { useMemo } from 'react';
 
-interface CharacterFilters {
+interface LocationFilters {
   name?: string;
-  status?: string;
-  species?: string;
-  gender?: string;
+  type?: string;
+  dimension?: string;
 }
 
-interface SimplifiedUseCharactersReturn {
-  characters: Character[];
+interface UseLocationsReturn {
+  locations: Location[];
   totalCount: number;
   totalPages: number;
   isLoading: boolean;
@@ -22,11 +21,10 @@ interface SimplifiedUseCharactersReturn {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   refetch: () => void;
+  isRefetching: boolean;
 }
 
-export function useSimplifiedCharacters(
-  filters: CharacterFilters = {}
-): SimplifiedUseCharactersReturn {
+export function useLocations(filters: LocationFilters = {}): UseLocationsReturn {
   const debouncedName = useDebounce(filters.name, 300);
 
   const optimizedFilters = useMemo(() => ({
@@ -35,8 +33,8 @@ export function useSimplifiedCharacters(
   }), [filters, debouncedName]);
 
   const queryResult = useInfiniteQuery({
-    queryKey: ['characters', optimizedFilters],
-    queryFn: ({ pageParam = 1 }) => {
+    queryKey: ['locations', optimizedFilters],
+    queryFn: async ({ pageParam = 1 }) => {
       const params: Record<string, string> = {
         page: pageParam.toString(),
       };
@@ -47,9 +45,10 @@ export function useSimplifiedCharacters(
         }
       });
 
-      return apiClient.characters.getAll(params);
+      console.debug('[useLocations] Fetching with params:', params);
+      return apiClient.locations.getAll(params);
     },
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: PaginatedResponse<Location>) => {
       if (!lastPage.info.next) return undefined;
 
       try {
@@ -57,15 +56,19 @@ export function useSimplifiedCharacters(
         const pageParam = url.searchParams.get('page');
         return pageParam ? Number(pageParam) : undefined;
       } catch (error) {
-        console.error('[useSimplifiedCharacters] Error parsing next page URL:', error);
+        console.error('[useLocations] Error parsing next page URL:', error);
         return undefined;
       }
     },
     initialPageParam: 1,
     staleTime: 5 * 60 * 1000,
+    retry: (failureCount, error: any) => {
+      if (error?.status === 404 || error?.status === 0) return false;
+      return failureCount < 2;
+    },
   });
 
-  const characters = useMemo(() => {
+  const locations = useMemo(() => {
     if (!queryResult.data?.pages) return [];
     return queryResult.data.pages.flatMap(page => page.results);
   }, [queryResult.data]);
@@ -79,7 +82,7 @@ export function useSimplifiedCharacters(
   }, [queryResult.data]);
 
   return {
-    characters,
+    locations,
     totalCount,
     totalPages,
     isLoading: queryResult.isLoading,
@@ -89,5 +92,6 @@ export function useSimplifiedCharacters(
     hasNextPage: !!queryResult.hasNextPage,
     isFetchingNextPage: queryResult.isFetchingNextPage,
     refetch: queryResult.refetch,
+    isRefetching: queryResult.isRefetching,
   };
 }

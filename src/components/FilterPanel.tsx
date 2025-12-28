@@ -1,42 +1,55 @@
-import { Filter, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ChevronDown, X, ListFilter } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface FilterPanelProps {
-  filters: {
-    status?: string;
-    species?: string;
-    gender?: string;
-  };
-  filterOptions: {
-    species: string[];
-    gender: string[];
-    status: string[];
-  };
-  onFilterChange: (filters: { status?: string; species?: string; gender?: string }) => void;
+  filters: Record<string, string | undefined>;
+  filterOptions: Record<string, string[]>;
+  onFilterChange: (filters: Record<string, string | undefined>) => void;
   onClose?: () => void;
 }
 
 export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }: FilterPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [localFilters, setLocalFilters] = useState(filters);
+  const [localFilters, setLocalFilters] = useState<Record<string, string>>({});
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Initialize local filters when component mounts or filters change
+  useEffect(() => {
+    const initialFilters: Record<string, string> = {};
+    Object.keys(filterOptions).forEach(key => {
+      initialFilters[key] = filters[key] || '';
+    });
+    setLocalFilters(initialFilters);
+  }, [filters, filterOptions, isOpen]);
+
   const handleApply = () => {
-    onFilterChange(localFilters);
+    const cleanedFilters: Record<string, string | undefined> = {};
+    Object.entries(localFilters).forEach(([key, value]) => {
+      cleanedFilters[key] = value || undefined;
+    });
+    onFilterChange(cleanedFilters);
     setIsOpen(false);
     onClose?.();
   };
 
   const handleReset = () => {
-    const resetFilters = { status: '', species: '', gender: '' };
+    const resetFilters: Record<string, string> = {};
+    Object.keys(filterOptions).forEach(key => {
+      resetFilters[key] = '';
+    });
     setLocalFilters(resetFilters);
-    onFilterChange(resetFilters);
+
+    const cleanedFilters: Record<string, string | undefined> = {};
+    Object.keys(filterOptions).forEach(key => {
+      cleanedFilters[key] = undefined;
+    });
+    onFilterChange(cleanedFilters);
     setIsOpen(false);
     onClose?.();
   };
 
-  const handleSelectChange = (type: 'status' | 'species' | 'gender', value: string) => {
-    setLocalFilters(prev => ({ ...prev, [type]: value || '' }));
+  const handleSelectChange = (key: string, value: string) => {
+    setLocalFilters(prev => ({ ...prev, [key]: value }));
   };
 
   useEffect(() => {
@@ -49,32 +62,35 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  const activeCount = [filters.status, filters.species, filters.gender].filter(Boolean).length;
+  const activeCount = Object.values(filters).filter(Boolean).length;
 
   return (
     <div className="relative" ref={panelRef}>
-      {/* Main Toggle Button - h-14 for search bar alignment */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          flex items-center justify-center gap-2 px-6 h-14
-          bg-white border transition-all duration-300
-          rounded-2xl shadow-sm hover:shadow-md cursor-pointer
-          w-full md:w-auto md:min-w-[180px]
-          ${
-            isOpen || activeCount > 0
-              ? 'border-blue-600 text-blue-600 ring-4 ring-blue-50'
-              : 'border-gray-200 text-gray-700 hover:border-gray-300'
-          }
-        `}
+        relative flex items-center justify-center px-6 h-14
+        bg-sky-100 border transition-all duration-300
+        rounded-2xl shadow-sm hover:shadow-md cursor-pointer
+        w-full md:w-auto md:min-w-[240px]
+        ${
+          isOpen || activeCount > 0
+            ? 'border-blue-600 text-blue-600 ring-4 ring-blue-50'
+            : 'border-gray-200 text-gray-700 hover:border-gray-300'
+        }
+      `}
       >
-        <Filter className={`h-5 w-5 ${activeCount > 0 ? 'fill-blue-600' : 'text-gray-400'}`} />
-        <span className="font-bold text-sm tracking-wide uppercase">
-          {activeCount > 0 ? `Filters (${activeCount})` : 'Filters'}
+        {/* THE ICON: Pinned to the far left edge */}
+        <div className="absolute left-4 top-0 bottom-0 flex items-center">
+          <ListFilter
+            className={`h-5 w-5 ${activeCount > 0 ? 'fill-blue-600' : 'text-gray-400'}`}
+          />
+        </div>
+
+        {/* THE TEXT: Stays in the mathematical center */}
+        <span className="font-bold text-sm tracking-wide uppercase whitespace-nowrap text-sky-500">
+          {activeCount > 0 ? `Filters (${activeCount})` : 'ADVANCED FILTERS'}
         </span>
-        <ChevronDown
-          className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-        />
       </button>
 
       {isOpen && (
@@ -82,7 +98,7 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
           <div className="p-7 space-y-7">
             {/* Header */}
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-gray-900 tracking-tight">Filter Characters</h3>
+              <h3 className="text-xl font-black text-gray-900 tracking-tight">Filter Locations</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
@@ -91,21 +107,17 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
               </button>
             </div>
 
-            {/* Selection Inputs */}
+            {/* Selection Inputs - Dynamic */}
             <div className="space-y-6">
-              {[
-                { id: 'species', label: 'Species', options: filterOptions.species },
-                { id: 'gender', label: 'Gender', options: filterOptions.gender },
-                { id: 'status', label: 'Status', options: filterOptions.status },
-              ].map(group => (
-                <div key={group.id} className="space-y-2.5">
+              {Object.keys(filterOptions).map(key => (
+                <div key={key} className="space-y-2.5">
                   <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">
-                    {group.label}
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
                   </label>
                   <div className="relative group">
                     <select
-                      value={(localFilters as any)[group.id] || ''}
-                      onChange={e => handleSelectChange(group.id as any, e.target.value)}
+                      value={localFilters[key] || ''}
+                      onChange={e => handleSelectChange(key, e.target.value)}
                       className="
                         w-full h-13 pl-5 pr-12 
                         bg-gray-50 border border-gray-100 rounded-2xl
@@ -116,14 +128,13 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
                         outline-none
                       "
                     >
-                      <option value="">All {group.label}s</option>
-                      {group.options.map(opt => (
+                      <option value="">All {key}s</option>
+                      {filterOptions[key].map(opt => (
                         <option key={opt} value={opt}>
                           {opt}
                         </option>
                       ))}
                     </select>
-                    {/* Visual Chevron replacement for native appearance */}
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-gray-600 transition-colors">
                       <ChevronDown className="h-4 w-4" />
                     </div>

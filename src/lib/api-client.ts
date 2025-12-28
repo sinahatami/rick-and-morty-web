@@ -1,6 +1,4 @@
-import { ApiResponse, Character, Episode } from "../types";
-import { PaginatedResponse } from "../types/api";
-
+import { PaginatedResponse, Character, Location, Episode, ApiResponse } from '~/types/api';
 class ApiError extends Error {
   constructor(
     message: string,
@@ -58,8 +56,14 @@ class ApiClient {
     getById: (id: string) =>
       this.request<Character>(`/character/${id}`),
 
-    getMultiple: (ids: number[]) =>
-      this.request<Character[]>(`/character/[${ids.join(',')}]`),
+    getMultiple: (ids: number[]) => {
+      if (ids.length === 0) return Promise.resolve([]);
+      if (ids.length === 1) {
+        // Handle single ID as an array
+        return this.request<Character[]>(`/character/${ids[0]}`).then(res => [res]);
+      }
+      return this.request<Character[]>(`/character/${ids.join(',')}`);
+    },
   };
 
   // Location endpoints

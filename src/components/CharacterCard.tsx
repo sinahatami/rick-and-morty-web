@@ -1,94 +1,126 @@
-import { Character } from '../types/api';
-import { MapPin, Globe, Circle, ChevronRight } from 'lucide-react';
+import { MapPin, Globe } from 'lucide-react';
+import { Character } from '~/types';
+import { BaseCard } from './shared/BaseCard';
 
 interface CharacterCardProps {
   character: Character;
   onClick?: () => void;
 }
 
-export function CharacterCard({ character, onClick }: CharacterCardProps) {
-  // Set status colors (kept your original logic, it's good)
+export function CharacterCard({ character }: CharacterCardProps) {
   const statusConfig = {
-    Alive: { dot: 'text-green-500', text: 'text-green-700' },
-    Dead: { dot: 'text-red-500', text: 'text-red-700' },
-    unknown: { dot: 'text-gray-400', text: 'text-gray-600' },
-  }[character.status] || { dot: 'text-gray-400', text: 'text-gray-600' };
+    Alive: {
+      dot: 'bg-green-500',
+      text: 'text-green-700',
+      ring: 'hover:ring-4 hover:ring-green-500/20',
+    },
+    Dead: {
+      dot: 'bg-red-500',
+      text: 'text-red-700',
+      ring: 'hover:ring-4 hover:ring-red-500/20',
+    },
+    unknown: {
+      dot: 'bg-gray-400',
+      text: 'text-gray-600',
+      ring: 'hover:ring-4 hover:ring-gray-400/20',
+    },
+  }[character.status] || {
+    dot: 'bg-gray-400',
+    text: 'text-gray-600',
+    ring: 'hover:ring-4 hover:ring-gray-400/20',
+  };
 
   return (
-    <div
-      className="group bg-white rounded-xl overflow-hidden border border-gray-100 
-                 transition-all duration-300 ease-in-out cursor-pointer
-                 /* Base shadow - subtle and soft */
-                 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.08)]
-                 /* Hover state - deeper shadow, lift up, subtle primary border tint */
-                 hover:shadow-[0_14px_28px_-6px_rgba(0,0,0,0.12),0_4px_6px_-4px_rgba(0,0,0,0.05)]
-                 hover:-translate-y-1.5 hover:border-primary/20"
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && onClick?.()}
+    <BaseCard
+      href={`/characters/${character.id}`}
+      theme="character"
+      className={statusConfig.ring} // Pass the ring class here
     >
-      {/* Image section */}
-      <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
+      {/* Image Section */}
+      <div className="relative h-72 w-full bg-gray-100 overflow-hidden">
         <img
           src={character.image}
           alt={character.name}
-          // Changed to object-cover for a fuller look
-          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+          className="w-full h-full object-cover transform scale-100 group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-in-out group-hover:saturate-125"
           loading="lazy"
         />
 
-        {/* Colored status - made sleeker */}
-        <div className="absolute top-3 left-3">
-          <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md pl-2 pr-3 py-1 rounded-full shadow-sm">
-            <Circle className={`h-2.5 w-2.5 fill-current ${statusConfig.dot}`} />
-            <span className={`text-xs font-bold tracking-wide uppercase ${statusConfig.text}`}>
+        {/* Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Status Badge */}
+        <div className="absolute top-4 left-4 z-10">
+          <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-white/20">
+            <span className={`relative flex h-2 w-2`}>
+              {character.status === 'Alive' && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              )}
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${statusConfig.dot}`}
+              ></span>
+            </span>
+            <span
+              className={`text-[10px] font-bold tracking-widest uppercase ${statusConfig.text}`}
+            >
               {character.status}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 relative">
-        {/* A subtle visual cue for interactivity on hover */}
-        <ChevronRight className="absolute top-6 right-5 h-5 w-5 text-gray-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-
-        {/* Header & Subtitle Combined */}
-        <div className="mb-5 pr-6">
-          <h3 className="text-xl font-black text-gray-900 line-clamp-1 group-hover:text-primary transition-colors duration-300">
+      {/* Content Area */}
+      <div className="p-6 relative">
+        <div className="mb-6">
+          <h3
+            title={character.name}
+            className="
+              text-2xl font-black text-gray-900 leading-tight 
+              group-hover:text-primary transition-colors duration-300
+              line-clamp-2 min-h-[3.5rem]
+            "
+          >
             {character.name}
           </h3>
-          <p className="text-sm font-medium text-gray-500 flex items-center gap-2 mt-1">
-            <span>{character.species}</span>
-            <span className="text-gray-300">•</span>
-            <span>{character.gender}</span>
-          </p>
+          <div className="flex items-center gap-2 mt-2">
+            <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-semibold rounded-md">
+              {character.species}
+            </span>
+            <span className="w-1 h-1 bg-gray-300 rounded-full" />
+            <span className="text-sm text-gray-500 font-medium">{character.gender}</span>
+          </div>
         </div>
 
-        {/* Details Section - using Icons instead of just labels for better scanning */}
-        <div className="space-y-3 pt-2">
-          <div className="flex items-start gap-3 text-sm">
-            <MapPin className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-xs text-gray-500 font-medium">Last Location</span>
-              <span className="text-gray-700 font-semibold line-clamp-1 leading-tight">
+        {/* Details Section */}
+        <div className="grid grid-cols-1 gap-4">
+          <div className="flex items-center gap-3 group/item">
+            <div className="p-2 bg-slate-50 rounded-lg group-hover/item:bg-primary/10 transition-colors">
+              <MapPin className="h-4 w-4 text-gray-400 group-hover/item:text-primary transition-colors" />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">
+                Last Location
+              </span>
+              <span className="text-sm text-gray-700 font-bold truncate">
                 {character.location.name}
               </span>
             </div>
           </div>
 
-          <div className="flex items-start gap-3 text-sm">
-            <Globe className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-xs text-gray-500 font-medium">Origin</span>
-              <span className="text-gray-700 font-semibold line-clamp-1 leading-tight">
+          <div className="flex items-center gap-3 group/item">
+            <div className="p-2 bg-slate-50 rounded-lg group-hover/item:bg-primary/10 transition-colors">
+              <Globe className="h-4 w-4 text-gray-400 group-hover/item:text-primary transition-colors" />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">
+                Origin World
+              </span>
+              <span className="text-sm text-gray-700 font-bold truncate">
                 {character.origin.name}
               </span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </BaseCard>
   );
 }

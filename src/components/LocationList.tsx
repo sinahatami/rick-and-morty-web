@@ -1,98 +1,90 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-import { FilterPanel } from './FilterPanel';
-import { CharacterCard } from './CharacterCard';
-import { Character } from '~/types';
+import { Location } from '~/types/api';
+import { LocationCard } from './LocationCard';
+import { useLocations } from '~/hooks/useLocations';
 import { useDebounce } from '~/hooks/useDebounce';
-import { useSimplifiedCharacters } from '~/hooks/useSimplifiedCharacters';
+import { FilterPanel } from './FilterPanel';
 
 import { LoadingSpinner } from './shared/LoadingSpinner';
 import { PageHeader } from './shared/PageHeader';
 import { LoadMoreButton } from './shared/LoadMoreButton';
 import { SearchBar } from './shared/SearchBar';
 import { ActiveFilterTags } from './shared/ActiveFilterTags';
-import { EmptyState } from './shared/EmptyState';
+import { SimpleBanner } from './shared/SimpleBanner';
+import banner from '../img/location-banner2.png';
 import { ScrollToTop } from './shared/ScrollToTop';
+import { EmptyState } from './shared/EmptyState';
 
 // --- Types ---
 
 interface FilterOptions {
-  species: string[];
-  gender: string[];
-  status: string[];
+  type: string[];
+  dimension: string[];
   [key: string]: string[];
 }
 
 interface URLFilters {
   name?: string;
-  status?: string;
-  species?: string;
-  gender?: string;
+  type?: string;
+  dimension?: string;
   [key: string]: string | undefined;
 }
 
 // --- Utilities ---
 
-const extractFilterOptions = (characters: Character[]): FilterOptions => {
-  const speciesSet = new Set<string>();
-  const genderSet = new Set<string>();
-  const statusSet = new Set<string>();
+const extractFilterOptions = (locations: Location[]): FilterOptions => {
+  const typeSet = new Set<string>();
+  const dimensionSet = new Set<string>();
 
-  characters.forEach(character => {
-    character.species ? speciesSet.add(character.species) : null;
-    character.gender ? genderSet.add(character.gender) : null;
-    character.status ? statusSet.add(character.status) : null;
+  locations.forEach(location => {
+    if (location.type) typeSet.add(location.type);
+    if (location.dimension) dimensionSet.add(location.dimension);
   });
 
   return {
-    species: Array.from(speciesSet).sort(),
-    gender: Array.from(genderSet).sort(),
-    status: Array.from(statusSet).sort(),
+    type: Array.from(typeSet).sort(),
+    dimension: Array.from(dimensionSet).sort(),
   };
 };
 
 const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => {
   return {
     name: searchParams.get('name') || undefined,
-    status: searchParams.get('status') || undefined,
-    species: searchParams.get('species') || undefined,
-    gender: searchParams.get('gender') || undefined,
+    type: searchParams.get('type') || undefined,
+    dimension: searchParams.get('dimension') || undefined,
   };
 };
 
 // --- Main Component ---
 
-export function CharacterList() {
+export function LocationList() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<URLFilters>(() => getInitialFiltersFromUrl(searchParams));
   const [searchQuery, setSearchQuery] = useState(filters.name || '');
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    species: [],
-    gender: [],
-    status: [],
+    type: [],
+    dimension: [],
   });
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const debouncedSearch = useDebounce(searchQuery, 500);
 
-  const { characters, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
-    useSimplifiedCharacters({
+  const { locations, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
+    useLocations({
       name: debouncedSearch || undefined,
-      status: filters.status,
-      species: filters.species,
-      gender: filters.gender,
+      type: filters.type,
+      dimension: filters.dimension,
     });
 
   // URL Synchronization
   useEffect(() => {
     const params = new URLSearchParams();
     if (debouncedSearch) params.set('name', debouncedSearch);
-    if (filters.status) params.set('status', filters.status);
-    if (filters.species) params.set('species', filters.species);
-    if (filters.gender) params.set('gender', filters.gender);
+    if (filters.type) params.set('type', filters.type);
+    if (filters.dimension) params.set('dimension', filters.dimension);
 
     const query = params.toString();
     router.push(query ? `?${query}` : '', { scroll: false });
@@ -101,8 +93,8 @@ export function CharacterList() {
   const [initialOptions, setInitialOptions] = useState<FilterOptions | null>(null);
   // Extract filters from dynamic data
   useEffect(() => {
-    if (characters.length > 0) {
-      const newOptions = extractFilterOptions(characters);
+    if (locations.length > 0) {
+      const newOptions = extractFilterOptions(locations);
 
       // Store initial options when we have unfiltered data
       if (!hasActiveFilters && !initialOptions) {
@@ -112,7 +104,7 @@ export function CharacterList() {
       // Always update current options
       setFilterOptions(newOptions);
     }
-  }, [characters]);
+  }, [locations]);
 
   // Scroll visibility
   useEffect(() => {
@@ -126,23 +118,23 @@ export function CharacterList() {
     setFilters({});
   }, []);
 
-  const hasActiveFilters = Boolean(
-    searchQuery.trim() || filters.status || filters.species || filters.gender
-  );
+  const hasActiveFilters = Boolean(searchQuery.trim() || filters.type || filters.dimension);
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
-  if (isLoading && characters.length === 0)
-    return <LoadingSpinner message="Scanning the multiverse for characters..." />;
+  if (isLoading && locations.length === 0)
+    return <LoadingSpinner message="Scanning the multiverse for locations..." />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+      <SimpleBanner src={banner} />
+
       {/* Header & Search */}
       <section className="space-y-6">
         <PageHeader
-          title="Characters"
+          title="Locations"
           totalCount={totalCount}
-          visibleCount={characters.length}
+          visibleCount={locations.length}
           subtitle={
             <p className="text-gray-400 font-medium text-lg">
               Exploring{' '}
@@ -162,7 +154,7 @@ export function CharacterList() {
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Search by name..."
+              placeholder="Search by location..."
             />
           </div>
 
@@ -170,40 +162,41 @@ export function CharacterList() {
           <div className="w-full md:w-auto">
             <FilterPanel
               filters={filters}
-              filterOptions={displayOptions} // Use displayOptions instead of filterOptions
-              onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
+              filterOptions={displayOptions}
+              onFilterChange={newFilters => setFilters(newFilters)}
             />
           </div>
         </div>
+
         {/* Active Tags */}
-        {hasActiveFilters && (
-          <ActiveFilterTags
-            filters={filters}
-            searchQuery={searchQuery}
-            onRemove={key => {
-              key === 'name'
-                ? setSearchQuery('')
-                : setFilters(prev => ({ ...prev, [key]: undefined }));
-            }}
-            onClearAll={handleClearFilters}
-            onClearSearch={() => setSearchQuery('')}
-          />
-        )}
+        <ActiveFilterTags
+          filters={filters}
+          searchQuery={searchQuery}
+          onRemove={key => {
+            if (key === 'name') {
+              setSearchQuery('');
+            } else {
+              setFilters(prev => ({ ...prev, [key]: undefined }));
+            }
+          }}
+          onClearAll={handleClearFilters}
+          onClearSearch={() => setSearchQuery('')}
+        />
       </section>
 
       {/* Grid Content */}
       <section>
-        {characters.length === 0 && !isLoading ? (
+        {locations.length === 0 && !isLoading ? (
           <EmptyState
-            title="Character Not Found"
-            description="No characters match those specific criteria in this timeline."
+            title="Location Not Found"
+            description="No locations match those specific criteria in this timeline."
             onClearFilters={handleClearFilters}
           />
         ) : (
           <div className="space-y-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {characters.map(character => (
-                <CharacterCard key={character.id} character={character} />
+              {locations.map(location => (
+                <LocationCard key={location.id} location={location} />
               ))}
             </div>
 
