@@ -35,10 +35,6 @@ export function useCharacters(
         }
       });
 
-      if (process.env.NODE_ENV === 'development') {
-        console.debug('[useCharacters] Fetching with params:', params);
-      }
-
       return apiClient.characters.getAll(params);
     },
     getNextPageParam: (lastPage) => {

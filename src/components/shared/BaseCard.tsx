@@ -27,9 +27,9 @@ export function BaseCard({ children, href, theme = 'character', className = '' }
     <Link href={href} className="block group">
       <div
         className={`
-          bg-white rounded-xl overflow-hidden border border-gray-100 
+          bg-white rounded-sm overflow-hidden border border-gray-100 
           transition-all duration-300 ease-in-out cursor-pointer
-          shadow-[0_4px_12px_-2px_rgba(0,0,0,0.08)]
+          shadow-[0_1px_4px_1px_rgba(0,0,0,0.3)]
           hover:shadow-[0_14px_28px_-6px_rgba(0,0,0,0.12),0_4px_6px_-4px_rgba(0,0,0,0.05)]
           hover:-translate-y-1.5 ${themeConfig[theme].hover}
           flex flex-col h-full ${className}

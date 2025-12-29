@@ -1,7 +1,7 @@
 import { MapPin, Globe } from 'lucide-react';
 import { Character } from '~/types';
-import { BaseCard } from './shared/BaseCard';
-import { CardInfoRow } from './shared/CardInfoRow';
+import { BaseCard } from './BaseCard';
+import { CardInfoRow } from './CardInfoRow';
 
 interface CharacterCardProps {
   character: Character;

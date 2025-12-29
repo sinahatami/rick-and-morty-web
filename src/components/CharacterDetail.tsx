@@ -48,7 +48,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="flex items-center justify-center bg-white">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
       </div>
     );
@@ -56,7 +56,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
 
   if (error || !character) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
+      <div className="bg-white flex flex-col items-center justify-center p-6 text-center">
         <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Character Not Found</h2>
         <button
@@ -70,13 +70,13 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans">
-      <div className="max-w-6xl mx-auto px-5 py-6 md:py-12">
+    <div className="bg-white text-slate-900 font-sans">
+      <div className="max-w-6xl mx-auto px-5 py-6 md:py-8">
         {/* Back Button */}
         <GoBackButton />
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-12 items-start">
           {/* --- LEFT COLUMN: Profile Identity (Sticky on Desktop) --- */}
-          <div className="flex flex-col items-center md:items-start md:sticky md:top-10">
+          <div className="flex flex-col items-center md:items-center md:sticky md:top-10">
             <div className="w-64 h-64 md:w-64 md:h-64 rounded-full overflow-hidden border-[5px] border-slate-100 mb-5 shadow-sm">
               <img
                 src={character.image}
@@ -84,7 +84,8 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 text-center md:text-left tracking-tight mb-2">
+
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 text-center tracking-tight mb-2">
               {character.name}
             </h1>
           </div>
@@ -96,10 +97,6 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
                 Informations
               </h2>
 
-              {/* Update: Added `pl-4 md:pl-0`
-                  This adds left padding on mobile to indent the items under the header, 
-                  and removes it on desktop where the grid layout takes over.
-              */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 pl-4 md:pl-0">
                 <InfoRow label="Gender" value={character.gender} />
                 <InfoRow label="Status" value={character.status} />
@@ -192,7 +189,11 @@ function InfoRow({ label, value, onClick, isLink }: InfoRowProps) {
     <Component
       onClick={onClick}
       className={`w-full text-left py-3 border-b border-gray-100 flex items-center justify-between group 
-        ${onClick ? 'hover:bg-gray-50 transition-colors rounded-lg px-2 -mx-2' : ''}`}
+        ${
+          onClick
+            ? 'cursor-pointer hover:bg-gray-50 transition-colors rounded-lg px-2 -mx-2'
+            : 'cursor-default'
+        }`}
     >
       <div className="flex flex-col">
         <span className="text-slate-900 font-bold text-[17px] mb-1">{label}</span>
@@ -215,7 +216,7 @@ function EpisodeRow({ code, title, onClick }: EpisodeRowProps) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left py-3 border-b border-gray-100 flex items-center justify-between group hover:bg-gray-50 transition-colors rounded-lg px-2 -mx-2"
+      className="w-full cursor-pointer text-left py-3 border-b border-gray-100 flex items-center justify-between group hover:bg-gray-50 transition-colors rounded-lg px-2 -mx-2"
     >
       <div className="flex flex-col">
         <span className="text-slate-900 font-bold text-[17px] mb-1">{code}</span>

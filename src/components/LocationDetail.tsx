@@ -1,210 +1,186 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { MapPin, Globe, Users, Earth, Calendar, ArrowRight } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { Location, Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
+
+// Shared components matching your CharacterList
+import { CharacterCard } from '~/components/CharacterCard';
 import { GoBackButton } from './shared/GoBackButton';
+import { LoadMoreButton } from './shared/LoadMoreButton';
+import { LoadingSpinner } from './shared/LoadingSpinner';
 
 interface LocationDetailProps {
   id: string;
 }
 
+const RESIDENTS_PER_PAGE = 12;
+
 export function LocationDetail({ id }: LocationDetailProps) {
   const router = useRouter();
+
+  // Data States
   const [location, setLocation] = useState<Location | null>(null);
-  const [residents, setResidents] = useState<Character[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [allResidentIds, setAllResidentIds] = useState<number[]>([]);
+  const [residents, setResidents] = useState<Character[]>([]); // These are the visible ones
+
+  // Loading States
+  const [isLoadingInitial, setIsLoadingInitial] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 1. Initial Fetch: Get Location info and the first batch of IDs
   useEffect(() => {
     let isMounted = true;
 
-    const fetchLocationAndResidents = async () => {
+    const init = async () => {
       try {
-        setLoading(true);
+        setIsLoadingInitial(true);
         const locationData = await apiClient.locations.getById(id);
+
         if (!isMounted) return;
         setLocation(locationData);
 
-        if (locationData.residents.length > 0) {
-          const residentIds = locationData.residents
-            .map(url => {
-              const parts = url.split('/');
-              return parseInt(parts[parts.length - 1]);
-            })
-            .filter(id => !isNaN(id));
+        // Parse IDs from URLs
+        const ids = locationData.residents
+          .map(url => {
+            const parts = url.split('/');
+            return parseInt(parts[parts.length - 1]);
+          })
+          .filter(id => !isNaN(id));
 
-          if (residentIds.length > 0) {
-            const residentsData = await apiClient.characters.getMultiple(residentIds);
-            if (isMounted) {
-              setResidents(residentsData);
-            }
+        setAllResidentIds(ids);
+
+        // Fetch first batch immediately if exists
+        if (ids.length > 0) {
+          const firstBatchIds = ids.slice(0, RESIDENTS_PER_PAGE);
+          const initialResidents = await apiClient.characters.getMultiple(firstBatchIds);
+
+          const normalizedData = (
+            Array.isArray(initialResidents) ? initialResidents : [initialResidents]
+          ) as Character[];
+
+          if (isMounted) {
+            setResidents(normalizedData);
           }
         }
       } catch (err) {
-        console.error('Error fetching location:', err);
-        if (isMounted) {
-          setError('Failed to load location details');
-        }
+        console.error('Error loading location:', err);
+        if (isMounted) setError('Failed to load location details');
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        if (isMounted) setIsLoadingInitial(false);
       }
     };
 
-    fetchLocationAndResidents();
+    init();
 
     return () => {
       isMounted = false;
     };
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading location details...</p>
-          </div>
-        </div>
-      </div>
-    );
+  // 2. Load More Handler: Slices the next batch of IDs and fetches them
+  const handleLoadMore = async () => {
+    if (isLoadingMore) return;
+
+    try {
+      setIsLoadingMore(true);
+      const currentCount = residents.length;
+      const nextBatchIds = allResidentIds.slice(currentCount, currentCount + RESIDENTS_PER_PAGE);
+
+      if (nextBatchIds.length > 0) {
+        const newCharacters = await apiClient.characters.getMultiple(nextBatchIds);
+        const normalizedNew = (
+          Array.isArray(newCharacters) ? newCharacters : [newCharacters]
+        ) as Character[];
+
+        setResidents(prev => [...prev, ...normalizedNew]);
+      }
+    } catch (err) {
+      console.error('Error loading more residents:', err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  // Helper boolean to control button visibility
+  const hasMoreResidents = residents.length < allResidentIds.length;
+
+  if (isLoadingInitial) {
+    return <LoadingSpinner message="Locating dimension coordinates..." />;
   }
 
   if (error || !location) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <div className="h-12 w-12 text-red-500 mx-auto mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Location Not Found</h2>
-          <p className="text-gray-600 mb-6">
-            {error || 'This location does not exist in this dimension.'}
-          </p>
-          <button
-            onClick={() => router.back()}
-            className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-          >
-            Go Back
-          </button>
-        </div>
+      <div className="max-w-2xl mx-auto px-4 py-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Location Not Found</h2>
+        <button onClick={() => router.back()} className="text-blue-600 hover:underline">
+          Go Back
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Back Button */}
-      <GoBackButton />
+    <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-10 space-y-12">
+      {/* Header Section */}
+      <div className="space-y-6">
+        <GoBackButton />
 
-      {/* Location Header */}
-      <div className="bg-white rounded-2xl p-8 shadow-xl mb-8">
-        <div className="flex items-start justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-black text-gray-900 mb-2">{location.name}</h1>
-            <div className="flex items-center gap-4 text-gray-600">
-              <div className="flex items-center gap-2">
-                <Earth className="h-5 w-5" />
-                <span className="font-medium">Location in the Multiverse</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h1 className="text-4xl md:text-5xl font-black text-center text-[#0B1E2D] mb-4">
+          {location.name}
+        </h1>
 
         {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-6">
-            <InfoItem
-              icon={<Globe className="h-5 w-5" />}
-              label="Dimension"
-              value={location.dimension || 'Unknown'}
-            />
-            <InfoItem
-              icon={<MapPin className="h-5 w-5" />}
-              label="Type"
-              value={location.type || 'Unknown'}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto p-6">
+          <div className="text-center md:text-left md:pl-8">
+            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Type</h3>
+            <p className="text-xl font-bold text-gray-900">{location.type || 'Unknown'}</p>
           </div>
-          <div className="space-y-6">
-            <InfoItem
-              icon={<Users className="h-5 w-5" />}
-              label="Total Residents"
-              value={location.residents.length.toString()}
-            />
-            <InfoItem
-              icon={<Calendar className="h-5 w-5" />}
-              label="Created"
-              value={new Date(location.created).toLocaleDateString()}
-            />
+          <div className="text-center md:text-left pt-4 md:pt-0 md:pl-8">
+            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">
+              Dimension
+            </h3>
+            <p className="text-xl font-bold text-gray-900">{location.dimension || 'Unknown'}</p>
           </div>
         </div>
       </div>
 
       {/* Residents Section */}
-      {residents.length > 0 && (
-        <div className="bg-white rounded-2xl p-8 shadow-xl">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Residents ({residents.length})</h2>
-            <div className="text-sm text-gray-500">Click on a resident to view their details</div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {residents.map(character => (
-              <div
-                key={character.id}
-                className="group border border-gray-200 rounded-xl p-4 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer"
-                onClick={() => router.push(`/characters/${character.id}`)}
-              >
-                <div className="flex items-start gap-4">
-                  <img
-                    src={character.image}
-                    alt={character.name}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-gray-900 group-hover:text-primary transition-colors">
-                      {character.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-                      <span>{character.species}</span>
-                      <span>•</span>
-                      <span className="font-medium">{character.status}</span>
-                    </div>
-                  </div>
-                  <ArrowRight className="h-5 w-5 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                </div>
-              </div>
-            ))}
-          </div>
+      <section className="space-y-8">
+        <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
+          <h2 className="text-2xl font-black text-gray-500">Residents </h2>
+          <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wide">
+            {allResidentIds.length} Total
+          </span>
         </div>
-      )}
 
-      {/* No Residents Message */}
-      {residents.length === 0 && (
-        <div className="bg-gray-50 rounded-2xl p-8 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full mb-4">
-            <Users className="h-8 w-8 text-gray-400" />
+        {residents.length > 0 ? (
+          <div className="space-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {residents.map(character => (
+                <CharacterCard key={character.id} character={character} />
+              ))}
+            </div>
+
+            {hasMoreResidents && (
+              <LoadMoreButton
+                onClick={handleLoadMore}
+                disabled={isLoadingMore}
+                isFetchingNextPage={isLoadingMore}
+              />
+            )}
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">No Residents Found</h3>
-          <p className="text-gray-600 mb-4">
-            This location appears to be uninhabited in this timeline.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Helper component
-function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="p-2 bg-gray-100 rounded-lg text-gray-600">{icon}</div>
-      <div className="flex-1">
-        <div className="text-sm text-gray-500 font-medium">{label}</div>
-        <div className="text-lg font-semibold text-gray-900">{value}</div>
-      </div>
+        ) : (
+          <div className="bg-gray-50 rounded-xl p-12 text-center border-2 border-dashed border-gray-200">
+            <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-bold text-gray-900">No Residents</h3>
+            <p className="text-gray-500">
+              This location appears to be uninhabited in this timeline.
+            </p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

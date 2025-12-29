@@ -1,19 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 
-import { FilterPanel } from './FilterPanel';
-import { CharacterCard } from './CharacterCard';
 import { Character } from '~/types';
-import { useDebounce } from '~/hooks/useDebounce';
 import { useSimplifiedCharacters } from '~/hooks/useSimplifiedCharacters';
+import { useUrlSync } from '~/hooks/useUrlSync';
 
-import { LoadingSpinner } from './shared/LoadingSpinner';
-import { PageHeader } from './shared/PageHeader';
-import { LoadMoreButton } from './shared/LoadMoreButton';
+import { ResourcePageLayout } from './shared/ResourcePageLayout';
+import { FilterPanel } from './shared/FilterPanel';
 import { SearchBar } from './shared/SearchBar';
 import { ActiveFilterTags } from './shared/ActiveFilterTags';
-import { EmptyState } from './shared/EmptyState';
-import { ScrollToTop } from './shared/ScrollToTop';
+import { CharacterCard } from './CharacterCard';
 
 // --- Types ---
 
@@ -40,9 +35,9 @@ const extractFilterOptions = (characters: Character[]): FilterOptions => {
   const statusSet = new Set<string>();
 
   characters.forEach(character => {
-    character.species ? speciesSet.add(character.species) : null;
-    character.gender ? genderSet.add(character.gender) : null;
-    character.status ? statusSet.add(character.status) : null;
+    if (character.species) speciesSet.add(character.species);
+    if (character.gender) genderSet.add(character.gender);
+    if (character.status) statusSet.add(character.status);
   });
 
   return {
@@ -64,19 +59,14 @@ const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => 
 // --- Main Component ---
 
 export function CharacterList() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
+    useUrlSync(getInitialFiltersFromUrl);
 
-  const [filters, setFilters] = useState<URLFilters>(() => getInitialFiltersFromUrl(searchParams));
-  const [searchQuery, setSearchQuery] = useState(filters.name || '');
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     species: [],
     gender: [],
     status: [],
   });
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  const debouncedSearch = useDebounce(searchQuery, 500);
 
   const { characters, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
     useSimplifiedCharacters({
@@ -86,97 +76,67 @@ export function CharacterList() {
       gender: filters.gender,
     });
 
-  // URL Synchronization
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (debouncedSearch) params.set('name', debouncedSearch);
-    if (filters.status) params.set('status', filters.status);
-    if (filters.species) params.set('species', filters.species);
-    if (filters.gender) params.set('gender', filters.gender);
-
-    const query = params.toString();
-    router.push(query ? `?${query}` : '', { scroll: false });
-  }, [debouncedSearch, filters, router]);
-
   const [initialOptions, setInitialOptions] = useState<FilterOptions | null>(null);
-  // Extract filters from dynamic data
-  useEffect(() => {
-    if (characters.length > 0) {
-      const newOptions = extractFilterOptions(characters);
-
-      // Store initial options when we have unfiltered data
-      if (!hasActiveFilters && !initialOptions) {
-        setInitialOptions(newOptions);
-      }
-
-      // Always update current options
-      setFilterOptions(newOptions);
-    }
-  }, [characters]);
-
-  // Scroll visibility
-  useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 500);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleClearFilters = useCallback(() => {
-    setSearchQuery('');
-    setFilters({});
-  }, []);
 
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender
   );
 
+  // Extract filters from dynamic data
+  useEffect(() => {
+    if (characters.length > 0) {
+      const newOptions = extractFilterOptions(characters);
+      if (!hasActiveFilters && !initialOptions) {
+        setInitialOptions(newOptions);
+      }
+      setFilterOptions(newOptions);
+    }
+  }, [characters, hasActiveFilters, initialOptions]);
+
+  const handleClearFilters = useCallback(() => {
+    setSearchQuery('');
+    setFilters({});
+  }, [setSearchQuery, setFilters]);
+
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
-  if (isLoading && characters.length === 0)
-    return <LoadingSpinner message="Scanning the multiverse for characters..." />;
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-      {/* Header & Search */}
-      <section className="space-y-6">
-        <PageHeader
-          title="Characters"
-          totalCount={totalCount}
-          visibleCount={characters.length}
-          subtitle={
-            <p className="text-gray-400 font-medium text-lg">
-              Exploring{' '}
-              <span className="text-gray-900 font-black text-xl italic tracking-tighter decoration-primary/30 underline underline-offset-4">
-                {totalCount.toLocaleString()}
-              </span>
-              <span className="ml-1 tracking-widest uppercase text-[13px] font-bold text-gray-400">
-                souls across the cosmos
-              </span>
-            </p>
-          }
-        />
-
+    <ResourcePageLayout
+      items={characters}
+      isLoading={isLoading}
+      totalCount={totalCount}
+      title="Characters"
+      subtitle={
+        <p className="text-gray-400 font-medium text-lg">
+          Exploring{' '}
+          <span className="text-gray-900 font-black text-xl italic tracking-tighter decoration-primary/30 underline underline-offset-4">
+            {totalCount.toLocaleString()}
+          </span>
+          <span className="ml-1 tracking-widest uppercase text-[13px] font-bold text-gray-400">
+            souls across the cosmos
+          </span>
+        </p>
+      }
+      controls={
         <div className="flex flex-col md:flex-row gap-4 items-center">
-          {/* Search Input Container */}
           <div className="relative flex-1 w-full group">
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Search by name..."
+              placeholder="Filter by name..."
             />
           </div>
-
-          {/* Filter Button Wrapper */}
           <div className="w-full md:w-auto">
             <FilterPanel
               filters={filters}
-              filterOptions={displayOptions} // Use displayOptions instead of filterOptions
+              filterOptions={displayOptions}
               onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
             />
           </div>
         </div>
-        {/* Active Tags */}
-        {hasActiveFilters && (
+      }
+      activeFilters={
+        hasActiveFilters ? (
           <ActiveFilterTags
             filters={filters}
             searchQuery={searchQuery}
@@ -188,38 +148,14 @@ export function CharacterList() {
             onClearAll={handleClearFilters}
             onClearSearch={() => setSearchQuery('')}
           />
-        )}
-      </section>
-
-      {/* Grid Content */}
-      <section>
-        {characters.length === 0 && !isLoading ? (
-          <EmptyState
-            title="Character Not Found"
-            description="No characters match those specific criteria in this timeline."
-            onClearFilters={handleClearFilters}
-          />
-        ) : (
-          <div className="space-y-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {characters.map(character => (
-                <CharacterCard key={character.id} character={character} />
-              ))}
-            </div>
-
-            {hasNextPage && (
-              <LoadMoreButton
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-              />
-            )}
-          </div>
-        )}
-      </section>
-
-      {/* Floaties */}
-      {showScrollTop && <ScrollToTop />}
-    </div>
+        ) : null
+      }
+      onClearFilters={handleClearFilters}
+      onLoadMore={fetchNextPage}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      emptyTitle="Character Not Found"
+      renderItem={character => <CharacterCard key={character.id} character={character} />}
+    />
   );
 }

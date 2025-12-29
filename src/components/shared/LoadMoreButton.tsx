@@ -8,7 +8,7 @@ interface LoadMoreButtonProps {
 
 export function LoadMoreButton({ onClick, disabled, isFetchingNextPage }: LoadMoreButtonProps) {
   return (
-    <div className="flex flex-col items-center gap-6 py-10">
+    <div className="flex flex-col items-center gap-6 py-6">
       <button
         onClick={onClick}
         disabled={disabled}

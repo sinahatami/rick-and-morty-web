@@ -1,4 +1,5 @@
 import { PaginatedResponse, Character, Location, Episode, ApiResponse } from '~/types/api';
+
 class ApiError extends Error {
   constructor(
     message: string,

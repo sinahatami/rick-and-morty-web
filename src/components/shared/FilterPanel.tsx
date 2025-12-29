@@ -153,9 +153,9 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
               </button>
               <button
                 onClick={handleApply}
-                className="flex-[2] py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm shadow-xl shadow-blue-100 transition-all active:scale-95 cursor-pointer"
+                className="flex-[2] py-4 bg-sky-50 hover:bg-sky-100 text-blue-500 rounded-2xl font-black text-sm shadow-xl shadow-blue-100 transition-all active:scale-95 cursor-pointer"
               >
-                Apply Filters
+                Apply
               </button>
             </div>
           </div>

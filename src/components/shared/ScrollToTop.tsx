@@ -10,12 +10,26 @@ export function ScrollToTop() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!showScrollTop) return null;
-
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-10 right-10 p-4 bg-gray-900 text-white rounded-2xl shadow-2xl hover:bg-primary transition-all hover:-translate-y-2 cursor-pointer z-50 border-4 border-white"
+      className={`
+        fixed bottom-8 right-8 z-50 
+        p-3 rounded-full 
+        bg-white/80 backdrop-blur-sm 
+        border border-gray-200 
+        shadow-lg 
+        cursor-pointer
+        transition-all duration-300 ease-in-out
+        
+        /* HOVER STATE: Subtle tint and border color instead of solid fill */
+        hover:border-primary hover:bg-primary/10 hover:text-primary-dark hover:shadow-xl hover:-translate-y-1
+        
+        /* Base Text Color */
+        text-gray-500 hover:text-primary
+
+        ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}
+      `}
       aria-label="Scroll to top"
     >
       <ChevronUp className="h-6 w-6" />

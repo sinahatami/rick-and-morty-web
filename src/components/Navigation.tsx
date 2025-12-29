@@ -1,18 +1,24 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Menu, X, Home, Map, Film } from 'lucide-react';
+import { JSX, useState } from 'react';
+import { Menu, X, Map, Film, UsersRound } from 'lucide-react';
 import Image from 'next/image';
 import icon from '../img/icon.png';
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: JSX.Element;
+}
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const navItems = [
-    { label: 'Characters', href: '/', icon: <Home className="h-4 w-4" /> },
-    { label: 'Locations', href: '/locations', icon: <Map className="h-4 w-4" /> },
-    { label: 'Episodes', href: '/episodes', icon: <Film className="h-4 w-4" /> },
+  const navItems: NavItem[] = [
+    { label: 'Characters', href: '/', icon: <UsersRound className="h-5 w-5" /> }, // Increased icon size slightly for mobile
+    { label: 'Locations', href: '/locations', icon: <Map className="h-5 w-5" /> },
+    { label: 'Episodes', href: '/episodes', icon: <Film className="h-5 w-5" /> },
   ];
 
   const isActive = (href: string) => {
@@ -21,8 +27,15 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav
+      className="
+        sticky top-0 z-50 
+        bg-white/60 backdrop-blur-md 
+        border-b border-gray-200
+        shadow-[0_0_5px_0px_rgba(0,0,0,0.15)]
+      "
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
@@ -33,75 +46,84 @@ const Navigation = () => {
                 width={50}
                 height={50}
                 className="object-contain"
+                priority
               />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            {navItems.map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`
-                  group flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold
-                  transition-all duration-200
-                  ${
-                    isActive(item.href)
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
-                  }
-                `}
-              >
-                <span className={isActive(item.href) ? 'text-white' : 'text-gray-400'}>
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center space-x-2">
+            {navItems.map(item => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
+                    group flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm
+                    transition-all duration-200 ease-in-out
+                    ${
+                      active
+                        ? 'bg-primary/15 text-primary-dark font-bold'
+                        : 'text-text-secondary hover:bg-primary/5 hover:text-primary'
+                    }
+                  `}
+                >
+                  <span
+                    className={`
+                      transition-colors duration-200
+                      ${active ? 'text-primary-dark' : 'text-gray-400 group-hover:text-primary'}
+                    `}
+                  >
+                    {/* Reset icon size for desktop */}
+                    <div className="h-4 w-4 flex items-center justify-center">{item.icon}</div>
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100"
+              className="p-2 rounded-lg text-text-secondary hover:bg-gray-100 hover:text-primary transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
-              {isOpen ? (
-                <X className="h-6 w-6 text-gray-700" />
-              ) : (
-                <Menu className="h-6 w-6 text-gray-700" />
-              )}
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Dropdown */}
         {isOpen && (
-          <div className="md:hidden pb-4">
-            <div className="pt-2 space-y-2">
-              {navItems.map(item => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-xl font-semibold
-                    transition-colors
-                    ${
-                      isActive(item.href)
-                        ? 'bg-primary/10 text-primary border-l-4 border-primary'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }
-                  `}
-                >
-                  <span className={isActive(item.href) ? 'text-primary' : 'text-gray-400'}>
-                    {item.icon}
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
+          <div className="md:hidden bg-white">
+            <div className="flex flex-col space-y-2 py-4 px-4">
+              {navItems.map(item => {
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`
+                      flex items-center justify-center gap-3 px-4 py-4 font-semibold text-lg
+                      transition-all duration-200 w-full
+                      ${
+                        active
+                          ? 'text-primary-dark'
+                          : 'text-text-secondary hover:bg-gray-50 hover:text-primary'
+                      }
+                    `}
+                  >
+                    <span className={active ? 'text-primary-dark' : 'text-gray-400'}>
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}
