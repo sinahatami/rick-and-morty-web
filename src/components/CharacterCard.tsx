@@ -1,5 +1,7 @@
-import { MapPin, Globe } from 'lucide-react';
-import { Character } from '~/types';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { MapPin, Globe, Dna } from 'lucide-react';
+import { Character } from '~/types/api';
 import { BaseCard } from './shared/BaseCard';
 import { CardInfoRow } from './shared/CardInfoRow';
 
@@ -9,53 +11,84 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ character }: CharacterCardProps) {
-  const statusConfig = {
-    Alive: {
-      dot: 'bg-green-500',
-      text: 'text-green-700',
-      ring: 'hover:ring-green-500/20',
-    },
-    Dead: {
-      dot: 'bg-red-500',
-      text: 'text-red-700',
-      ring: 'hover:ring-red-500/20',
-    },
-    unknown: {
-      dot: 'bg-gray-400',
-      text: 'text-gray-600',
-      ring: 'hover:ring-gray-400/20',
-    },
-  }[character.status] || {
-    dot: 'bg-gray-400',
-    text: 'text-gray-600',
-    ring: 'hover:ring-gray-400/20',
+  const router = useRouter();
+
+  const getIdFromUrl = (url: string) => {
+    if (!url) return null;
+    const parts = url.split('/');
+    return parts[parts.length - 1];
   };
 
+  const handleLocationClick = (url: string) => {
+    const id = getIdFromUrl(url);
+    if (id) {
+      router.push(`/locations/${id}`);
+    }
+  };
+
+  const getStatusConfig = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'alive':
+        return {
+          indicator: 'bg-green-500',
+          text: 'text-green-700',
+          bg: 'bg-green-50',
+          border: 'border-green-200',
+          pulse: true,
+        };
+      case 'dead':
+        return {
+          indicator: 'bg-red-500',
+          text: 'text-red-700',
+          bg: 'bg-red-50',
+          border: 'border-red-200',
+          pulse: false,
+        };
+      default:
+        return {
+          indicator: 'bg-gray-400',
+          text: 'text-gray-600',
+          bg: 'bg-gray-100',
+          border: 'border-gray-200',
+          pulse: false,
+        };
+    }
+  };
+
+  const statusConfig = getStatusConfig(character.status);
+
   return (
-    <BaseCard href={`/characters/${character.id}`} theme="character" className={statusConfig.ring}>
-      {/* Image Section */}
-      <div className="relative h-72 w-full bg-gray-100 overflow-hidden">
-        <img
+    <BaseCard href={`/characters/${character.id}`} theme="character">
+      {/* Image Container */}
+      <div className="relative aspect-square w-full bg-gray-100 overflow-hidden border-b border-gray-100">
+        {/* 2. Updated to Next.js Image */}
+        <Image
           src={character.image}
           alt={character.name}
-          className="w-full h-full object-cover transform scale-100 group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-in-out group-hover:saturate-125"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transform scale-100 group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-in-out"
+          priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Status Badge */}
-        <div className="absolute top-4 left-4 z-10">
-          <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-white/20">
-            <span className={`relative flex h-2 w-2`}>
-              {character.status === 'Alive' && (
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        <div className="absolute top-3 left-3 z-10">
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md bg-white/95 border ${statusConfig.border}`}
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              {statusConfig.pulse && (
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statusConfig.indicator}`}
+                ></span>
               )}
               <span
-                className={`relative inline-flex rounded-full h-2 w-2 ${statusConfig.dot}`}
+                className={`relative inline-flex rounded-full h-2.5 w-2.5 ${statusConfig.indicator}`}
               ></span>
             </span>
             <span
-              className={`text-[10px] font-bold tracking-widest uppercase ${statusConfig.text}`}
+              className={`text-[10px] font-black tracking-widest uppercase ${statusConfig.text}`}
             >
               {character.status}
             </span>
@@ -63,28 +96,49 @@ export function CharacterCard({ character }: CharacterCardProps) {
         </div>
       </div>
 
-      {/* Content Area */}
-      <div className="p-6 relative">
-        <div className="mb-6">
+      {/* Card Body */}
+      <div className="p-5 flex flex-col bg-white">
+        <div className="mb-4">
           <h3
+            className="text-xl font-black text-gray-900 leading-tight group-hover:text-[#00B5CC] transition-colors duration-200 line-clamp-1"
             title={character.name}
-            className="text-2xl font-black text-gray-900 leading-tight group-hover:text-primary transition-colors duration-300 line-clamp-2 min-h-[3.5rem]"
           >
             {character.name}
           </h3>
+
           <div className="flex items-center gap-2 mt-2">
-            <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-semibold rounded-md">
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-bold bg-gray-50 border border-gray-200 text-gray-600 uppercase tracking-wide">
+              <Dna className="w-3 h-3 text-gray-400" />
               {character.species}
             </span>
-            <span className="w-1 h-1 bg-gray-300 rounded-full" />
-            <span className="text-sm text-gray-500 font-medium">{character.gender}</span>
+            <span className="text-[11px] font-medium text-gray-400">{character.gender}</span>
           </div>
         </div>
 
-        {/* Details Section */}
-        <div className="grid grid-cols-1 gap-4">
-          <CardInfoRow icon={MapPin} label="Last Location" value={character.location.name} />
-          <CardInfoRow icon={Globe} label="Origin World" value={character.origin.name} />
+        <div className="h-px bg-gray-100 w-full mb-4 group-hover:bg-[#00B5CC]/20 transition-colors" />
+
+        <div className="space-y-1 mt-auto">
+          <CardInfoRow
+            icon={MapPin}
+            label="Last Known Location"
+            value={character.location.name}
+            onClick={
+              character.location.name !== 'unknown'
+                ? () => handleLocationClick(character.location.url)
+                : undefined
+            }
+          />
+
+          <CardInfoRow
+            icon={Globe}
+            label="Origin"
+            value={character.origin.name}
+            onClick={
+              character.origin.name !== 'unknown'
+                ? () => handleLocationClick(character.origin.url)
+                : undefined
+            }
+          />
         </div>
       </div>
     </BaseCard>

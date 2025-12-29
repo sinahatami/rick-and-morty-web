@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -12,35 +12,30 @@ module.exports = {
         secondary: {
           DEFAULT: '#B8E986',
           light: '#C6EEA3',
-          dark: '#A2D36D',
+          dark: '#97C460',
         },
         accent: {
-          DEFAULT: '#FF6B6B',
-          light: '#FF8989',
-          dark: '#FF4D4D',
+          DEFAULT: '#FF9800',
+          light: '#FFB74D',
+          dark: '#F57C00',
         },
-        background: '#FFFFFF',
         surface: '#F9FAFB',
         border: '#E5E7EB',
         text: {
           primary: '#111827',
-          secondary: '#6B7280',
+          secondary: '#4B5563',
           tertiary: '#9CA3AF',
         },
         status: {
           alive: '#10B981',
           dead: '#EF4444',
-          unknown: '#6B7280',
+          unknown: '#9CA3AF',
         },
       },
       boxShadow: {
-        card: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        input: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-      },
-      borderRadius: {
-        xl: '1rem',
-        '2xl': '1.5rem',
+        card: '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -2px rgba(0, 0, 0, 0.03)',
+        'card-hover':
+          '0 12px 24px -8px rgba(0, 181, 204, 0.15), 0 4px 12px -4px rgba(0, 0, 0, 0.05)',
       },
     },
   },

@@ -98,7 +98,7 @@ const Navigation = () => {
 
         {/* Mobile Navigation Dropdown */}
         {isOpen && (
-          <div className="md:hidden bg-white">
+          <div className="md:hidden">
             <div className="flex flex-col space-y-2 py-4 px-4">
               {navItems.map(item => {
                 const active = isActive(item.href);

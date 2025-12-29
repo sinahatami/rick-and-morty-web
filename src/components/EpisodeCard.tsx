@@ -1,5 +1,5 @@
 import { Episode } from '~/types/api';
-import { Calendar, Users, Tv, Play } from 'lucide-react';
+import { Calendar, Hash, MonitorPlay } from 'lucide-react';
 import { BaseCard } from './shared/BaseCard';
 import { CardInfoRow } from './shared/CardInfoRow';
 
@@ -8,20 +8,13 @@ interface EpisodeCardProps {
 }
 
 export function EpisodeCard({ episode }: EpisodeCardProps) {
-  // Extract season and episode numbers
+  // Extract season and episode numbers (e.g., S01E01)
   const seasonMatch = episode.episode.match(/S(\d+)/);
   const episodeMatch = episode.episode.match(/E(\d+)/);
   const season = seasonMatch ? seasonMatch[1] : '?';
   const episodeNum = episodeMatch ? episodeMatch[1] : '?';
 
-  const charactersCount = episode.characters.length;
-  const charactersText =
-    charactersCount === 0
-      ? 'No characters'
-      : charactersCount === 1
-        ? '1 character'
-        : `${charactersCount} characters`;
-
+  // Format date nicely
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -31,41 +24,48 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
   };
 
   return (
-    <BaseCard
-      href={`/episodes/${episode.id}`}
-      theme="episode"
-      className="hover:ring-4 hover:ring-sky-500/10" // Custom ring color for episodes
-    >
-      {/* Header */}
-      <div className="p-6 pb-4 relative">
-        <div className="flex items-start justify-between mb-4">
-          <div className="p-3 bg-sky-50 rounded-xl group-hover:bg-sky-100 transition-colors">
-            <Tv className="h-7 w-7 text-sky-500 group-hover:scale-110 transition-transform" />
+    <BaseCard href={`/episodes/${episode.id}`} theme="episode">
+      <div className="p-5 flex flex-col h-full bg-white relative overflow-hidden group">
+        {/* Decorative Background Icon */}
+        <div className="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-500 rotate-12">
+          <MonitorPlay className="h-24 w-24 text-[#FF9800]" />
+        </div>
+
+        {/* Header: Icon & Code */}
+        <div className="flex items-start justify-between mb-4 z-10">
+          <div className="p-2.5 bg-orange-50 rounded-xl border border-orange-100 group-hover:border-orange-200 group-hover:bg-[#FF9800] group-hover:text-white transition-all duration-300">
+            <MonitorPlay className="h-6 w-6 text-[#FF9800] group-hover:text-white transition-colors" />
           </div>
 
-          <div className="flex flex-col items-end py-2">
-            <div className="px-3 py-1.5 bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-full shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider">
-                S{season}E{episodeNum}
-              </span>
-            </div>
+          <div className="flex flex-col items-end">
+            <span className="px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-100 text-[11px] font-black uppercase tracking-widest text-gray-400 group-hover:border-[#FF9800]/30 group-hover:text-[#FF9800] transition-colors">
+              Season {season}
+            </span>
           </div>
         </div>
 
-        <h3 className="text-xl font-black text-gray-900 line-clamp-2 group-hover:text-sky-600 transition-colors duration-300 mb-3">
-          {episode.name}
-        </h3>
-
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <Calendar className="h-4 w-4" />
-          <span className="font-medium">{formatDate(episode.air_date)}</span>
+        {/* Title */}
+        <div className="mb-4 z-10">
+          <h3
+            className="text-lg font-black text-gray-900 leading-tight group-hover:text-[#FF9800] transition-colors duration-200 line-clamp-2 min-h-[3rem]"
+            title={episode.name}
+          >
+            {episode.name}
+          </h3>
         </div>
-      </div>
 
-      {/* Details */}
-      <div className="p-6 pt-2 space-y-4">
-        <CardInfoRow icon={Play} label="Episode Code" value={episode.episode} />
-        <CardInfoRow icon={Users} label="Characters" value={charactersText} />
+        {/* Divider */}
+        <div className="h-px bg-gray-100 w-full mb-4 group-hover:bg-[#FF9800]/20 transition-colors" />
+
+        {/* Details */}
+        <div className="mt-auto space-y-2 z-10">
+          <CardInfoRow
+            icon={Hash}
+            label="Episode"
+            value={`Ep. ${episodeNum} (${episode.episode})`}
+          />
+          <CardInfoRow icon={Calendar} label="Air Date" value={formatDate(episode.air_date)} />
+        </div>
       </div>
     </BaseCard>
   );

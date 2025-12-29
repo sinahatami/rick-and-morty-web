@@ -13,7 +13,6 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
   const [localFilters, setLocalFilters] = useState<Record<string, string>>({});
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Initialize local filters when component mounts or filters change
   useEffect(() => {
     const initialFilters: Record<string, string> = {};
     Object.keys(filterOptions).forEach(key => {
@@ -69,36 +68,38 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-        relative flex items-center justify-center px-6 h-14
-        bg-sky-100 border transition-all duration-300
-        rounded-2xl shadow-sm hover:shadow-md cursor-pointer
-        w-full md:w-auto md:min-w-[240px]
-        ${
-          isOpen || activeCount > 0
-            ? 'border-blue-600 text-blue-600 ring-4 ring-blue-50'
-            : 'border-gray-200 text-gray-700 hover:border-gray-300'
-        }
-      `}
+          relative flex items-center justify-center px-6 h-14
+          transition-all duration-300
+          rounded-2xl shadow-sm hover:shadow-md cursor-pointer
+          w-full md:w-auto md:min-w-[200px] border
+          ${
+            isOpen || activeCount > 0
+              ? 'bg-[#00B5CC]/5 border-[#00B5CC] text-[#00B5CC] ring-4 ring-[#00B5CC]/10'
+              : 'bg-white border-gray-200 text-gray-600 hover:border-[#00B5CC]/50 hover:text-[#00B5CC]'
+          }
+        `}
       >
-        {/* THE ICON: Pinned to the far left edge */}
-        <div className="absolute left-4 top-0 bottom-0 flex items-center">
+        <div className="absolute left-5 top-0 bottom-0 flex items-center">
           <ListFilter
-            className={`h-5 w-5 ${activeCount > 0 ? 'fill-blue-600' : 'text-gray-400'}`}
+            className={`h-5 w-5 transition-colors ${
+              activeCount > 0 ? 'fill-[#00B5CC] text-[#00B5CC]' : 'text-gray-400'
+            }`}
           />
         </div>
 
-        {/* THE TEXT: Stays in the mathematical center */}
-        <span className="font-bold text-sm tracking-wide uppercase whitespace-nowrap text-sky-500">
-          {activeCount > 0 ? `Filters (${activeCount})` : 'ADVANCED FILTERS'}
+        <span className="font-bold text-sm tracking-widest uppercase pl-4">
+          {activeCount > 0 ? `Filters (${activeCount})` : 'Filter'}
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-3 z-50 w-80 md:w-96 bg-white border border-gray-100 rounded-[2rem] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-          <div className="p-7 space-y-7">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-gray-900 tracking-tight">Filter Locations</h3>
+        <div className="absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+          {/* Decorative Top Bar */}
+          <div className="h-1.5 w-full bg-gradient-to-r from-[#00B5CC] to-[#B8E986]" />
+
+          <div className="p-6 space-y-6">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <h3 className="text-lg font-black text-gray-900 tracking-tight">Refine Search</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
@@ -107,11 +108,10 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
               </button>
             </div>
 
-            {/* Selection Inputs - Dynamic */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               {Object.keys(filterOptions).map(key => (
-                <div key={key} className="space-y-2.5">
-                  <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">
+                <div key={key} className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </label>
                   <div className="relative group">
@@ -119,12 +119,12 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
                       value={localFilters[key] || ''}
                       onChange={e => handleSelectChange(key, e.target.value)}
                       className="
-                        w-full h-13 pl-5 pr-12 
-                        bg-gray-50 border border-gray-100 rounded-2xl
-                        text-sm font-bold text-gray-900 
+                        w-full h-12 pl-4 pr-10
+                        bg-gray-50 border border-gray-200 rounded-xl
+                        text-sm font-bold text-gray-700 
                         appearance-none cursor-pointer transition-all
-                        hover:bg-gray-100 hover:border-gray-200
-                        focus:bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-600
+                        hover:bg-white hover:border-[#00B5CC]/50
+                        focus:bg-white focus:ring-4 focus:ring-[#00B5CC]/10 focus:border-[#00B5CC]
                         outline-none
                       "
                     >
@@ -135,7 +135,7 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
                         </option>
                       ))}
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-gray-600 transition-colors">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-[#00B5CC] transition-colors">
                       <ChevronDown className="h-4 w-4" />
                     </div>
                   </div>
@@ -143,19 +143,18 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
               ))}
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-4 pt-2">
+            <div className="flex gap-3 pt-2">
               <button
                 onClick={handleReset}
-                className="flex-1 py-4 text-gray-500 font-bold text-sm hover:text-red-500 transition-colors cursor-pointer"
+                className="flex-1 py-3.5 text-gray-500 font-bold text-xs uppercase tracking-wide hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
               >
                 Reset
               </button>
               <button
                 onClick={handleApply}
-                className="flex-[2] py-4 bg-sky-50 hover:bg-sky-100 text-blue-500 rounded-2xl font-black text-sm shadow-xl shadow-blue-100 transition-all active:scale-95 cursor-pointer"
+                className="flex-[2] py-3.5 bg-[#00B5CC] hover:bg-[#0091A3] text-white rounded-xl font-black text-xs uppercase tracking-wide shadow-lg shadow-[#00B5CC]/20 transition-all active:scale-95 cursor-pointer"
               >
-                Apply
+                Apply Filters
               </button>
             </div>
           </div>

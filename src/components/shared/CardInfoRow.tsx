@@ -5,19 +5,49 @@ interface CardInfoRowProps {
   label: string;
   value: string | number;
   className?: string;
+  onClick?: () => void;
 }
 
-export function CardInfoRow({ icon: Icon, label, value, className = '' }: CardInfoRowProps) {
+export function CardInfoRow({
+  icon: Icon,
+  label,
+  value,
+  className = '',
+  onClick,
+}: CardInfoRowProps) {
   return (
-    <div className={`flex items-center gap-3 group/item ${className}`}>
-      <div className="p-2 bg-slate-50 rounded-lg group-hover/item:bg-primary/10 transition-colors">
-        <Icon className="h-4 w-4 text-gray-400 group-hover/item:text-primary transition-colors" />
+    <div
+      onClick={e => {
+        if (onClick) {
+          e.preventDefault(); // Prevent default link behavior
+          e.stopPropagation(); // Stop bubbling to the parent Card link
+          onClick();
+        }
+      }}
+      className={`
+        flex items-start gap-3 p-2 rounded-lg transition-all duration-200 
+        ${
+          onClick
+            ? 'cursor-pointer hover:bg-gray-50 hover:shadow-sm border border-transparent hover:border-gray-100 group/row'
+            : ''
+        } 
+        ${className}
+      `}
+    >
+      {/* Icon: Changes color on row hover */}
+      <div className="mt-0.5 shrink-0 text-gray-400 group-hover/row:text-[#00B5CC] transition-colors">
+        <Icon className="h-4 w-4" />
       </div>
+
+      {/* Content */}
       <div className="flex flex-col min-w-0">
-        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">
+        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider leading-none mb-1">
           {label}
         </span>
-        <span className="text-sm text-gray-700 font-bold truncate">{value}</span>
+        {/* Value: Changes color on row hover */}
+        <span className="text-sm font-bold truncate leading-tight text-gray-900 group-hover/row:text-[#00B5CC] transition-colors">
+          {value}
+        </span>
       </div>
     </div>
   );

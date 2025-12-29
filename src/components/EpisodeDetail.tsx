@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { ArrowLeft, Users } from 'lucide-react';
+import { Users, Calendar, Tv, MonitorPlay, AlertCircle } from 'lucide-react';
 import { Episode, Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
 
-import { CharacterCard } from './CharacterCard';
-import { LoadMoreButton } from './shared/LoadMoreButton';
+import { GoBackButton } from './shared/GoBackButton';
 import { LoadingSpinner } from './shared/LoadingSpinner';
+import { CharacterGridSection } from './shared/CharacterGridSection';
 
 interface EpisodeDetailProps {
   id: string;
@@ -17,20 +17,23 @@ const CAST_PER_PAGE = 12;
 export function EpisodeDetail({ id }: EpisodeDetailProps) {
   const router = useRouter();
 
-  // Data States
+  // --- Data States ---
   const [episode, setEpisode] = useState<Episode | null>(null);
-  const [allCharacterIds, setAllCharacterIds] = useState<number[]>([]); // Store all IDs here
-  const [characters, setCharacters] = useState<Character[]>([]); // Store only visible ones
+  const [allCharacterIds, setAllCharacterIds] = useState<number[]>([]);
+  const [characters, setCharacters] = useState<Character[]>([]);
 
-  // Loading States
+  const characterIds =
+    episode?.characters.map(url => parseInt(url.split('/').pop() || '')).filter(n => !isNaN(n)) ||
+    [];
+
+  // --- Loading States ---
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Get Episode info and first batch of Cast
+  // --- Initial Fetch ---
   useEffect(() => {
     let isMounted = true;
-
     const init = async () => {
       try {
         setIsLoadingInitial(true);
@@ -49,7 +52,7 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
 
         setAllCharacterIds(ids);
 
-        // Fetch first batch immediately if exists
+        // Fetch first batch
         if (ids.length > 0) {
           const firstBatchIds = ids.slice(0, CAST_PER_PAGE);
           const initialCharacters = await apiClient.characters.getMultiple(firstBatchIds);
@@ -58,9 +61,7 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
             Array.isArray(initialCharacters) ? initialCharacters : [initialCharacters]
           ) as Character[];
 
-          if (isMounted) {
-            setCharacters(normalizedData);
-          }
+          if (isMounted) setCharacters(normalizedData);
         }
       } catch (err) {
         if (isMounted) {
@@ -68,23 +69,19 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
           console.error(err);
         }
       } finally {
-        if (isMounted) {
-          setIsLoadingInitial(false);
-        }
+        if (isMounted) setIsLoadingInitial(false);
       }
     };
 
     init();
-
     return () => {
       isMounted = false;
     };
   }, [id]);
 
-  // 2. Load More Handler
+  // --- Load More Handler ---
   const handleLoadMore = async () => {
     if (isLoadingMore) return;
-
     try {
       setIsLoadingMore(true);
       const currentCount = characters.length;
@@ -96,7 +93,7 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
           Array.isArray(newCharacters) ? newCharacters : [newCharacters]
         ) as Character[];
 
-        setCharacters((prev: Character[]) => [...prev, ...normalizedNew]);
+        setCharacters(prev => [...prev, ...normalizedNew]);
       }
     } catch (err) {
       console.error('Error loading more characters:', err);
@@ -105,86 +102,130 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
     }
   };
 
+  // --- Helpers ---
   const hasMoreCharacters = characters.length < allCharacterIds.length;
-  const formattedDate = episode?.air_date;
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'Unknown Date';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  // Extract Season/Episode (S01E01 -> S1, E1)
+  const getSeasonInfo = (code: string) => {
+    const s = code.match(/S(\d+)/)?.[1] || '?';
+    const e = code.match(/E(\d+)/)?.[1] || '?';
+    return { season: s, episode: e };
+  };
 
   if (isLoadingInitial) {
-    return <LoadingSpinner message="Loading episode data..." />;
+    return <LoadingSpinner message="Retrieving archival footage..." />;
   }
 
   if (error || !episode) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-8 text-center">
-        <p className="text-red-500">{error || 'Episode not found'}</p>
-        <button onClick={() => router.back()} className="mt-4 underline">
-          Go Back
+      <div className="flex flex-col items-center justify-center p-12 text-center max-w-lg mx-auto mt-10">
+        <div className="bg-red-50 p-6 rounded-full mb-6">
+          <AlertCircle className="h-12 w-12 text-red-500" />
+        </div>
+        <h2 className="text-2xl font-black text-gray-900 mb-2">Episode Data Corrupted</h2>
+        <button
+          onClick={() => router.back()}
+          className="px-8 py-3 bg-[#00B5CC] text-white rounded-xl font-bold"
+        >
+          Return to Database
         </button>
       </div>
     );
   }
 
+  const { season, episode: epNum } = getSeasonInfo(episode.episode);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-      {/* 1. Navigation & Header Group */}
-      <div>
-        <div
-          onClick={() => router.back()}
-          className="flex items-center gap-3 cursor-pointer mb-8 group w-fit"
-        >
-          <ArrowLeft className="h-6 w-6 text-black stroke-[3]" />
-          <span className="text-xl font-bold text-black uppercase tracking-wide">Go Back</span>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <GoBackButton />
 
-        <h1 className="text-4xl md:text-5xl font-bold text-[#081F32] text-center mb-10">
-          {episode.name}
-        </h1>
+      {/* Hero / Header Card */}
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden relative group">
+        {/* Decorative Top Bar (Orange/Yellow for Episodes) */}
+        <div className="h-2 w-full bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400" />
 
-        {/* Metadata Columns */}
-        <div className="grid grid-cols-2 gap-8 max-w-lg mx-auto border-b border-gray-100 pb-12">
-          <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-[#081F32] mb-1">Episode</span>
-            <span className="text-lg text-gray-500 font-medium">{episode.episode}</span>
+        <div className="p-8 md:p-10 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+            {/* Title Section */}
+            <div className="space-y-4 max-w-3xl">
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 rounded-lg bg-orange-50 border border-orange-100 text-[#FF9800] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                  <Tv className="w-3 h-3" />
+                  Season {season}
+                </span>
+                <span className="px-3 py-1 rounded-lg bg-gray-50 border border-gray-100 text-gray-500 text-xs font-bold uppercase tracking-widest">
+                  Episode {epNum}
+                </span>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-black text-[#0B1E2D] tracking-tight leading-tight">
+                {episode.name}
+              </h1>
+            </div>
+
+            {/* Episode Code Badge */}
+            <div className="bg-slate-900 text-white px-6 py-4 rounded-2xl flex flex-col items-center justify-center shadow-xl shadow-orange-500/10 min-w-[140px]">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">
+                Prod. Code
+              </span>
+              <div className="flex items-center gap-2 text-[#FF9800]">
+                <MonitorPlay className="w-5 h-5" />
+                <span className="text-2xl font-black tracking-tight">{episode.episode}</span>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-[#081F32] mb-1">Date</span>
-            <span className="text-lg text-gray-500 font-medium">{formattedDate}</span>
+
+          <hr className="my-8 border-gray-100" />
+
+          {/* Metadata Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+              <div className="p-3 bg-white rounded-xl text-[#FF9800] shadow-sm">
+                <Calendar className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-0.5">
+                  Air Date
+                </p>
+                <p className="text-lg font-bold text-gray-900">{formatDate(episode.air_date)}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+              <div className="p-3 bg-white rounded-xl text-[#00B5CC] shadow-sm">
+                <Users className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-0.5">
+                  Total Cast
+                </p>
+                <p className="text-lg font-bold text-gray-900">
+                  {allCharacterIds.length}{' '}
+                  <span className="text-sm text-gray-500 font-medium">Characters</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 2. Cast Section */}
-      <section className="space-y-8">
-        <div className="flex items-center gap-3 pb-4">
-          <h2 className="text-2xl font-medium text-gray-500">Cast</h2>
-          <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wide">
-            {allCharacterIds.length} Appearances
-          </span>
-        </div>
-
-        {characters.length > 0 ? (
-          <div className="space-y-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {characters.map(character => (
-                <CharacterCard key={character.id} character={character} />
-              ))}
-            </div>
-
-            {hasMoreCharacters && (
-              <LoadMoreButton
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                isFetchingNextPage={isLoadingMore}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="bg-gray-50 rounded-xl p-12 text-center border-2 border-dashed border-gray-200">
-            <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-900">No Cast Info</h3>
-            <p className="text-gray-500">No character information is available for this episode.</p>
-          </div>
-        )}
-      </section>
+      {/* Cast Section */}
+      <CharacterGridSection
+        title="Featured Cast"
+        characterIds={characterIds}
+        icon={Users}
+        emptyTitle="No Cast Data"
+        emptyMessage="The Galactic Federation has restricted access to the cast list for this timeline."
+      />
     </div>
   );
 }

@@ -9,6 +9,9 @@ import { FilterPanel } from './shared/FilterPanel';
 import { SearchBar } from './shared/SearchBar';
 import { ActiveFilterTags } from './shared/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
+import { SimpleBanner } from './shared/SimpleBanner';
+
+import banner from '../img/banner.png';
 
 // --- Types ---
 
@@ -106,6 +109,7 @@ export function CharacterList() {
       isLoading={isLoading}
       totalCount={totalCount}
       title="Characters"
+      headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <p className="text-gray-400 font-medium text-lg">
           Exploring{' '}

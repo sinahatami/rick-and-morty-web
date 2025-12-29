@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-
 import { Location } from '~/types/api';
 import { useLocations } from '~/hooks/useLocations';
 import { useUrlSync } from '~/hooks/useUrlSync';
@@ -71,7 +70,6 @@ export function LocationList() {
 
   const hasActiveFilters = Boolean(searchQuery.trim() || filters.type || filters.dimension);
 
-  // Extract filters from dynamic data
   useEffect(() => {
     if (locations.length > 0) {
       const newOptions = extractFilterOptions(locations);
@@ -94,18 +92,18 @@ export function LocationList() {
       items={locations}
       isLoading={isLoading}
       totalCount={totalCount}
-      title="Locations"
+      title="Multiverse Locations"
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
-        <p className="text-gray-400 font-medium text-lg">
-          Exploring{' '}
-          <span className="text-gray-900 font-black text-xl italic tracking-tighter decoration-primary/30 underline underline-offset-4">
+        <div className="flex items-center gap-2 text-gray-500 font-medium text-lg">
+          <span>Cataloging</span>
+          <span className="text-[#00B5CC] font-black text-2xl italic tracking-tighter decoration-[#B8E986]/50 underline underline-offset-4">
             {totalCount.toLocaleString()}
           </span>
-          <span className="ml-1 tracking-widest uppercase text-[13px] font-bold text-gray-400">
-            souls across the cosmos
+          <span className="tracking-widest uppercase text-xs font-bold text-gray-400 pt-1">
+            dimensional nodes
           </span>
-        </p>
+        </div>
       }
       controls={
         <div className="flex flex-col md:flex-row gap-4 items-center">
@@ -113,7 +111,7 @@ export function LocationList() {
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Filter by name..."
+              placeholder="Search star systems, planets, or dimensions..."
             />
           </div>
 
@@ -145,7 +143,7 @@ export function LocationList() {
       onLoadMore={fetchNextPage}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
-      emptyTitle="Location Not Found"
+      emptyTitle="Dimension Not Found"
       renderItem={location => <LocationCard key={location.id} location={location} />}
     />
   );

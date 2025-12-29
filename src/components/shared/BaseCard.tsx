@@ -1,40 +1,53 @@
 import Link from 'next/link';
+import { ReactNode } from 'react';
 
 interface BaseCardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   href: string;
   theme?: 'character' | 'episode' | 'location';
   className?: string;
 }
 
 export function BaseCard({ children, href, theme = 'character', className = '' }: BaseCardProps) {
-  const themeConfig = {
+  // Using explicit HEX codes to guarantee colors appear correctly
+  const themeStyles = {
     character: {
-      hover: 'hover:border-primary/20',
-      ring: 'hover:ring-4 group-hover:ring-primary/20',
-    },
-    episode: {
-      hover: 'hover:border-purple-500/20',
-      ring: 'hover:ring-4 group-hover:ring-purple-500/20',
+      // Rick Blue/Cyan
+      hoverBorder: 'group-hover:border-[#00B5CC]/50',
+      shadow: 'group-hover:shadow-[0_8px_30px_rgba(0,181,204,0.15)]',
+      accent: 'bg-[#00B5CC]',
     },
     location: {
-      hover: 'hover:border-primary/20',
-      ring: 'hover:ring-4 group-hover:ring-primary/20',
+      // Portal Green
+      hoverBorder: 'group-hover:border-[#B8E986]/80',
+      shadow: 'group-hover:shadow-[0_8px_30px_rgba(184,233,134,0.3)]',
+      accent: 'bg-[#B8E986]',
+    },
+    episode: {
+      // Morty Yellow/Orange
+      hoverBorder: 'group-hover:border-[#FF9800]/50',
+      shadow: 'group-hover:shadow-[0_8px_30px_rgba(255,152,0,0.15)]',
+      accent: 'bg-[#FF9800]',
     },
   };
 
+  const currentTheme = themeStyles[theme];
+
   return (
-    <Link href={href} className="block group">
+    <Link href={href} className="block group h-full">
       <div
         className={`
-          bg-white rounded-sm overflow-hidden border border-gray-100 
-          transition-all duration-300 ease-in-out cursor-pointer
-          shadow-[0_1px_4px_1px_rgba(0,0,0,0.3)]
-          hover:shadow-[0_14px_28px_-6px_rgba(0,0,0,0.12),0_4px_6px_-4px_rgba(0,0,0,0.05)]
-          hover:-translate-y-1.5 ${themeConfig[theme].hover}
-          flex flex-col h-full ${className}
+          relative flex flex-col h-full bg-white rounded-2xl overflow-hidden
+          border border-gray-200 transition-all duration-300 ease-out
+          shadow-sm hover:-translate-y-1 ${currentTheme.hoverBorder} ${currentTheme.shadow}
+          ${className}
         `}
       >
+        {/* Top Accent Line (Expands on hover) */}
+        <div
+          className={`absolute top-0 left-0 right-0 h-1 ${currentTheme.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20`}
+        />
+
         {children}
       </div>
     </Link>

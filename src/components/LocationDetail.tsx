@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Users } from 'lucide-react';
+import { Users, MapPin, Globe, Calendar, Zap, AlertCircle } from 'lucide-react';
 import { Location, Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
 
-// Shared components matching your CharacterList
-import { CharacterCard } from '~/components/CharacterCard';
 import { GoBackButton } from './shared/GoBackButton';
-import { LoadMoreButton } from './shared/LoadMoreButton';
 import { LoadingSpinner } from './shared/LoadingSpinner';
+import { CharacterGridSection } from './shared/CharacterGridSection';
 
 interface LocationDetailProps {
   id: string;
@@ -22,17 +20,19 @@ export function LocationDetail({ id }: LocationDetailProps) {
   // Data States
   const [location, setLocation] = useState<Location | null>(null);
   const [allResidentIds, setAllResidentIds] = useState<number[]>([]);
-  const [residents, setResidents] = useState<Character[]>([]); // These are the visible ones
+  const [residents, setResidents] = useState<Character[]>([]);
 
   // Loading States
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 1. Initial Fetch: Get Location info and the first batch of IDs
+  const residentIds =
+    location?.residents.map(url => parseInt(url.split('/').pop() || '')).filter(n => !isNaN(n)) ||
+    [];
+
   useEffect(() => {
     let isMounted = true;
-
     const init = async () => {
       try {
         setIsLoadingInitial(true);
@@ -41,7 +41,6 @@ export function LocationDetail({ id }: LocationDetailProps) {
         if (!isMounted) return;
         setLocation(locationData);
 
-        // Parse IDs from URLs
         const ids = locationData.residents
           .map(url => {
             const parts = url.split('/');
@@ -51,7 +50,6 @@ export function LocationDetail({ id }: LocationDetailProps) {
 
         setAllResidentIds(ids);
 
-        // Fetch first batch immediately if exists
         if (ids.length > 0) {
           const firstBatchIds = ids.slice(0, RESIDENTS_PER_PAGE);
           const initialResidents = await apiClient.characters.getMultiple(firstBatchIds);
@@ -60,9 +58,7 @@ export function LocationDetail({ id }: LocationDetailProps) {
             Array.isArray(initialResidents) ? initialResidents : [initialResidents]
           ) as Character[];
 
-          if (isMounted) {
-            setResidents(normalizedData);
-          }
+          if (isMounted) setResidents(normalizedData);
         }
       } catch (err) {
         console.error('Error loading location:', err);
@@ -73,16 +69,13 @@ export function LocationDetail({ id }: LocationDetailProps) {
     };
 
     init();
-
     return () => {
       isMounted = false;
     };
   }, [id]);
 
-  // 2. Load More Handler: Slices the next batch of IDs and fetches them
   const handleLoadMore = async () => {
     if (isLoadingMore) return;
-
     try {
       setIsLoadingMore(true);
       const currentCount = residents.length;
@@ -103,84 +96,141 @@ export function LocationDetail({ id }: LocationDetailProps) {
     }
   };
 
-  // Helper boolean to control button visibility
-  const hasMoreResidents = residents.length < allResidentIds.length;
+  // --- Helper Helpers for UI ---
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'Unknown';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  // Logic to determine type styles
+  const getTypeStyles = (type?: string) => {
+    const t = type?.toLowerCase() || '';
+    if (t.includes('planet'))
+      return { color: 'text-[#B8E986]', bg: 'bg-[#B8E986]/10', border: 'border-[#B8E986]/20' }; // Portal Green
+    if (t.includes('cluster') || t.includes('station'))
+      return { color: 'text-[#00B5CC]', bg: 'bg-[#00B5CC]/10', border: 'border-[#00B5CC]/20' }; // Rick Blue
+    return { color: 'text-gray-500', bg: 'bg-gray-100', border: 'border-gray-200' };
+  };
 
   if (isLoadingInitial) {
-    return <LoadingSpinner message="Locating dimension coordinates..." />;
+    return <LoadingSpinner message="Scanning dimensional coordinates..." />;
   }
 
   if (error || !location) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Location Not Found</h2>
-        <button onClick={() => router.back()} className="text-blue-600 hover:underline">
-          Go Back
+      <div className="flex flex-col items-center justify-center p-12 text-center max-w-lg mx-auto mt-10">
+        <div className="bg-red-50 p-6 rounded-full mb-6">
+          <AlertCircle className="h-12 w-12 text-red-500" />
+        </div>
+        <h2 className="text-2xl font-black text-gray-900 mb-2">Signal Lost</h2>
+        <button
+          onClick={() => router.back()}
+          className="px-8 py-3 bg-[#00B5CC] text-white rounded-xl font-bold"
+        >
+          Return to Dimension C-137
         </button>
       </div>
     );
   }
 
+  const typeStyle = getTypeStyles(location.type);
+
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-10 space-y-12">
-      {/* Header Section */}
-      <div className="space-y-6">
-        <GoBackButton />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <GoBackButton />
 
-        <h1 className="text-4xl md:text-5xl font-black text-center text-[#0B1E2D] mb-4">
-          {location.name}
-        </h1>
+      {/* Hero / Header Card */}
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden relative group">
+        {/* Decorative Top Bar (Portal Green Gradient) */}
+        <div className="h-2 w-full bg-gradient-to-r from-[#B8E986] via-[#00B5CC] to-[#B8E986]" />
 
-        {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto p-6">
-          <div className="text-center md:text-left md:pl-8">
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Type</h3>
-            <p className="text-xl font-bold text-gray-900">{location.type || 'Unknown'}</p>
+        <div className="p-8 md:p-10 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+            {/* Title Section */}
+            <div className="space-y-4 max-w-2xl">
+              <div className="flex items-center gap-3">
+                <span
+                  className={`px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest border ${typeStyle.bg} ${typeStyle.color} ${typeStyle.border}`}
+                >
+                  {location.type || 'Unknown Type'}
+                </span>
+                <span className="text-gray-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5" />
+                  Cataloged: {formatDate(location.created)}
+                </span>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-black text-[#0B1E2D] tracking-tight leading-tight">
+                {location.name}
+              </h1>
+            </div>
           </div>
-          <div className="text-center md:text-left pt-4 md:pt-0 md:pl-8">
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">
-              Dimension
-            </h3>
-            <p className="text-xl font-bold text-gray-900">{location.dimension || 'Unknown'}</p>
+
+          <hr className="my-8 border-gray-100" />
+
+          {/* Detailed Info Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {/* Dimension Card */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-[#00B5CC]/30 transition-colors group/card">
+              <div className="p-3 bg-white rounded-xl shadow-sm text-[#00B5CC] group-hover/card:scale-110 transition-transform">
+                <Globe className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                  Dimension
+                </h3>
+                <p className="text-lg font-bold text-gray-900 leading-none">
+                  {location.dimension === 'unknown' ? 'Unknown' : location.dimension}
+                </p>
+              </div>
+            </div>
+
+            {/* Type Card */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-[#B8E986] transition-colors group/card">
+              <div className="p-3 bg-white rounded-xl shadow-sm text-[#B8E986] group-hover/card:scale-110 transition-transform">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                  Classification
+                </h3>
+                <p className="text-lg font-bold text-gray-900 leading-none">
+                  {location.type || 'Unclassified'}
+                </p>
+              </div>
+            </div>
+
+            {/* Population Stats */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-purple-300 transition-colors group/card">
+              <div className="p-3 bg-white rounded-xl shadow-sm text-purple-500 group-hover/card:scale-110 transition-transform">
+                <Zap className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                  Population
+                </h3>
+                <p className="text-lg font-bold text-gray-900 leading-none">
+                  {allResidentIds.length}{' '}
+                  <span className="text-sm font-medium text-gray-500">Entities</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Residents Section */}
-      <section className="space-y-8">
-        <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
-          <h2 className="text-2xl font-black text-gray-500">Residents </h2>
-          <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wide">
-            {allResidentIds.length} Total
-          </span>
-        </div>
-
-        {residents.length > 0 ? (
-          <div className="space-y-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {residents.map(character => (
-                <CharacterCard key={character.id} character={character} />
-              ))}
-            </div>
-
-            {hasMoreResidents && (
-              <LoadMoreButton
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                isFetchingNextPage={isLoadingMore}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="bg-gray-50 rounded-xl p-12 text-center border-2 border-dashed border-gray-200">
-            <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-900">No Residents</h3>
-            <p className="text-gray-500">
-              This location appears to be uninhabited in this timeline.
-            </p>
-          </div>
-        )}
-      </section>
+      <CharacterGridSection
+        title="Known Residents"
+        characterIds={residentIds}
+        icon={Users}
+        emptyTitle="No Bio-Signs Detected"
+        emptyMessage="Scans indicate this location is currently uninhabited."
+      />
     </div>
   );
 }
