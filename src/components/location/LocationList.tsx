@@ -3,13 +3,13 @@ import { Location } from '~/types/api';
 import { useLocations } from '~/hooks/useLocations';
 import { useUrlSync } from '~/hooks/useUrlSync';
 
-import { ResourcePageLayout } from './shared/ResourcePageLayout';
-import { FilterPanel } from './shared/FilterPanel';
-import { SearchBar } from './shared/SearchBar';
-import { ActiveFilterTags } from './shared/ActiveFilterTags';
+import { ResourcePageLayout } from '../shared/ResourcePageLayout';
+import { FilterPanel } from '../shared/FilterPanel';
+import { SearchBar } from '../shared/SearchBar';
+import { ActiveFilterTags } from '../shared/ActiveFilterTags';
+import { SimpleBanner } from '../shared/SimpleBanner';
 import { LocationCard } from './LocationCard';
-import { SimpleBanner } from './shared/SimpleBanner';
-import banner from '../img/location-banner2.png';
+import banner from '~/public/images/location-banner2.png';
 
 // --- Types ---
 interface FilterOptions {

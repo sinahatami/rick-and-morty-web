@@ -1,7 +1,7 @@
 import { Episode } from '~/types/api';
 import { Calendar, Hash, MonitorPlay } from 'lucide-react';
-import { BaseCard } from './shared/BaseCard';
-import { CardInfoRow } from './shared/CardInfoRow';
+import { BaseCard } from '../shared/BaseCard';
+import { CardInfoRow } from '../shared/CardInfoRow';
 
 interface EpisodeCardProps {
   episode: Episode;

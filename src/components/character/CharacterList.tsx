@@ -2,16 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { Character } from '~/types';
 import { useSimplifiedCharacters } from '~/hooks/useSimplifiedCharacters';
-import { useUrlSync } from '~/hooks/useUrlSync';
 
-import { ResourcePageLayout } from './shared/ResourcePageLayout';
-import { FilterPanel } from './shared/FilterPanel';
-import { SearchBar } from './shared/SearchBar';
-import { ActiveFilterTags } from './shared/ActiveFilterTags';
+import { ResourcePageLayout } from '../shared/ResourcePageLayout';
+import { FilterPanel } from '../shared/FilterPanel';
+import { SearchBar } from '../shared/SearchBar';
+import { ActiveFilterTags } from '../shared/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
-import { SimpleBanner } from './shared/SimpleBanner';
+import { SimpleBanner } from '../shared/SimpleBanner';
 
-import banner from '../img/banner.png';
+import banner from '~/public/images/banner.png';
+import { useUrlSync } from '~/hooks/useUrlSync';
 
 // --- Types ---
 

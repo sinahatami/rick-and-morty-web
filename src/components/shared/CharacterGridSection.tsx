@@ -3,7 +3,7 @@ import { Users } from 'lucide-react';
 import { Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
 
-import { CharacterCard } from '../CharacterCard';
+import { CharacterCard } from '../character/CharacterCard';
 import { LoadMoreButton } from './LoadMoreButton';
 import { LoadingSpinner } from './LoadingSpinner';
 

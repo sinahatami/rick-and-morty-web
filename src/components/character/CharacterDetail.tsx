@@ -15,10 +15,10 @@ import {
 
 import { Character, Episode } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
-import { GoBackButton } from './shared/GoBackButton';
-import { LoadingSpinner } from './shared/LoadingSpinner';
-import { LoadMoreButton } from './shared/LoadMoreButton'; // Import LoadMoreButton
-import { EpisodeCard } from './EpisodeCard';
+import { GoBackButton } from '../shared/GoBackButton';
+import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { LoadMoreButton } from '../shared/LoadMoreButton'; // Import LoadMoreButton
+import { EpisodeCard } from '../EpisodeCard';
 
 interface CharacterDetailProps {
   id: string;

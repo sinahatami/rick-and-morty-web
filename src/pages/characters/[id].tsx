@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { CharacterDetail } from '~/components/CharacterDetail';
+import { CharacterDetail } from '~/components/character/CharacterDetail';
 
 export default function CharacterDetailPage() {
   const router = useRouter();

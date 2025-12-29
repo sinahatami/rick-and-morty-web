@@ -1,7 +1,7 @@
 import { Location } from '~/types/api';
 import { MapPin, Users, Globe, Earth, ArrowRight } from 'lucide-react';
-import { BaseCard } from './shared/BaseCard';
-import { CardInfoRow } from './shared/CardInfoRow';
+import { BaseCard } from '../shared/BaseCard';
+import { CardInfoRow } from '../shared/CardInfoRow';
 
 interface LocationCardProps {
   location: Location;

@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { MapPin, Globe, Dna } from 'lucide-react';
 import { Character } from '~/types/api';
-import { BaseCard } from './shared/BaseCard';
-import { CardInfoRow } from './shared/CardInfoRow';
+import { BaseCard } from '../shared/BaseCard';
+import { CardInfoRow } from '../shared/CardInfoRow';
 
 interface CharacterCardProps {
   character: Character;

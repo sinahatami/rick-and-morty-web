@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { JSX, useState } from 'react';
 import { Menu, X, Map, Film, UsersRound } from 'lucide-react';
 import Image from 'next/image';
-import icon from '../img/icon.png';
+import icon from '~/public/images/icon.png';
 
 interface NavItem {
   label: string;

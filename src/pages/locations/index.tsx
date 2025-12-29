@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { LocationList } from '~/components/LocationList';
+import { LocationList } from '~/components/location/LocationList';
 
 export default function LocationsPage() {
   return (
