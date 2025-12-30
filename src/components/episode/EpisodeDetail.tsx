@@ -4,9 +4,10 @@ import { Users, Calendar, Tv, MonitorPlay, AlertCircle } from 'lucide-react';
 import { Episode, Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
 
-import { GoBackButton } from './shared/GoBackButton';
-import { LoadingSpinner } from './shared/LoadingSpinner';
-import { CharacterGridSection } from './shared/CharacterGridSection';
+import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { GoBackButton } from '../shared/GoBackButton';
+
+import { CharacterGridSection } from '../shared/CharacterGridSection';
 
 interface EpisodeDetailProps {
   id: string;
