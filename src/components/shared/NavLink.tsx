@@ -1,5 +1,4 @@
 import Link from 'next/link';
-
 import { NavLinkProps } from '~/types';
 
 export function NavLink({ href, label, icon, isActive, onClick, isMobile = false }: NavLinkProps) {
@@ -11,6 +10,7 @@ export function NavLink({ href, label, icon, isActive, onClick, isMobile = false
         className={`
           group flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm
           transition-all duration-200 ease-in-out
+          backdrop-blur-md
           ${
             isActive
               ? 'bg-primary/15 text-primary-dark font-bold'

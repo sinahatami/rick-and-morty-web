@@ -25,15 +25,21 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    // 1. Remove background and blur classes from the main nav tag
+    <nav className="sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+      {/* 2. Add this NEW Background Layer for the Header */}
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-md -z-10" />
+
       <Container>
-        <div className="flex justify-between h-16">
-          {/* LOGO */}
+        <div className="flex justify-between h-16 relative z-10">
+          {' '}
+          {/* Added relative z-10 */}
+          {/* ... Your Logo ... */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Image
                 src={icon}
-                alt="Rick and Morty Logo"
+                alt="Logo"
                 width={42}
                 height={42}
                 className="object-contain"
@@ -41,8 +47,7 @@ const Navigation = () => {
               />
             </Link>
           </div>
-
-          {/* DESKTOP MENU */}
+          {/* ... Desktop Menu ... */}
           <div className="hidden md:flex items-center space-x-2">
             {navItems.map(item => (
               <NavLink
@@ -55,38 +60,53 @@ const Navigation = () => {
               />
             ))}
           </div>
-
-          {/* MOBILE TOGGLE */}
+          {/* ... Mobile Toggle ... */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-[#00B5CC] transition-colors focus:outline-none"
+              className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
-              {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+              <div className="transition-transform duration-300 ease-in-out">
+                {isOpen ? (
+                  <X className="h-7 w-7 animate-in fade-in zoom-in duration-200" />
+                ) : (
+                  <Menu className="h-7 w-7 animate-in fade-in zoom-in duration-200" />
+                )}
+              </div>
             </button>
           </div>
         </div>
       </Container>
 
+      {/* 3. The Mobile Menu (Now outside the header's blur context) */}
       {/* MOBILE MENU */}
-      {isOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-xl z-50 animate-in slide-in-from-top-2 duration-200">
-          <div className="flex flex-col p-4 space-y-2">
-            {navItems.map(item => (
-              <NavLink
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                isActive={isActive(item.href)}
-                onClick={() => setIsOpen(false)}
-                isMobile={true}
-              />
-            ))}
-          </div>
+      <div
+        style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+        className={`
+          md:hidden fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-white/70
+          transition-all duration-300 ease-in-out
+          ${
+            isOpen
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-4 pointer-events-none'
+          }
+        `}
+      >
+        <div className="flex flex-col p-4 space-y-2">
+          {navItems.map(item => (
+            <NavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+              isActive={isActive(item.href)}
+              onClick={() => setIsOpen(false)}
+              isMobile={true}
+            />
+          ))}
         </div>
-      )}
+      </div>
     </nav>
   );
 };
