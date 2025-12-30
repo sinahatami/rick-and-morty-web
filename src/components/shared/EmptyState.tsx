@@ -1,14 +1,8 @@
 import { FilterX } from 'lucide-react';
 import { memo } from 'react';
-import { Button } from './Button';
 
-interface EmptyStateProps {
-  title: string;
-  description: string;
-  onClearFilters: () => void;
-  showClearButton?: boolean;
-  buttonText?: string;
-}
+import { Button } from './Button';
+import { EmptyStateProps } from '~/types';
 
 export const EmptyState = memo(
   ({

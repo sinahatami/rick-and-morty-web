@@ -1,10 +1,4 @@
-import { LucideIcon } from 'lucide-react';
-
-interface CardIconProps {
-  icon: LucideIcon;
-  theme?: 'episode' | 'location' | 'default';
-  className?: string;
-}
+import { CardIconProps } from '~/types';
 
 export function CardIcon({ icon: Icon, theme = 'default', className = '' }: CardIconProps) {
   const themes = {

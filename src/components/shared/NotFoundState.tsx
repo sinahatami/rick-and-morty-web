@@ -1,13 +1,8 @@
 import { useRouter } from 'next/router';
-import { AlertCircle, LucideIcon } from 'lucide-react';
-import { Button } from './Button'; // Import Button
+import { AlertCircle } from 'lucide-react';
 
-interface NotFoundStateProps {
-  title: string;
-  message?: string;
-  backLabel?: string;
-  icon?: LucideIcon;
-}
+import { Button } from './Button';
+import { NotFoundStateProps } from '~/types';
 
 export function NotFoundState({
   title,

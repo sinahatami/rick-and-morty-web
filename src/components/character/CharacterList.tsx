@@ -1,35 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { useCharacters } from '~/hooks/useCharacters';
-
 import { ResourcePageLayout } from '../shared/ResourcePageLayout';
-import { FilterPanel } from '../shared/FilterPanel';
+import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
-import { ActiveFilterTags } from '../shared/ActiveFilterTags';
+import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
 import { SimpleBanner } from '../shared/SimpleBanner';
+import { PageSubtitle } from '../shared/PageSubtitle';
+
+import { useUrlSync } from '~/hooks/useUrlSync';
+import { useCharacters } from '~/hooks/useCharacters';
+import { Character, FilterOptionsCharacter, URLFiltersCharacter } from '~/types';
 
 import banner from '~/public/images/character-banner.jpg';
-import { useUrlSync } from '~/hooks/useUrlSync';
-import { PageSubtitle } from '../shared/PageSubtitle';
-import { Character } from '~/types/api';
 
-interface FilterOptions {
-  species: string[];
-  gender: string[];
-  status: string[];
-  [key: string]: string[];
-}
-
-interface URLFilters {
-  name?: string;
-  status?: string;
-  species?: string;
-  gender?: string;
-  [key: string]: string | undefined;
-}
-
-const extractFilterOptions = (characters: Character[]): FilterOptions => {
+const extractFilterOptions = (characters: Character[]): FilterOptionsCharacter => {
   const speciesSet = new Set<string>();
   const genderSet = new Set<string>();
   const statusSet = new Set<string>();
@@ -47,7 +32,7 @@ const extractFilterOptions = (characters: Character[]): FilterOptions => {
   };
 };
 
-const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => {
+const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFiltersCharacter => {
   return {
     name: searchParams.get('name') || undefined,
     status: searchParams.get('status') || undefined,
@@ -60,7 +45,7 @@ export function CharacterList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
 
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+  const [filterOptions, setFilterOptions] = useState<FilterOptionsCharacter>({
     species: [],
     gender: [],
     status: [],
@@ -74,7 +59,7 @@ export function CharacterList() {
       gender: filters.gender,
     });
 
-  const [initialOptions, setInitialOptions] = useState<FilterOptions | null>(null);
+  const [initialOptions, setInitialOptions] = useState<FilterOptionsCharacter | null>(null);
 
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender

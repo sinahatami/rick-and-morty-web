@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Film } from 'lucide-react';
-import { Episode } from '~/types/api';
-import { apiClient } from '~/lib/api-client';
+
 import { EpisodeCard } from './EpisodeCard';
 import { LoadMoreButton } from '../shared/LoadMoreButton';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
-
-interface EpisodeGridSectionProps {
-  title: string;
-  episodeIds: string[];
-  icon?: any;
-}
+import { Episode } from '~/types/api/episode';
+import { EpisodeGridSectionProps } from '~/types/episode/episode-grid-section';
+import { apiClient } from '~/lib/api-client';
 
 const EPISODES_PER_BATCH = 9;
 

@@ -1,10 +1,4 @@
-import { LucideIcon } from 'lucide-react';
-
-interface AttributeRowProps {
-  label: string;
-  value: string;
-  icon: LucideIcon;
-}
+import { AttributeRowProps } from '~/types';
 
 export function AttributeRow({ label, value, icon: Icon }: AttributeRowProps) {
   if (!value) return null;

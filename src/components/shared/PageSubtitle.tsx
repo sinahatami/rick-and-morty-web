@@ -1,10 +1,4 @@
-interface PageSubtitleProps {
-  prefix: string;
-  highlight: string | number;
-  suffix: string;
-  colorClass?: string;
-  decorationClass?: string;
-}
+import { PageSubtitleProps } from '~/types';
 
 export function PageSubtitle({
   prefix,

@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
+
 import Navigation from './Navigation';
 import { Footer } from './Footer';
 import { ScrollToTop } from './shared/ScrollToTop';
 import { GlobalLoading } from './shared/GlobalLoading';
 
-interface LayoutProps {
+export interface LayoutProps {
   children: ReactNode;
 }
 

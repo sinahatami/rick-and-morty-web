@@ -1,4 +1,4 @@
-import { PaginatedResponse, Character, Location, Episode, ApiResponse } from '~/types/api';
+import { Character, Episode, PaginatedResponse, ApiResponse } from '~/types';
 
 class ApiError extends Error {
   constructor(
@@ -10,7 +10,6 @@ class ApiError extends Error {
     this.name = 'ApiError';
   }
 }
-
 class ApiClient {
   private baseUrl = 'https://rickandmortyapi.com/api';
 

@@ -1,47 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Location } from '~/types/api';
-import { useLocations } from '~/hooks/useLocations';
-import { useUrlSync } from '~/hooks/useUrlSync';
 
 import { ResourcePageLayout } from '../shared/ResourcePageLayout';
-import { FilterPanel } from '../shared/FilterPanel';
+import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
-import { ActiveFilterTags } from '../shared/ActiveFilterTags';
+import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { LocationCard } from './LocationCard';
-import banner from '~/public/images/location-banner.jpg';
 import { PageSubtitle } from '../shared/PageSubtitle';
+import { useLocations } from '~/hooks/useLocations';
+import { useUrlSync } from '~/hooks/useUrlSync';
+import { LocationFilterOptions, LocationFilters } from '~/types';
+import { extractLocationOptions } from '../../utils/location-utils';
 
-interface FilterOptions {
-  type: string[];
-  dimension: string[];
-  [key: string]: string[];
-}
-
-interface URLFilters {
-  name?: string;
-  type?: string;
-  dimension?: string;
-  [key: string]: string | undefined;
-}
+import banner from '~/public/images/location-banner.jpg';
 
 // --- Utilities ---
-const extractFilterOptions = (locations: Location[]): FilterOptions => {
-  const typeSet = new Set<string>();
-  const dimensionSet = new Set<string>();
-
-  locations.forEach(location => {
-    if (location.type) typeSet.add(location.type);
-    if (location.dimension) dimensionSet.add(location.dimension);
-  });
-
-  return {
-    type: Array.from(typeSet).sort(),
-    dimension: Array.from(dimensionSet).sort(),
-  };
-};
-
-const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => {
+const getInitialFiltersFromUrl = (searchParams: URLSearchParams): LocationFilters => {
   return {
     name: searchParams.get('name') || undefined,
     type: searchParams.get('type') || undefined,
@@ -51,13 +25,13 @@ const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => 
 
 // --- Main Component ---
 export function LocationList() {
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+  const [filterOptions, setFilterOptions] = useState<LocationFilterOptions>({
     type: [],
     dimension: [],
   });
 
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
-    useUrlSync(getInitialFiltersFromUrl);
+    useUrlSync<LocationFilters>(getInitialFiltersFromUrl);
 
   const { locations, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
     useLocations({
@@ -66,13 +40,15 @@ export function LocationList() {
       dimension: filters.dimension,
     });
 
-  const [initialOptions, setInitialOptions] = useState<FilterOptions | null>(null);
+  const [initialOptions, setInitialOptions] = useState<LocationFilterOptions | null>(null);
 
   const hasActiveFilters = Boolean(searchQuery.trim() || filters.type || filters.dimension);
 
   useEffect(() => {
     if (locations.length > 0) {
-      const newOptions = extractFilterOptions(locations);
+      // 2. Use the extracted utility function
+      const newOptions = extractLocationOptions(locations);
+
       if (!hasActiveFilters && !initialOptions) {
         setInitialOptions(newOptions);
       }
@@ -114,17 +90,18 @@ export function LocationList() {
           </div>
 
           <div className="w-full md:w-auto">
+            {/* 3. Cast types to match FilterPanel requirements */}
             <FilterPanel
-              filters={filters}
-              filterOptions={displayOptions}
-              onFilterChange={newFilters => setFilters(newFilters)}
+              filters={filters as Record<string, string | undefined>}
+              filterOptions={displayOptions as unknown as Record<string, string[]>}
+              onFilterChange={newFilters => setFilters(newFilters as LocationFilters)}
             />
           </div>
         </div>
       }
       activeFilters={
         <ActiveFilterTags
-          filters={filters}
+          filters={filters as Record<string, string | undefined>}
           searchQuery={searchQuery}
           onRemove={key => {
             if (key === 'name') {

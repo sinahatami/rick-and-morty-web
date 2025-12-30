@@ -1,0 +1,1 @@
+export type Theme = 'character' | 'episode' | 'location'

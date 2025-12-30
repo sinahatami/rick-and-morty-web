@@ -1,28 +1,9 @@
 import { useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { useDebounce } from './useDebounce';
 import { apiClient } from '~/lib/api-client';
-import { Character } from '~/types/api';
-
-interface CharacterFilters {
-  name?: string;
-  status?: string;
-  species?: string;
-  gender?: string;
-}
-
-interface useCharactersReturn {
-  characters: Character[];
-  totalCount: number;
-  totalPages: number;
-  isLoading: boolean;
-  isError: boolean;
-  error: Error | null;
-  fetchNextPage: () => void;
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  refetch: () => void;
-}
+import { CharacterFilters, useCharactersReturn } from '~/types';
 
 export function useCharacters(
   filters: CharacterFilters = {}
@@ -62,6 +43,11 @@ export function useCharacters(
       }
     },
     initialPageParam: 1,
+    retry: (failureCount, error: any) => {
+      // If API says 404 (Not Found), don't retry. It just means empty list.
+      if (error?.status === 404 || error?.status === 0) return false;
+      return failureCount < 2;
+    },
   });
 
   const characters = useMemo(() => {

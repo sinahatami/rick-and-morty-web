@@ -1,28 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { apiClient } from '~/lib/api-client';
-import { Location, PaginatedResponse } from '~/types/api';
-import { useDebounce } from './useDebounce';
 import { useMemo } from 'react';
 
-interface LocationFilters {
-  name?: string;
-  type?: string;
-  dimension?: string;
-}
-
-interface UseLocationsReturn {
-  locations: Location[];
-  totalCount: number;
-  totalPages: number;
-  isLoading: boolean;
-  isError: boolean;
-  error: Error | null;
-  fetchNextPage: () => void;
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  refetch: () => void;
-  isRefetching: boolean;
-}
+import { apiClient } from '~/lib/api-client';
+import { useDebounce } from './useDebounce';
+import { Location, LocationFilters, PaginatedResponse, UseLocationsReturn } from '~/types';
 
 export function useLocations(filters: LocationFilters = {}): UseLocationsReturn {
   const debouncedName = useDebounce(filters.name, 300);
@@ -45,8 +26,8 @@ export function useLocations(filters: LocationFilters = {}): UseLocationsReturn 
         }
       });
 
-      console.debug('[useLocations] Fetching with params:', params);
-      return apiClient.locations.getAll(params);
+      // 2. Add this "as" assertion to force the correct type
+      return (apiClient.locations.getAll(params) as unknown) as Promise<PaginatedResponse<Location>>;
     },
     getNextPageParam: (lastPage: PaginatedResponse<Location>) => {
       if (!lastPage.info.next) return undefined;
@@ -56,7 +37,6 @@ export function useLocations(filters: LocationFilters = {}): UseLocationsReturn 
         const pageParam = url.searchParams.get('page');
         return pageParam ? Number(pageParam) : undefined;
       } catch (error) {
-        console.error('[useLocations] Error parsing next page URL:', error);
         return undefined;
       }
     },

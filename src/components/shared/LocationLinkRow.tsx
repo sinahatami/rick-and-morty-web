@@ -1,12 +1,7 @@
 import { useRouter } from 'next/router';
-import { ArrowRight, LucideIcon } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-interface LocationLinkRowProps {
-  label: string;
-  name: string;
-  url: string;
-  icon: LucideIcon;
-}
+import { LocationLinkRowProps } from '~/types';
 
 export function LocationLinkRow({ label, name, url, icon: Icon }: LocationLinkRowProps) {
   const router = useRouter();

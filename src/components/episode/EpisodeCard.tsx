@@ -1,12 +1,13 @@
-import { Episode } from '~/types/api';
 import { Calendar, Hash, MonitorPlay } from 'lucide-react';
-import { BaseCard } from '../shared/BaseCard';
-import { CardInfoRow } from '../shared/CardInfoRow';
-import { CardIcon } from '../shared/CardIcon';
+
+import { BaseCard } from '../shared/card/BaseCard';
+import { CardInfoRow } from '../shared/card/CardInfoRow';
+import { CardIcon } from '../shared/card/CardIcon';
 import { Badge } from '../shared/Badge';
 import { formatDate, parseEpisodeCode } from '~/utils/formatters';
+import { Episode } from '~/types';
 
-interface EpisodeCardProps {
+export interface EpisodeCardProps {
   episode: Episode;
 }
 

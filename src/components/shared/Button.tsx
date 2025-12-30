@@ -1,17 +1,10 @@
-import { ReactNode } from 'react';
-import { Loader2, LucideIcon } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  isLoading?: boolean;
-  icon?: LucideIcon;
-  className?: string;
-}
+import { ButtonProps } from '~/types';
 
 export function Button({
   children,
-  variant = 'primary',
+  variant = 'primary' as any,
   isLoading = false,
   icon: Icon,
   className = '',
@@ -20,7 +13,6 @@ export function Button({
 }: ButtonProps) {
   const baseStyles =
     'relative inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none disabled:scale-100';
-
   const variants = {
     primary:
       'bg-[#00B5CC] text-white hover:bg-[#0091A3] shadow-lg shadow-[#00B5CC]/20 hover:shadow-[#00B5CC]/40',
@@ -30,10 +22,12 @@ export function Button({
     ghost: 'bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100',
   };
 
+  const variantClass = variants[variant as keyof typeof variants] ?? variants.primary;
+
   return (
     <button
       disabled={isLoading || disabled}
-      className={`${baseStyles} ${variants[variant]} ${className}`}
+      className={`${baseStyles} ${variantClass} ${className}`}
       {...props}
     >
       {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}

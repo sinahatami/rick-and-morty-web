@@ -1,15 +1,11 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { MapPin, Globe, Dna } from 'lucide-react';
-import { Character } from '~/types/api';
-import { BaseCard } from '../shared/BaseCard';
-import { CardInfoRow } from '../shared/CardInfoRow';
-import { StatusBadge } from '../shared/StatusBadge';
 
-interface CharacterCardProps {
-  character: Character;
-  onClick?: () => void;
-}
+import { BaseCard } from '../shared/card/BaseCard';
+import { CardInfoRow } from '../shared/card/CardInfoRow';
+import { StatusBadge } from '../shared/StatusBadge';
+import { CharacterCardProps } from '~/types';
 
 export function CharacterCard({ character }: CharacterCardProps) {
   const router = useRouter();

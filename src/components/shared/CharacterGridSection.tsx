@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Users } from 'lucide-react';
-import { Character } from '~/types/api';
-import { apiClient } from '~/lib/api-client';
 
 import { CharacterCard } from '../character/CharacterCard';
 import { LoadMoreButton } from './LoadMoreButton';
@@ -9,14 +7,8 @@ import { LoadingSpinner } from './LoadingSpinner';
 import { SectionHeader } from './SectionHeader';
 import { Grid } from './Grid';
 import { EmptyState } from './EmptyState';
-
-interface CharacterGridSectionProps {
-  title: string;
-  characterIds: number[];
-  icon?: any;
-  emptyTitle?: string;
-  emptyMessage?: string;
-}
+import { apiClient } from '~/lib/api-client';
+import { Character, CharacterGridSectionProps } from '~/types';
 
 const PER_PAGE = 12;
 

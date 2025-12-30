@@ -1,12 +1,5 @@
 import Link from 'next/link';
-import { ReactNode } from 'react';
-
-interface BaseCardProps {
-  children: ReactNode;
-  href: string;
-  theme?: 'character' | 'episode' | 'location';
-  className?: string;
-}
+import { BaseCardProps } from '~/types';
 
 export function BaseCard({ children, href, theme = 'character', className = '' }: BaseCardProps) {
   const themeStyles = {

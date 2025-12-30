@@ -1,12 +1,5 @@
-import { LucideIcon } from 'lucide-react';
-
-interface CardInfoRowProps {
-  icon: LucideIcon;
-  label: string;
-  value: string | number;
-  className?: string;
-  onClick?: () => void;
-}
+import type { MouseEvent } from 'react';
+import { CardInfoRowProps } from '~/types';
 
 export function CardInfoRow({
   icon: Icon,
@@ -17,7 +10,7 @@ export function CardInfoRow({
 }: CardInfoRowProps) {
   return (
     <div
-      onClick={e => {
+      onClick={(e: MouseEvent<HTMLDivElement>) => {
         if (onClick) {
           e.preventDefault(); // Prevent default link behavior
           e.stopPropagation(); // Stop bubbling to the parent Card link

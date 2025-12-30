@@ -1,7 +1,9 @@
-import { Location } from '~/types/api';
 import { MapPin, Users, Globe, Earth } from 'lucide-react';
-import { BaseCard } from '../shared/BaseCard';
-import { CardInfoRow } from '../shared/CardInfoRow';
+
+import { BaseCard } from '../shared/card/BaseCard';
+import { CardInfoRow } from '../shared/card/CardInfoRow';
+import { Badge } from '../shared/Badge';
+import { Location } from '~/types';
 
 interface LocationCardProps {
   location: Location;
@@ -29,13 +31,13 @@ export function LocationCard({ location }: LocationCardProps) {
             <Earth className="h-7 w-7 text-[#0091A3] group-hover:text-[#00B5CC] group-hover:scale-110 transition-transform duration-300" />
           </div>
 
-          {/* Type Badge */}
-          <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-lg group-hover:border-[#00B5CC]/30 transition-colors">
-            <MapPin className="h-3 w-3 text-gray-400 group-hover:text-[#00B5CC]" />
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest group-hover:text-[#00B5CC] transition-colors">
-              Sector {location.id}
-            </span>
-          </div>
+          {/* Badge Component*/}
+          <Badge
+            icon={MapPin}
+            label={`Sector ${location.id}`}
+            // We apply group-hover classes here to match the specific blue theme interaction
+            className="group-hover:border-[#00B5CC]/30 group-hover:text-[#00B5CC]"
+          />
         </div>
 
         {/* Title */}

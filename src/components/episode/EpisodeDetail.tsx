@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Users, Calendar, Tv, MonitorPlay, AlertCircle } from 'lucide-react';
-import { Episode } from '~/types/api';
-import { apiClient } from '~/lib/api-client';
+import { Users, Calendar, Tv, MonitorPlay } from 'lucide-react';
 
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { GoBackButton } from '../shared/GoBackButton';
-import { StatCard } from '../shared/StatCard';
+import { StatCard } from '../shared/card/StatCard';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
-import { DetailCard } from '../shared/DetailCard';
+import { DetailCard } from '../shared/card/DetailCard';
 import { NotFoundState } from '../shared/NotFoundState';
+import { Episode } from '~/types/api/episode';
+import { apiClient } from '~/lib/api-client';
 
-interface EpisodeDetailProps {
+export interface EpisodeDetailProps {
   id: string;
 }
 
 export function EpisodeDetail({ id }: EpisodeDetailProps) {
-  const router = useRouter();
-
   // --- Data States ---
   const [episode, setEpisode] = useState<Episode | null>(null);
   const [loading, setLoading] = useState(true);
@@ -133,14 +130,14 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
               icon={Calendar}
               label="Air Date"
               value={formatDate(episode.air_date)}
-              colorClass="text-[#FF9800]"
+              theme="episode"
             />
 
             <StatCard
               icon={Users}
               label="Total Cast"
               value={`${characterIds.length} Characters`}
-              colorClass="text-[#00B5CC]"
+              theme="episode"
             />
           </div>
         </DetailCard>

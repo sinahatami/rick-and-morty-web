@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-interface StatusBadgeProps {
+export interface StatusBadgeProps {
   status: string;
 }
 

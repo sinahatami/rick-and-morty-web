@@ -1,12 +1,6 @@
 import { X } from 'lucide-react';
 
-interface ActiveFilterTagsProps {
-  filters: Record<string, string | undefined>;
-  onRemove: (key: string) => void;
-  onClearAll: () => void;
-  searchQuery?: string;
-  onClearSearch?: () => void;
-}
+import { ActiveFilterTagsProps } from '~/types';
 
 export function ActiveFilterTags({
   filters,

@@ -1,6 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
+import { Button } from './Button';
+
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
@@ -31,21 +33,26 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-[400px] p-6 text-center">
-          <div className="p-4 bg-red-50 rounded-full mb-4">
-            <AlertTriangle className="h-12 w-12 text-red-500" />
+        <div className="flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-in fade-in zoom-in-95 duration-300">
+          {/* Icon Circle */}
+          <div className="p-4 rounded-full mb-6 bg-red-50 dark:bg-red-900/20">
+            <AlertTriangle className="h-12 w-12 text-red-500 dark:text-red-400" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
-          <p className="text-gray-600 mb-6 max-w-md">
-            {this.state.error?.message || 'An unexpected error occurred'}
+
+          {/* Title */}
+          <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">
+            Portal Gun Malfunction
+          </h2>
+
+          {/* Error Message */}
+          <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-md text-lg leading-relaxed">
+            {this.state.error?.message || 'An unexpected dimensional rift occurred.'}
           </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 transition-colors cursor-pointer"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Reload Page
-          </button>
+
+          {/* Action Button using your Shared Component */}
+          <Button onClick={() => window.location.reload()} icon={RefreshCw} variant="primary">
+            Reload Dimension
+          </Button>
         </div>
       );
     }

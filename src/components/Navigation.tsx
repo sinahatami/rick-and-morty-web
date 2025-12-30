@@ -3,15 +3,11 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Menu, X, Map, Film, UsersRound } from 'lucide-react';
 import Image from 'next/image';
-import icon from '~/public/images/icon.png';
+
 import { NavLink } from './shared/NavLink';
 import { Container } from './shared/Container';
-
-interface NavItem {
-  label: string;
-  href: string;
-  icon: any;
-}
+import icon from '~/public/images/icon.png';
+import { NavItem } from '~/types/nav-item';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);

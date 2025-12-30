@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { LoadingSpinner } from './LoadingSpinner';
 import { PageHeader } from './PageHeader';
 import { LoadMoreButton } from './LoadMoreButton';
@@ -6,28 +5,11 @@ import { EmptyState } from './EmptyState';
 import { Grid } from './Grid';
 import { Container } from './Container';
 
-interface ResourcePageLayoutProps<T> {
-  items: T[];
-  isLoading: boolean;
-  totalCount: number;
-  title: string;
-  subtitle?: ReactNode;
-  headerExtra?: ReactNode;
-  controls: ReactNode;
-  activeFilters?: ReactNode;
-  onClearFilters: () => void;
-  onLoadMore: () => void;
-  hasNextPage?: boolean;
-  isFetchingNextPage?: boolean;
-  renderItem: (item: T) => ReactNode;
-  emptyTitle?: string;
-  emptyDescription?: string;
-}
+import { ResourcePageLayoutProps } from '~/types';
 
 export function ResourcePageLayout<T extends { id: string | number }>({
   items,
   isLoading,
-  totalCount,
   title,
   subtitle,
   headerExtra,

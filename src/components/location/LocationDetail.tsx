@@ -1,23 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { Users, MapPin, Globe, Calendar, Zap } from 'lucide-react';
-import { Location } from '~/types/api';
-import { apiClient } from '~/lib/api-client';
 
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { GoBackButton } from '../shared/GoBackButton';
-import { StatCard } from '../shared/StatCard';
-import { DetailCard } from '../shared/DetailCard';
+import { StatCard } from '../shared/card/StatCard';
+import { DetailCard } from '../shared/card/DetailCard';
 import { NotFoundState } from '../shared/NotFoundState';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
-
-interface LocationDetailProps {
-  id: string;
-}
+import { apiClient } from '~/lib/api-client';
+import { Location, LocationDetailProps } from '~/types';
 
 export function LocationDetail({ id }: LocationDetailProps) {
-  const router = useRouter();
-
   // --- Data States ---
   const [location, setLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +25,7 @@ export function LocationDetail({ id }: LocationDetailProps) {
         const locationData = await apiClient.locations.getById(id);
 
         if (isMounted) {
-          setLocation(locationData);
+          setLocation(locationData as unknown as Location);
         }
       } catch (err) {
         console.error('Error loading location:', err);
@@ -129,21 +122,21 @@ export function LocationDetail({ id }: LocationDetailProps) {
               icon={Globe}
               label="Dimension"
               value={location.dimension === 'unknown' ? 'Unknown' : location.dimension}
-              colorClass="text-[#00B5CC]"
+              theme="location"
             />
 
             <StatCard
               icon={MapPin}
               label="Classification"
               value={location.type || 'Unclassified'}
-              colorClass="text-[#B8E986]"
+              theme="location"
             />
 
             <StatCard
               icon={Zap}
               label="Population"
               value={`${residentIds.length} Entities`}
-              colorClass="text-purple-500"
+              theme="location"
             />
           </div>
         </DetailCard>

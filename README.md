@@ -2,6 +2,9 @@
 
 > An interdimensional database for exploring characters, locations, and episodes from the Rick and Morty universe. Built with performance, scalability, and clean architecture in mind.
 
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://YOUR_DEPLOY_LINK_HERE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)**🔗 Live Demo:** [https://](https://)
+
 ![Homepage](public/images/screenshot.png)
 
 ## 🚀 Features

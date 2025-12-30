@@ -1,10 +1,7 @@
-import { Button } from './Button';
+import { ChevronDown } from 'lucide-react';
 
-interface LoadMoreButtonProps {
-  onClick: () => void;
-  disabled: boolean;
-  isFetchingNextPage: boolean;
-}
+import { LoadMoreButtonProps } from '~/types';
+import { Button } from './Button';
 
 export function LoadMoreButton({ onClick, disabled, isFetchingNextPage }: LoadMoreButtonProps) {
   return (
@@ -14,9 +11,16 @@ export function LoadMoreButton({ onClick, disabled, isFetchingNextPage }: LoadMo
         disabled={disabled}
         isLoading={isFetchingNextPage}
         variant="outline"
-        className="rounded-full tracking-widest uppercase text-xs min-w-[200px]"
+        className="group rounded-full tracking-widest uppercase text-xs min-w-[200px]"
       >
-        {isFetchingNextPage ? 'Scanning...' : 'Load More Results'}
+        {isFetchingNextPage ? (
+          'Scanning...'
+        ) : (
+          <span className="flex items-center gap-2">
+            Load More Results
+            <ChevronDown className="w-4 h-4 transition-transform duration-500 group-hover:translate-y-1" />
+          </span>
+        )}
       </Button>
     </div>
   );

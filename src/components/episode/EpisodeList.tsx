@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
-import { useUrlSync } from '~/hooks/useUrlSync';
-import { useEpisodes } from '~/hooks/useEpisodes';
 
 import { EpisodeCard } from './EpisodeCard';
 import { ResourcePageLayout } from '../shared/ResourcePageLayout';
 import { SearchBar } from '../shared/SearchBar';
-import { ActiveFilterTags } from '../shared/ActiveFilterTags';
+import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import banner from '~/public/images/episode-banner.jpg';
 import { PageSubtitle } from '../shared/PageSubtitle';
+import { useUrlSync } from '~/hooks/useUrlSync';
+import { useEpisodes } from '~/hooks/useEpisodes';
 
 // --- Utilities ---
 const getInitialFilters = (params: URLSearchParams) => ({

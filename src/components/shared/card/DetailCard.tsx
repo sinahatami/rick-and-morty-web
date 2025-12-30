@@ -1,15 +1,10 @@
-import { ReactNode } from 'react';
+import { DetailCardProps } from '~/types';
 
-interface DetailCardProps {
-  children: ReactNode;
-  theme?: 'episode' | 'location' | 'default';
-  className?: string;
-}
-
-export function DetailCard({ children, theme = 'default', className = '' }: DetailCardProps) {
+export function DetailCard({ children, theme = 'character', className = '' }: DetailCardProps) {
   const gradients = {
     episode: 'from-orange-400 via-amber-300 to-yellow-400',
     location: 'from-[#B8E986] via-[#00B5CC] to-[#B8E986]',
+    character: 'from-indigo-400 via-purple-400 to-pink-400',
     default: 'from-gray-200 via-gray-300 to-gray-200',
   };
 

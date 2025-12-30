@@ -1,12 +1,4 @@
-import { ReactNode } from 'react';
-import { LucideIcon } from 'lucide-react';
-
-interface BadgeProps {
-  label: ReactNode;
-  icon?: LucideIcon;
-  variant?: 'default' | 'outline' | 'accent';
-  className?: string;
-}
+import { BadgeProps } from '~/types';
 
 export function Badge({ label, icon: Icon, variant = 'default', className = '' }: BadgeProps) {
   const styles = {
@@ -21,7 +13,7 @@ export function Badge({ label, icon: Icon, variant = 'default', className = '' }
       inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border
       text-[11px] font-black uppercase tracking-widest
       transition-colors duration-200
-      ${styles[variant]}
+      ${styles[variant as keyof typeof styles]}
       ${className}
     `}
     >

@@ -1,10 +1,4 @@
-import { ReactNode } from 'react';
-
-interface PageHeaderProps {
-  title: string;
-  subtitle?: ReactNode;
-  visibleCount?: number;
-}
+import { PageHeaderProps } from '~/types';
 
 export function PageHeader({ title, subtitle, visibleCount }: PageHeaderProps) {
   return (

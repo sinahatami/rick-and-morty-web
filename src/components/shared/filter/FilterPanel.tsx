@@ -1,12 +1,8 @@
-import { ChevronDown, X, ListFilter } from 'lucide-react';
+import { X, ListFilter } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
-interface FilterPanelProps {
-  filters: Record<string, string | undefined>;
-  filterOptions: Record<string, string[]>;
-  onFilterChange: (filters: Record<string, string | undefined>) => void;
-  onClose?: () => void;
-}
+import { FilterPanelProps } from '~/types';
+import { FilterSelect } from './FilterSelect';
 
 export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }: FilterPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -110,36 +106,13 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
 
             <div className="space-y-5">
               {Object.keys(filterOptions).map(key => (
-                <div key={key} className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </label>
-                  <div className="relative group">
-                    <select
-                      value={localFilters[key] || ''}
-                      onChange={e => handleSelectChange(key, e.target.value)}
-                      className="
-                        w-full h-12 pl-4 pr-10
-                        bg-gray-50 border border-gray-200 rounded-xl
-                        text-sm font-bold text-gray-700 
-                        appearance-none cursor-pointer transition-all
-                        hover:bg-white hover:border-[#00B5CC]/50
-                        focus:bg-white focus:ring-4 focus:ring-[#00B5CC]/10 focus:border-[#00B5CC]
-                        outline-none
-                      "
-                    >
-                      <option value="">All {key}s</option>
-                      {filterOptions[key].map(opt => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-[#00B5CC] transition-colors">
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
-                  </div>
-                </div>
+                <FilterSelect
+                  key={key}
+                  label={key.charAt(0).toUpperCase() + key.slice(1)}
+                  value={localFilters[key] || ''}
+                  options={filterOptions[key]}
+                  onChange={val => handleSelectChange(key, val)}
+                />
               ))}
             </div>
 

@@ -1,14 +1,6 @@
 import Link from 'next/link';
-import { ReactNode } from 'react';
 
-interface NavLinkProps {
-  href: string;
-  label: string;
-  icon?: ReactNode;
-  isActive: boolean;
-  onClick?: () => void;
-  isMobile?: boolean;
-}
+import { NavLinkProps } from '~/types';
 
 export function NavLink({ href, label, icon, isActive, onClick, isMobile = false }: NavLinkProps) {
   // Desktop Styles

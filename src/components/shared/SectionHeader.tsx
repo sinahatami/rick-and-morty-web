@@ -1,11 +1,4 @@
-import { LucideIcon } from 'lucide-react';
-
-interface SectionHeaderProps {
-  title: string;
-  icon?: LucideIcon;
-  count?: number;
-  colorClass?: string;
-}
+import { SectionHeaderProps } from '~/types';
 
 export function SectionHeader({
   title,

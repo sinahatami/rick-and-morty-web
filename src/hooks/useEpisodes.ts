@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { apiClient } from '~/lib/api-client';
-import { Episode } from '~/types/api';
+import { Episode } from '~/types';
 
 interface UseEpisodesParams {
   name?: string;
@@ -53,6 +53,6 @@ export function useEpisodes({ name, episode }: UseEpisodesParams) {
     totalCount,
     isError: !!error,
     error,
-    refetch: () => { }
+    refetch
   };
 }
