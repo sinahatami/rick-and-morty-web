@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { EpisodeList } from '~/components/EpisodeList'; // Uncomment this
+
+import { EpisodeList } from '~/components/episode/EpisodeList';
 
 export default function EpisodesPage() {
   return (
@@ -8,7 +9,7 @@ export default function EpisodesPage() {
         <title>Episodes | Rick and Morty</title>
         <meta name="description" content="Browse all episodes from the Rick and Morty series" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/icon.png" />
       </Head>
       <EpisodeList />
     </>

@@ -16,7 +16,7 @@ const Navigation = () => {
   const router = useRouter();
 
   const navItems: NavItem[] = [
-    { label: 'Characters', href: '/', icon: <UsersRound className="h-5 w-5" /> }, // Increased icon size slightly for mobile
+    { label: 'Characters', href: '/', icon: <UsersRound className="h-5 w-5" /> },
     { label: 'Locations', href: '/locations', icon: <Map className="h-5 w-5" /> },
     { label: 'Episodes', href: '/episodes', icon: <Film className="h-5 w-5" /> },
   ];

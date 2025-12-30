@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { LocationDetail } from '~/components/LocationDetail';
+
+import { LocationDetail } from '~/components/location/LocationDetail';
 
 export default function LocationDetailPage() {
   const router = useRouter();

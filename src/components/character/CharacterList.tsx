@@ -10,7 +10,7 @@ import { ActiveFilterTags } from '../shared/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
 import { SimpleBanner } from '../shared/SimpleBanner';
 
-import banner from '~/public/images/banner.png';
+import banner from '~/public/images/character-banner.jpg';
 import { useUrlSync } from '~/hooks/useUrlSync';
 
 // --- Types ---

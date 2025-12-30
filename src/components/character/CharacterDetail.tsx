@@ -17,8 +17,8 @@ import { Character, Episode } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
 import { GoBackButton } from '../shared/GoBackButton';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
-import { LoadMoreButton } from '../shared/LoadMoreButton'; // Import LoadMoreButton
-import { EpisodeCard } from '../EpisodeCard';
+import { LoadMoreButton } from '../shared/LoadMoreButton';
+import { EpisodeCard } from '../episode/EpisodeCard';
 
 interface CharacterDetailProps {
   id: string;

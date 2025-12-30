@@ -3,10 +3,9 @@ import { useRouter } from 'next/router';
 import { Users, MapPin, Globe, Calendar, Zap, AlertCircle } from 'lucide-react';
 import { Location, Character } from '~/types/api';
 import { apiClient } from '~/lib/api-client';
-
-import { GoBackButton } from './shared/GoBackButton';
-import { LoadingSpinner } from './shared/LoadingSpinner';
-import { CharacterGridSection } from './shared/CharacterGridSection';
+import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { GoBackButton } from '../shared/GoBackButton';
+import { CharacterGridSection } from '../shared/CharacterGridSection';
 
 interface LocationDetailProps {
   id: string;

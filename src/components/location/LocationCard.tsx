@@ -1,5 +1,5 @@
 import { Location } from '~/types/api';
-import { MapPin, Users, Globe, Earth, ArrowRight } from 'lucide-react';
+import { MapPin, Users, Globe, Earth } from 'lucide-react';
 import { BaseCard } from '../shared/BaseCard';
 import { CardInfoRow } from '../shared/CardInfoRow';
 
@@ -67,10 +67,6 @@ export function LocationCard({ location }: LocationCardProps) {
         <div className="space-y-3">
           <CardInfoRow icon={MapPin} label="Classification" value={location.type || 'Unknown'} />
           <CardInfoRow icon={Users} label="Population" value={residentsText} />
-        </div>
-
-        <div className="mt-auto pt-4 flex items-center gap-2 text-[#00B5CC] text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-          Scan Sector <ArrowRight className="h-3 w-3" />
         </div>
       </div>
     </BaseCard>

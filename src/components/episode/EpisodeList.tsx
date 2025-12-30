@@ -4,12 +4,14 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { apiClient } from '~/lib/api-client';
 import { useUrlSync } from '~/hooks/useUrlSync';
 
-import { LoadingSpinner } from './shared/LoadingSpinner';
-import { SearchBar } from './shared/SearchBar';
-import { ActiveFilterTags } from './shared/ActiveFilterTags';
-
 import { EpisodeCard } from './EpisodeCard';
-import { ResourcePageLayout } from './shared/ResourcePageLayout';
+import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { ResourcePageLayout } from '../shared/ResourcePageLayout';
+import { SearchBar } from '../shared/SearchBar';
+import { ActiveFilterTags } from '../shared/ActiveFilterTags';
+import { SimpleBanner } from '../shared/SimpleBanner';
+
+import banner from '~/public/images/episode-banner.jpg';
 
 // --- Utilities ---
 
@@ -65,6 +67,7 @@ export function EpisodeList() {
       isLoading={isLoading}
       totalCount={totalCount}
       title="Episodes"
+      headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <p className="text-gray-400 font-medium text-lg">
           Exploring{' '}

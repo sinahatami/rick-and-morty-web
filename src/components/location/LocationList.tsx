@@ -9,7 +9,7 @@ import { SearchBar } from '../shared/SearchBar';
 import { ActiveFilterTags } from '../shared/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { LocationCard } from './LocationCard';
-import banner from '~/public/images/location-banner2.png';
+import banner from '~/public/images/location-banner.jpg';
 
 // --- Types ---
 interface FilterOptions {
