@@ -9,7 +9,6 @@ interface LocationCardProps {
 
 export function LocationCard({ location }: LocationCardProps) {
   const residentsCount = location.residents.length;
-
   const residentsText =
     residentsCount === 0
       ? 'Uninhabited'
@@ -18,26 +17,22 @@ export function LocationCard({ location }: LocationCardProps) {
         : `${residentsCount} Lifeforms`;
 
   return (
-    <BaseCard
-      href={`/locations/${location.id}`}
-      theme="location"
-      className="group relative overflow-hidden bg-white hover:border-[#B8E986]/50 transition-all duration-300 shadow-sm hover:shadow-[0_8px_30px_rgba(184,233,134,0.3)] flex flex-col"
-    >
-      {/* Decorative Top Border (Portal Gradient) */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#B8E986] via-[#00B5CC] to-[#B8E986] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <BaseCard href={`/locations/${location.id}`} theme="location" className="group flex flex-col">
+      {/* Decorative Top Gradient (Blue) */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00B5CC] via-[#33C3D6] to-[#00B5CC] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       {/* Header */}
       <div className="p-6 pb-4 relative">
         <div className="flex items-start justify-between mb-4">
-          {/* Main Icon */}
-          <div className="p-3 bg-[#B8E986]/10 rounded-2xl group-hover:bg-[#B8E986]/20 transition-colors border border-[#B8E986]/10">
-            <Earth className="h-7 w-7 text-[#86a860] group-hover:text-[#6a8a45] group-hover:scale-110 transition-transform duration-300" />
+          {/* Main Icon (Blue) */}
+          <div className="p-3 bg-[#00B5CC]/10 rounded-2xl group-hover:bg-[#00B5CC]/20 transition-colors border border-[#00B5CC]/10">
+            <Earth className="h-7 w-7 text-[#0091A3] group-hover:text-[#00B5CC] group-hover:scale-110 transition-transform duration-300" />
           </div>
 
           {/* Type Badge */}
-          <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-lg group-hover:border-[#B8E986]/30 transition-colors">
-            <MapPin className="h-3 w-3 text-gray-400 group-hover:text-[#B8E986]" />
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest group-hover:text-[#B8E986] transition-colors">
+          <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-lg group-hover:border-[#00B5CC]/30 transition-colors">
+            <MapPin className="h-3 w-3 text-gray-400 group-hover:text-[#00B5CC]" />
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest group-hover:text-[#00B5CC] transition-colors">
               Sector {location.id}
             </span>
           </div>
@@ -59,7 +54,7 @@ export function LocationCard({ location }: LocationCardProps) {
 
       {/* Divider */}
       <div className="px-6">
-        <div className="h-px bg-gray-100 w-full group-hover:bg-[#B8E986]/30 transition-colors" />
+        <div className="h-px bg-gray-100 w-full group-hover:bg-[#00B5CC]/30 transition-colors" />
       </div>
 
       {/* Details Footer */}

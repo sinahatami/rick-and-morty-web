@@ -61,7 +61,6 @@ export function useLocations(filters: LocationFilters = {}): UseLocationsReturn 
       }
     },
     initialPageParam: 1,
-    staleTime: 5 * 60 * 1000,
     retry: (failureCount, error: any) => {
       if (error?.status === 404 || error?.status === 0) return false;
       return failureCount < 2;

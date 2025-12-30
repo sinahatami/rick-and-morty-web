@@ -2,26 +2,16 @@ import { Episode } from '~/types/api';
 import { Calendar, Hash, MonitorPlay } from 'lucide-react';
 import { BaseCard } from '../shared/BaseCard';
 import { CardInfoRow } from '../shared/CardInfoRow';
+import { CardIcon } from '../shared/CardIcon';
+import { Badge } from '../shared/Badge';
+import { formatDate, parseEpisodeCode } from '~/utils/formatters';
 
 interface EpisodeCardProps {
   episode: Episode;
 }
 
 export function EpisodeCard({ episode }: EpisodeCardProps) {
-  // Extract season and episode numbers (e.g., S01E01)
-  const seasonMatch = episode.episode.match(/S(\d+)/);
-  const episodeMatch = episode.episode.match(/E(\d+)/);
-  const season = seasonMatch ? seasonMatch[1] : '?';
-  const episodeNum = episodeMatch ? episodeMatch[1] : '?';
-
-  // Format date nicely
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
+  const { season, episode: episodeNum } = parseEpisodeCode(episode.episode);
 
   return (
     <BaseCard href={`/episodes/${episode.id}`} theme="episode">
@@ -33,14 +23,13 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
 
         {/* Header: Icon & Code */}
         <div className="flex items-start justify-between mb-4 z-10">
-          <div className="p-2.5 bg-orange-50 rounded-xl border border-orange-100 group-hover:border-orange-200 group-hover:bg-[#FF9800] group-hover:text-white transition-all duration-300">
-            <MonitorPlay className="h-6 w-6 text-[#FF9800] group-hover:text-white transition-colors" />
-          </div>
+          <CardIcon icon={MonitorPlay} theme="episode" />
 
           <div className="flex flex-col items-end">
-            <span className="px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-100 text-[11px] font-black uppercase tracking-widest text-gray-400 group-hover:border-[#FF9800]/30 group-hover:text-[#FF9800] transition-colors">
-              Season {season}
-            </span>
+            <Badge
+              label={`Season ${season}`}
+              className="group-hover:border-[#FF9800]/30 group-hover:text-[#FF9800]"
+            />
           </div>
         </div>
 

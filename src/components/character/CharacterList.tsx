@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { Character } from '~/types';
-import { useSimplifiedCharacters } from '~/hooks/useSimplifiedCharacters';
+import { useCharacters } from '~/hooks/useCharacters';
 
 import { ResourcePageLayout } from '../shared/ResourcePageLayout';
 import { FilterPanel } from '../shared/FilterPanel';
@@ -12,8 +11,8 @@ import { SimpleBanner } from '../shared/SimpleBanner';
 
 import banner from '~/public/images/character-banner.jpg';
 import { useUrlSync } from '~/hooks/useUrlSync';
-
-// --- Types ---
+import { PageSubtitle } from '../shared/PageSubtitle';
+import { Character } from '~/types/api';
 
 interface FilterOptions {
   species: string[];
@@ -29,8 +28,6 @@ interface URLFilters {
   gender?: string;
   [key: string]: string | undefined;
 }
-
-// --- Utilities ---
 
 const extractFilterOptions = (characters: Character[]): FilterOptions => {
   const speciesSet = new Set<string>();
@@ -59,8 +56,6 @@ const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFilters => 
   };
 };
 
-// --- Main Component ---
-
 export function CharacterList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
@@ -72,7 +67,7 @@ export function CharacterList() {
   });
 
   const { characters, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
-    useSimplifiedCharacters({
+    useCharacters({
       name: debouncedSearch || undefined,
       status: filters.status,
       species: filters.species,
@@ -111,15 +106,13 @@ export function CharacterList() {
       title="Characters"
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
-        <p className="text-gray-400 font-medium text-lg">
-          Exploring{' '}
-          <span className="text-gray-900 font-black text-xl italic tracking-tighter decoration-primary/30 underline underline-offset-4">
-            {totalCount.toLocaleString()}
-          </span>
-          <span className="ml-1 tracking-widest uppercase text-[13px] font-bold text-gray-400">
-            souls across the cosmos
-          </span>
-        </p>
+        <PageSubtitle
+          prefix="Exploring"
+          highlight={totalCount.toLocaleString()}
+          suffix="souls across the cosmos"
+          colorClass="text-[#B8E986]"
+          decorationClass="decoration-[#B8E986]/50"
+        />
       }
       controls={
         <div className="flex flex-col md:flex-row gap-4 items-center">

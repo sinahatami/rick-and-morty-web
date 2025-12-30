@@ -1,39 +1,16 @@
 import type { AppProps } from 'next/app';
-import '~/styles/globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
-import Navigation from '~/components/Navigation';
+import { Layout } from '~/components/Layout';
+import '~/styles/globals.css';
 
-import { ErrorBoundary } from '~/components/shared/ErrorBoundary';
-import { GlobalLoading } from '~/components/shared/GlobalLoading';
+const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000,
-            retry: 1,
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  );
-
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen">
-        <GlobalLoading />
-        <Navigation />
-        <ErrorBoundary>
-          <Component {...pageProps} />
-        </ErrorBoundary>
-      </div>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </QueryClientProvider>
   );
 }
-
-export default MyApp;

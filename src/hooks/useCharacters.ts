@@ -1,10 +1,8 @@
-import {
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
-  InfiniteData
-} from '@tanstack/react-query';
-import { Character, PaginatedResponse } from '../types/api';
-import { apiClient } from '../lib/api-client';
+import { useMemo } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useDebounce } from './useDebounce';
+import { apiClient } from '~/lib/api-client';
+import { Character } from '~/types/api';
 
 interface CharacterFilters {
   name?: string;
@@ -13,23 +11,37 @@ interface CharacterFilters {
   gender?: string;
 }
 
+interface useCharactersReturn {
+  characters: Character[];
+  totalCount: number;
+  totalPages: number;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | null;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  refetch: () => void;
+}
+
 export function useCharacters(
   filters: CharacterFilters = {}
-): UseInfiniteQueryResult<InfiniteData<PaginatedResponse<Character>>, Error> {
-  return useInfiniteQuery<
-    PaginatedResponse<Character>,
-    Error,
-    InfiniteData<PaginatedResponse<Character>>,
-    [string, CharacterFilters],
-    number
-  >({
-    queryKey: ['characters', filters],
+): useCharactersReturn {
+  const debouncedName = useDebounce(filters.name, 300);
+
+  const optimizedFilters = useMemo(() => ({
+    ...filters,
+    name: debouncedName,
+  }), [filters, debouncedName]);
+
+  const queryResult = useInfiniteQuery({
+    queryKey: ['characters', optimizedFilters],
     queryFn: ({ pageParam = 1 }) => {
       const params: Record<string, string> = {
         page: pageParam.toString(),
       };
 
-      Object.entries(filters).forEach(([key, value]) => {
+      Object.entries(optimizedFilters).forEach(([key, value]) => {
         if (value && value.toString().trim() !== '') {
           params[key] = value.toString();
         }
@@ -50,10 +62,31 @@ export function useCharacters(
       }
     },
     initialPageParam: 1,
-    staleTime: 5 * 60 * 1000,
-    retry: (failureCount, error: any) => {
-      if (error?.status === 404) return false;
-      return failureCount < 2;
-    },
   });
+
+  const characters = useMemo(() => {
+    if (!queryResult.data?.pages) return [];
+    return queryResult.data.pages.flatMap(page => page.results);
+  }, [queryResult.data]);
+
+  const totalCount = useMemo(() => {
+    return queryResult.data?.pages?.[0]?.info?.count || 0;
+  }, [queryResult.data]);
+
+  const totalPages = useMemo(() => {
+    return queryResult.data?.pages?.[0]?.info?.pages || 0;
+  }, [queryResult.data]);
+
+  return {
+    characters,
+    totalCount,
+    totalPages,
+    isLoading: queryResult.isLoading,
+    isError: queryResult.isError,
+    error: queryResult.error,
+    fetchNextPage: queryResult.fetchNextPage,
+    hasNextPage: !!queryResult.hasNextPage,
+    isFetchingNextPage: queryResult.isFetchingNextPage,
+    refetch: queryResult.refetch,
+  };
 }

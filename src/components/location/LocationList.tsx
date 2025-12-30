@@ -10,8 +10,8 @@ import { ActiveFilterTags } from '../shared/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { LocationCard } from './LocationCard';
 import banner from '~/public/images/location-banner.jpg';
+import { PageSubtitle } from '../shared/PageSubtitle';
 
-// --- Types ---
 interface FilterOptions {
   type: string[];
   dimension: string[];
@@ -95,15 +95,13 @@ export function LocationList() {
       title="Multiverse Locations"
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
-        <div className="flex items-center gap-2 text-gray-500 font-medium text-lg">
-          <span>Cataloging</span>
-          <span className="text-[#00B5CC] font-black text-2xl italic tracking-tighter decoration-[#B8E986]/50 underline underline-offset-4">
-            {totalCount.toLocaleString()}
-          </span>
-          <span className="tracking-widest uppercase text-xs font-bold text-gray-400 pt-1">
-            dimensional nodes
-          </span>
-        </div>
+        <PageSubtitle
+          prefix="Cataloging"
+          highlight={totalCount.toLocaleString()}
+          suffix="dimensional nodes"
+          colorClass="text-[#00B5CC]"
+          decorationClass="decoration-[#00B5CC]/30"
+        />
       }
       controls={
         <div className="flex flex-col md:flex-row gap-4 items-center">

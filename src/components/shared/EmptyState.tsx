@@ -1,5 +1,6 @@
 import { FilterX } from 'lucide-react';
 import { memo } from 'react';
+import { Button } from './Button';
 
 interface EmptyStateProps {
   title: string;
@@ -23,13 +24,11 @@ export const EmptyState = memo(
       </div>
       <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-500 max-w-xs mb-8">{description}</p>
+
       {showClearButton && (
-        <button
-          onClick={onClearFilters}
-          className="px-8 py-3 bg-gray-900 text-white rounded-xl font-bold text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg cursor-pointer"
-        >
+        <Button onClick={onClearFilters} variant="secondary" className="text-sm">
           {buttonText}
-        </button>
+        </Button>
       )}
     </div>
   )
