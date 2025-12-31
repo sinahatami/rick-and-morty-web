@@ -1,5 +1,5 @@
 {
-  "homepage": "https://github.com/sinahatami/rick-and-morty-web",
+  "homepage": "https://sinahatami.github.io/rick-and-morty-web",
   "name": "rick-and-morty-web",
   "version": "0.0.1",
   "private": true,
@@ -16,8 +16,7 @@
     "test": "vitest",
     "test:once": "vitest run",
     "analyze": "ANALYZE=true next build",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d out"
+    "deploy": "yarn build && gh-pages -d out"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
