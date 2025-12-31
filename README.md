@@ -2,7 +2,7 @@
 
 > An interdimensional database for exploring characters, locations, and episodes from the Rick and Morty universe. Built with performance, scalability, and clean architecture in mind.
 
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://YOUR_DEPLOY_LINK_HERE)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://sinahatami.github.io/rick-and-morty-web)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)**🔗 Live Demo:** [https://](https://)
 
 ![Homepage](public/images/screenshot.png)
@@ -58,9 +58,12 @@ src/
 │   ├── episode/      # Episode-specific components
 │   ├── location/     # Location-specific components
 │   └── shared/       # Reusable UI (Button, Modal, Loader, etc.)
+│   └── contex/       # Theme Provider ('portal', 'rick', and 'morty')
 ├── hooks/            # Custom logic (useUrlSync, useDebounce)
 ├── lib/              # API client and singletons
 ├── pages/            # Next.js routes
 ├── styles/           # Tailwind and Global CSS
+├── test/             # Test components
+├── utils/            # Some helper files
 └── types/            # Centralized TypeScript definitions
 ```

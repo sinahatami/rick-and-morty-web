@@ -5,7 +5,7 @@ import { GoBackButton } from '../shared/GoBackButton';
 import { LoadingSpinner } from '../shared/loading/LoadingSpinner';
 import { CharacterIdentityCard } from './sub-components/CharacterIdentityCard';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
-import { extractIdFromUrl } from '~/utils/helper';
+import { extractIdFromUrl } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
 import { CharacterBiometrics } from './sub-components/CharacterBiometrics';
 import { CharacterLocationHistory } from './sub-components/CharacterLocationHistory';

@@ -1,5 +1,5 @@
 import { Episode } from '~/types/api/episode';
-import { formatDate, parseEpisodeCode } from './helper';
+import { formatDate, parseEpisodeCode } from './string-helper';
 
 export function parseEpisodeData(episode: Episode) {
   const { season, episode: episodeNum } = parseEpisodeCode(episode.episode);

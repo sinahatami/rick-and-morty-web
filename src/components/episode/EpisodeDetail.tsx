@@ -12,7 +12,7 @@ import { apiClient } from '~/lib/api-client';
 import { getThemeStyles } from '~/lib/theme';
 
 import { useEntityDetail } from '~/hooks/useEntityDetail';
-import { extractIdFromUrl, formatDate } from '~/utils/helper';
+import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
 
 export interface EpisodeDetailProps {

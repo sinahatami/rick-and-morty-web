@@ -9,7 +9,7 @@ import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 import { useLocations } from '~/hooks/useLocations';
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { LocationFilterOptions, LocationFilters } from '~/types';
-import { extractLocationOptions } from '../../utils/location-utils';
+import { extractLocationOptions } from '../../utils/location-helper';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
 import banner from '~/public/images/location-banner.jpg';

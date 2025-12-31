@@ -10,7 +10,7 @@ import { Badge } from '../shared/badge/Badge';
 import { apiClient } from '~/lib/api-client';
 import { Location, LocationDetailProps } from '~/types';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
-import { extractIdFromUrl, formatDate } from '~/utils/helper';
+import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
 
 export function LocationDetail({ id }: LocationDetailProps) {
