@@ -1,12 +1,12 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 
-import { Variant } from "./variant";
+export type ThemeKey = 'character' | 'location' | 'episode';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: Variant;
+  theme?: ThemeKey; // Added theme
   isLoading?: boolean;
   icon?: LucideIcon;
   className?: string;
-} 
+}

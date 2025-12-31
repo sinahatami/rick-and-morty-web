@@ -18,22 +18,27 @@ export function CharacterGridSection({
   icon: Icon = Users,
   emptyTitle = 'No Data Found',
   emptyMessage = 'No characters found for this entry.',
+  theme = 'character',
 }: CharacterGridSectionProps) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // 1. Initial Fetch
+  // Use fingerprint to prevent infinite loop
+  const idsFingerprint = JSON.stringify(characterIds);
+
   useEffect(() => {
     let isMounted = true;
+    const currentIds = JSON.parse(idsFingerprint);
+
     const fetchInitial = async () => {
-      if (characterIds.length === 0) {
-        setIsLoadingInitial(false);
+      if (currentIds.length === 0) {
+        if (isMounted) setIsLoadingInitial(false);
         return;
       }
       try {
-        setIsLoadingInitial(true);
-        const firstBatchIds = characterIds.slice(0, PER_PAGE);
+        if (isMounted) setIsLoadingInitial(true);
+        const firstBatchIds = currentIds.slice(0, PER_PAGE);
         const data = await apiClient.characters.getMultiple(firstBatchIds);
         const normalized = (Array.isArray(data) ? data : [data]) as Character[];
 
@@ -48,9 +53,8 @@ export function CharacterGridSection({
     return () => {
       isMounted = false;
     };
-  }, [characterIds]);
+  }, [idsFingerprint]);
 
-  // 2. Load More Handler
   const handleLoadMore = async () => {
     if (isLoadingMore) return;
     try {
@@ -77,7 +81,6 @@ export function CharacterGridSection({
     );
   }
 
-  // --- REFACTOR: Use Shared EmptyState ---
   if (characters.length === 0) {
     return (
       <section className="space-y-8 animate-in slide-in-from-bottom duration-500">
@@ -87,6 +90,7 @@ export function CharacterGridSection({
           description={emptyMessage}
           onClearFilters={() => {}}
           showClearButton={false}
+          theme={theme}
         />
       </section>
     );
@@ -99,7 +103,6 @@ export function CharacterGridSection({
       <SectionHeader title={title} icon={Icon} count={characterIds.length} />
 
       <div className="space-y-12">
-        {/* Use the shared Grid component */}
         <Grid>
           {characters.map(character => (
             <CharacterCard key={character.id} character={character} />
@@ -111,6 +114,7 @@ export function CharacterGridSection({
             onClick={handleLoadMore}
             disabled={isLoadingMore}
             isFetchingNextPage={isLoadingMore}
+            theme={theme}
           />
         )}
       </div>

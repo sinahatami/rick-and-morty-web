@@ -1,19 +1,15 @@
 import { DetailCardProps } from '~/types';
+import { getThemeStyles } from '~/lib/theme';
 
 export function DetailCard({ children, theme = 'character', className = '' }: DetailCardProps) {
-  const gradients = {
-    episode: 'from-orange-400 via-amber-300 to-yellow-400',
-    location: 'from-[#B8E986] via-[#00B5CC] to-[#B8E986]',
-    character: 'from-indigo-400 via-purple-400 to-pink-400',
-    default: 'from-gray-200 via-gray-300 to-gray-200',
-  };
+  const styles = getThemeStyles(theme);
 
   return (
     <div
       className={`bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden relative group ${className}`}
     >
-      {/* Decorative Top Bar */}
-      <div className={`h-2 w-full bg-gradient-to-r ${gradients[theme]}`} />
+      {/* Decorative Top Bar: Uses the theme's gradient */}
+      <div className={`h-2 w-full bg-gradient-to-r ${styles.gradient}`} />
 
       {/* Content Container */}
       <div className="p-8 md:p-10 relative z-10">{children}</div>

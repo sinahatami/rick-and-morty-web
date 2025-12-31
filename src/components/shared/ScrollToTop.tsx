@@ -1,8 +1,13 @@
 import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { getThemeStyles } from '~/lib/theme';
 
-export function ScrollToTop() {
+export function ScrollToTop(): any {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // 1. Get Theme Styles
+  const styles = getThemeStyles();
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 500);
@@ -13,23 +18,25 @@ export function ScrollToTop() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`
         fixed bottom-8 right-8 z-50 
         p-3 rounded-full 
-        bg-white/80 backdrop-blur-sm 
-        border border-gray-200 
-        shadow-lg 
-        cursor-pointer
+        shadow-lg cursor-pointer
+        backdrop-blur-sm
         transition-all duration-300 ease-in-out
-        
-        /* HOVER STATE: Subtle tint and border color instead of solid fill */
-        hover:border-primary hover:bg-primary/10 hover:text-primary-dark hover:shadow-xl hover:-translate-y-1
-        
-        /* Base Text Color */
-        text-gray-500 hover:text-primary
-
+        border-2
         ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}
       `}
+      style={{
+        // 2. Dynamic Styles
+        borderColor: isHovered ? styles.primary : '#e5e7eb',
+        color: isHovered ? styles.primary : '#6b7280',
+        backgroundColor: isHovered ? `${styles.primary}20` : 'rgba(255, 255, 255, 0.8)',
+
+        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+      }}
       aria-label="Scroll to top"
     >
       <ChevronUp className="h-6 w-6" />

@@ -1,13 +1,17 @@
 import { ChevronDown } from 'lucide-react';
+import { getThemeStyles } from '~/lib/theme';
 
-interface FilterSelectProps {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
-}
+import { FilterSelectProps } from '~/types';
 
-export function FilterSelect({ label, value, options, onChange }: FilterSelectProps) {
+export function FilterSelect({
+  label,
+  value,
+  options,
+  onChange,
+  theme = 'character',
+}: FilterSelectProps) {
+  const styles = getThemeStyles(theme);
+
   return (
     <div className="space-y-2">
       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
@@ -22,19 +26,33 @@ export function FilterSelect({ label, value, options, onChange }: FilterSelectPr
             bg-gray-50 border border-gray-200 rounded-xl
             text-sm font-bold text-gray-700 
             appearance-none cursor-pointer transition-all
-            hover:bg-white hover:border-[#00B5CC]/50
-            focus:bg-white focus:ring-4 focus:ring-[#00B5CC]/10 focus:border-[#00B5CC]
             outline-none
           "
+          onFocus={e => {
+            e.target.style.borderColor = styles.primary;
+            e.target.style.boxShadow = `0 0 0 4px ${styles.primary}15`;
+            e.target.style.backgroundColor = 'white';
+          }}
+          onBlur={e => {
+            e.target.style.borderColor = '';
+            e.target.style.boxShadow = '';
+            e.target.style.backgroundColor = '';
+          }}
         >
-          <option value="">All {label}s</option>
+          <option value="">All {label}</option>
           {options.map(opt => (
             <option key={opt} value={opt}>
               {opt}
             </option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-[#00B5CC] transition-colors">
+
+        <div
+          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 transition-colors"
+          style={{
+            color: value ? styles.primary : undefined,
+          }}
+        >
           <ChevronDown className="h-4 w-4" />
         </div>
       </div>

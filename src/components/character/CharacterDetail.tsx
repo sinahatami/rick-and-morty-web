@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { apiClient } from '~/lib/api-client';
 import { Character } from '~/types';
 
@@ -10,48 +8,24 @@ import { EpisodeGridSection } from '../episode/EpisodeGridSection';
 import { CharacterIdentityCard } from './CharacterIdentityCard';
 import { CharacterBiometrics } from './CharacterBiometrics';
 import { CharacterLocationHistory } from './CharacterLocationHistory';
+import { useEntityDetail } from '~/hooks/useEntityDetail';
+import { extractIdFromUrl } from '~/utils/helper';
 
 export interface CharacterDetailProps {
   id: string;
 }
 
 export function CharacterDetail({ id }: CharacterDetailProps) {
-  // --- Data States ---
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    const abortController = new AbortController();
-
-    const fetchCharacter = async () => {
-      try {
-        setLoading(true);
-        const charData = await apiClient.characters.getById(id);
-
-        if (isMounted) {
-          setCharacter(charData);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError('Failed to load character details');
-          console.error(err);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchCharacter();
-
-    return () => {
-      isMounted = false;
-      abortController.abort();
-    };
-  }, [id]);
+  // 1. Use the custom hook for fetching
+  const {
+    data: character,
+    loading,
+    error,
+  } = useEntityDetail<Character>(
+    apiClient.characters.getById,
+    id,
+    'Failed to load character details'
+  );
 
   if (loading) {
     return <LoadingSpinner message="Accessing Galactic Federation Database..." />;
@@ -62,12 +36,16 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
       <NotFoundState
         title="Subject Not Found"
         message="The character you are looking for does not exist in this central finite curve."
+        theme="character"
       />
     );
   }
 
-  // Extract Episode IDs for the Grid Section
-  const episodeIds = character.episode.map(url => url.split('/').pop()).filter(Boolean) as string[];
+  // 2. Use the shared helper for ID extraction
+  const episodeIds = character.episode
+    .map(extractIdFromUrl)
+    .filter((id): id is number => id !== null)
+    .map(String); // EpisodeGridSection expects strings based on previous code
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in fade-in duration-500">

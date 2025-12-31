@@ -50,7 +50,7 @@ export class ErrorBoundary extends Component<Props, State> {
           </p>
 
           {/* Action Button using your Shared Component */}
-          <Button onClick={() => window.location.reload()} icon={RefreshCw} variant="primary">
+          <Button onClick={() => window.location.reload()} icon={RefreshCw} theme="character">
             Reload Dimension
           </Button>
         </div>

@@ -1,38 +1,46 @@
 import { Loader2 } from 'lucide-react';
-
+import { useState } from 'react';
 import { ButtonProps } from '~/types';
+import { getThemeStyles } from '~/lib/theme';
 
 export function Button({
   children,
-  variant = 'primary' as any,
+  theme = 'character',
   isLoading = false,
   icon: Icon,
   className = '',
   disabled,
+  style,
   ...props
 }: ButtonProps) {
-  const baseStyles =
-    'relative inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none disabled:scale-100';
-  const variants = {
-    primary:
-      'bg-[#00B5CC] text-white hover:bg-[#0091A3] shadow-lg shadow-[#00B5CC]/20 hover:shadow-[#00B5CC]/40',
-    secondary: 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl',
-    outline:
-      'bg-white border-2 border-[#00B5CC] text-[#00B5CC] hover:bg-[#00B5CC] hover:text-white',
-    ghost: 'bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100',
-  };
+  const styles = getThemeStyles(theme);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const variantClass = variants[variant as keyof typeof variants] ?? variants.primary;
+  const baseStyles =
+    'relative inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none border-2';
+
+  const themeStyles: React.CSSProperties = {
+    backgroundColor: isHovered ? styles.primary : `${styles.primary}40`,
+
+    borderColor: isHovered ? styles.primary : `${styles.primary}4D`,
+
+    color: isHovered ? 'white' : styles.primary,
+
+    ...style,
+  };
 
   return (
     <button
       disabled={isLoading || disabled}
-      className={`${baseStyles} ${variantClass} ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`${baseStyles} ${className}`}
+      style={themeStyles}
       {...props}
     >
-      {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-      {!isLoading && Icon && <Icon className="w-4 h-4" />}
-      <span>{children}</span>
+      {isLoading && <Loader2 className="w-4 h-4 animate-spin text-current" />}
+      {!isLoading && Icon && <Icon className="w-4 h-4 text-current" />}
+      <span className="relative z-10">{children}</span>
     </button>
   );
 }

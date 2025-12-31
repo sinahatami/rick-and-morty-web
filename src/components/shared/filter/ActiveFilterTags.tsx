@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
-
 import { ActiveFilterTagsProps } from '~/types';
+import { getThemeStyles } from '~/lib/theme';
 
 export function ActiveFilterTags({
   filters,
@@ -8,7 +8,11 @@ export function ActiveFilterTags({
   onClearAll,
   searchQuery,
   onClearSearch,
+  theme = 'character',
 }: ActiveFilterTagsProps) {
+  // 1. Get Theme Styles
+  const styles = getThemeStyles(theme);
+
   // Combine filters with search query
   const allFilters = { ...filters };
   if (searchQuery) {
@@ -27,10 +31,29 @@ export function ActiveFilterTags({
       {activeEntries.map(([key, value]) => (
         <div
           key={key}
-          className="group flex items-center gap-2 pl-3 pr-1.5 py-1.5 bg-[#00B5CC]/10 border border-[#00B5CC]/20 rounded-lg hover:border-[#00B5CC]/40 transition-colors"
+          // 2. Use Theme Classes for Background & Border
+          className={`
+            group flex items-center gap-2 pl-3 pr-1.5 py-1.5 
+            border rounded-lg transition-colors
+            ${styles.lightBg} 
+            ${styles.lightBorder}
+            hover:border-opacity-100
+          `}
         >
-          <span className="text-[10px] font-bold text-[#00B5CC] uppercase opacity-70">{key}:</span>
-          <span className="text-sm font-black text-[#0091A3]">{value}</span>
+          <span
+            className="text-[10px] font-bold uppercase opacity-70"
+            // 3. Use Hex for Text Color
+            style={{ color: styles.primary }}
+          >
+            {key}:
+          </span>
+          <span
+            className="text-sm font-black"
+            style={{ color: styles.secondary || styles.primary }}
+          >
+            {value}
+          </span>
+
           <button
             onClick={() => {
               if (key === 'name' && onClearSearch) {
@@ -39,7 +62,17 @@ export function ActiveFilterTags({
                 onRemove(key);
               }
             }}
-            className="p-1 hover:bg-[#00B5CC] hover:text-white rounded-md text-[#00B5CC] transition-colors cursor-pointer"
+            className="p-1 rounded-md transition-colors cursor-pointer hover:text-white"
+            // 4. Dynamic Button Styling
+            style={{ color: styles.primary }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = styles.primary;
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = styles.primary;
+            }}
           >
             <X className="h-3.5 w-3.5" />
           </button>

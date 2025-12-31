@@ -4,6 +4,7 @@ import { BaseCard } from '../shared/card/BaseCard';
 import { CardInfoRow } from '../shared/card/CardInfoRow';
 import { Badge } from '../shared/Badge';
 import { Location } from '~/types';
+import { getThemeStyles } from '~/lib/theme';
 
 interface LocationCardProps {
   location: Location;
@@ -18,25 +19,36 @@ export function LocationCard({ location }: LocationCardProps) {
         ? '1 Lifeform'
         : `${residentsCount} Lifeforms`;
 
+  const theme = 'location';
+  const styles = getThemeStyles(theme);
+
   return (
-    <BaseCard href={`/locations/${location.id}`} theme="location" className="group flex flex-col">
-      {/* Decorative Top Gradient (Blue) */}
+    <BaseCard href={`/locations/${location.id}`} theme={theme} className="group flex flex-col">
+      {/* Decorative Top Gradient */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00B5CC] via-[#33C3D6] to-[#00B5CC] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       {/* Header */}
       <div className="p-6 pb-4 relative">
         <div className="flex items-start justify-between mb-4">
-          {/* Main Icon (Blue) */}
-          <div className="p-3 bg-[#00B5CC]/10 rounded-2xl group-hover:bg-[#00B5CC]/20 transition-colors border border-[#00B5CC]/10">
-            <Earth className="h-7 w-7 text-[#0091A3] group-hover:text-[#00B5CC] group-hover:scale-110 transition-transform duration-300" />
+          {/* Main Icon (Using Inline Styles for consistency) */}
+          <div
+            className={`
+              p-3 rounded-2xl transition-colors border
+              ${styles.lightBg} ${styles.lightBorder}
+              group-hover:bg-opacity-100
+            `}
+          >
+            <Earth
+              className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
+              style={{ color: styles.primary }}
+            />
           </div>
 
-          {/* Badge Component*/}
+          {/* Badge Component */}
           <Badge
             icon={MapPin}
             label={`Sector ${location.id}`}
-            // We apply group-hover classes here to match the specific blue theme interaction
-            className="group-hover:border-[#00B5CC]/30 group-hover:text-[#00B5CC]"
+            theme={theme} // <--- FIX: Use theme prop
           />
         </div>
 

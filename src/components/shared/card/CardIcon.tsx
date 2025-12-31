@@ -1,28 +1,25 @@
 import { CardIconProps } from '~/types';
+import { getThemeStyles } from '~/lib/theme';
+import { useState } from 'react';
 
-export function CardIcon({ icon: Icon, theme = 'default', className = '' }: CardIconProps) {
-  const themes = {
-    // Orange/Yellow for Episodes
-    episode:
-      'bg-orange-50 border-orange-100 text-[#FF9800] group-hover:border-orange-200 group-hover:bg-[#FF9800] group-hover:text-white',
-
-    // Green for Locations
-    location:
-      'bg-[#B8E986]/10 border-[#B8E986]/10 text-[#86a860] group-hover:bg-[#B8E986]/20 group-hover:text-[#6a8a45]',
-
-    // Fallback
-    default: 'bg-gray-50 border-transparent text-gray-400',
-  };
-
-  const activeTheme = themes[theme] || themes.default;
+export function CardIcon({ icon: Icon, theme = 'character', className = '' }: CardIconProps) {
+  const styles = getThemeStyles(theme);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`
-      p-2.5 rounded-xl border transition-all duration-300
-      ${activeTheme}
-      ${className}
-    `}
+        p-2.5 rounded-xl border transition-all duration-300
+        ${styles.lightBg} ${styles.lightBorder}
+        ${className}
+      `}
+      style={{
+        backgroundColor: isHovered ? styles.primary : undefined,
+        borderColor: isHovered ? styles.primary : undefined,
+        color: isHovered ? 'white' : styles.primary,
+      }}
     >
       <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
     </div>

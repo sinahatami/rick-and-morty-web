@@ -14,6 +14,7 @@ import { Character, FilterOptionsCharacter, URLFiltersCharacter } from '~/types'
 
 import banner from '~/public/images/character-banner.jpg';
 
+// --- Utilities ---
 const extractFilterOptions = (characters: Character[]): FilterOptionsCharacter => {
   const speciesSet = new Set<string>();
   const genderSet = new Set<string>();
@@ -41,6 +42,7 @@ const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFiltersChar
   };
 };
 
+// --- Main Component ---
 export function CharacterList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
@@ -83,20 +85,23 @@ export function CharacterList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
+  // DEFINE THEME ONCE
+  const PAGE_THEME = 'character';
+
   return (
     <ResourcePageLayout
       items={characters}
       isLoading={isLoading}
       totalCount={totalCount}
       title="Characters"
+      theme={PAGE_THEME}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <PageSubtitle
+          theme={PAGE_THEME}
           prefix="Exploring"
           highlight={totalCount.toLocaleString()}
           suffix="souls across the cosmos"
-          colorClass="text-[#B8E986]"
-          decorationClass="decoration-[#B8E986]/50"
         />
       }
       controls={
@@ -110,6 +115,7 @@ export function CharacterList() {
           </div>
           <div className="w-full md:w-auto">
             <FilterPanel
+              theme="character"
               filters={filters}
               filterOptions={displayOptions}
               onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
@@ -120,6 +126,7 @@ export function CharacterList() {
       activeFilters={
         hasActiveFilters ? (
           <ActiveFilterTags
+            theme={PAGE_THEME}
             filters={filters}
             searchQuery={searchQuery}
             onRemove={key => {

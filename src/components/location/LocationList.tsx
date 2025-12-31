@@ -46,7 +46,6 @@ export function LocationList() {
 
   useEffect(() => {
     if (locations.length > 0) {
-      // 2. Use the extracted utility function
       const newOptions = extractLocationOptions(locations);
 
       if (!hasActiveFilters && !initialOptions) {
@@ -63,20 +62,23 @@ export function LocationList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
+  // DEFINE THEME ONCE
+  const PAGE_THEME = 'location';
+
   return (
     <ResourcePageLayout
       items={locations}
       isLoading={isLoading}
       totalCount={totalCount}
       title="Multiverse Locations"
+      theme={PAGE_THEME}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <PageSubtitle
+          theme={PAGE_THEME}
           prefix="Cataloging"
           highlight={totalCount.toLocaleString()}
           suffix="dimensional nodes"
-          colorClass="text-[#00B5CC]"
-          decorationClass="decoration-[#00B5CC]/30"
         />
       }
       controls={
@@ -90,8 +92,8 @@ export function LocationList() {
           </div>
 
           <div className="w-full md:w-auto">
-            {/* 3. Cast types to match FilterPanel requirements */}
             <FilterPanel
+              theme="location"
               filters={filters as Record<string, string | undefined>}
               filterOptions={displayOptions as unknown as Record<string, string[]>}
               onFilterChange={newFilters => setFilters(newFilters as LocationFilters)}
@@ -101,6 +103,7 @@ export function LocationList() {
       }
       activeFilters={
         <ActiveFilterTags
+          theme={PAGE_THEME}
           filters={filters as Record<string, string | undefined>}
           searchQuery={searchQuery}
           onRemove={key => {

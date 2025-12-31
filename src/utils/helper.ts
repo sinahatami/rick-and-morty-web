@@ -7,6 +7,14 @@ export const formatDate = (dateString?: string): string => {
   });
 };
 
+export function extractIdFromUrl(url?: string): number | null {
+  if (!url) return null;
+  const parts = url.split('/').filter(Boolean);
+  const id = parts.pop();
+  const parsed = parseInt(id || '', 10);
+  return isNaN(parsed) ? null : parsed;
+}
+
 export const parseEpisodeCode = (episodeCode: string) => {
   if (!episodeCode) return { season: '?', episode: '?' };
 

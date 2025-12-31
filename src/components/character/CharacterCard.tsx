@@ -5,6 +5,7 @@ import { MapPin, Globe, Dna } from 'lucide-react';
 import { BaseCard } from '../shared/card/BaseCard';
 import { CardInfoRow } from '../shared/card/CardInfoRow';
 import { StatusBadge } from '../shared/StatusBadge';
+import { Badge } from '../shared/Badge';
 import { CharacterCardProps } from '~/types';
 
 export function CharacterCard({ character }: CharacterCardProps) {
@@ -12,8 +13,7 @@ export function CharacterCard({ character }: CharacterCardProps) {
 
   const getIdFromUrl = (url: string) => {
     if (!url) return null;
-    const parts = url.split('/');
-    return parts[parts.length - 1];
+    return url.split('/').filter(Boolean).pop();
   };
 
   const handleLocationClick = (url: string) => {
@@ -54,11 +54,16 @@ export function CharacterCard({ character }: CharacterCardProps) {
           </h3>
 
           <div className="flex items-center gap-2 mt-2">
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-bold bg-gray-50 border border-gray-200 text-gray-600 uppercase tracking-wide">
-              <Dna className="w-3 h-3 text-gray-400" />
-              {character.species}
-            </span>
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wide">
+            {/* 3. Replaced manual span with Badge component */}
+            <Badge
+              label={character.species}
+              icon={Dna}
+              theme="character"
+              // Optional: Add hover effect to match card theme
+              className="group-hover:border-[#B8E986]/30 group-hover:text-[#B8E986]"
+            />
+
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wide ml-1">
               {character.gender}
             </span>
           </div>

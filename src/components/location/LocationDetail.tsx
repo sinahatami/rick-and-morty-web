@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Users, MapPin, Globe, Calendar, Zap } from 'lucide-react';
 
 import { LoadingSpinner } from '../shared/LoadingSpinner';
@@ -7,62 +6,27 @@ import { StatCard } from '../shared/card/StatCard';
 import { DetailCard } from '../shared/card/DetailCard';
 import { NotFoundState } from '../shared/NotFoundState';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
+import { Badge } from '../shared/Badge';
+
 import { apiClient } from '~/lib/api-client';
 import { Location, LocationDetailProps } from '~/types';
+import { useEntityDetail } from '~/hooks/useEntityDetail';
+import { extractIdFromUrl, formatDate } from '~/utils/helper';
 
 export function LocationDetail({ id }: LocationDetailProps) {
-  // --- Data States ---
-  const [location, setLocation] = useState<Location | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // --- Initial Fetch ---
-  useEffect(() => {
-    let isMounted = true;
-    const init = async () => {
-      try {
-        setLoading(true);
-        const locationData = await apiClient.locations.getById(id);
-
-        if (isMounted) {
-          setLocation(locationData as unknown as Location);
-        }
-      } catch (err) {
-        console.error('Error loading location:', err);
-        if (isMounted) setError('Failed to load location details');
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    init();
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
-
-  // --- Helpers ---
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Unknown';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const getTypeStyles = (type?: string) => {
-    const t = type?.toLowerCase() || '';
-    if (t.includes('planet'))
-      return { color: 'text-[#B8E986]', bg: 'bg-[#B8E986]/10', border: 'border-[#B8E986]/20' };
-    if (t.includes('cluster') || t.includes('station'))
-      return { color: 'text-[#00B5CC]', bg: 'bg-[#00B5CC]/10', border: 'border-[#00B5CC]/20' };
-    return { color: 'text-gray-500', bg: 'bg-gray-100', border: 'border-gray-200' };
-  };
+  const {
+    data: location,
+    loading,
+    error,
+  } = useEntityDetail<Location>(apiClient.locations.getById, id, 'Failed to load location details');
 
   if (loading) {
     return <LoadingSpinner message="Scanning dimensional coordinates..." />;
   }
+
+  const isCitadel =
+    location?.name.toLowerCase().includes('citadel') || location?.name === 'Last Known Location';
+  const pageTheme = isCitadel ? 'character' : 'location';
 
   if (error || !location) {
     return (
@@ -70,39 +34,27 @@ export function LocationDetail({ id }: LocationDetailProps) {
         title="Signal Lost"
         message="This location coordinates are invalid or redacted."
         backLabel="Return to Dimension C-137"
+        theme={pageTheme}
       />
     );
   }
 
-  const typeStyle = getTypeStyles(location.type);
-
-  // Extract Resident IDs
   const residentIds = location.residents
-    .map(url => {
-      const parts = url.split('/');
-      return parseInt(parts[parts.length - 1]);
-    })
-    .filter(id => !isNaN(id));
+    .map(extractIdFromUrl)
+    .filter((id): id is number => id !== null);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       <GoBackButton />
 
-      {/* Hero / Header Card */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden relative group">
-        {/* Decorative Top Bar (Portal Green Gradient) */}
-
-        <DetailCard theme="location">
+        <DetailCard theme={pageTheme}>
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-            {/* Title Section */}
             <div className="space-y-4 max-w-2xl">
               <div className="flex items-center gap-3">
-                <span
-                  className={`px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest border ${typeStyle.bg} ${typeStyle.color} ${typeStyle.border}`}
-                >
-                  {location.type || 'Unknown Type'}
-                </span>
-                <span className="text-gray-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <Badge label={location.type || 'Unknown Type'} theme={pageTheme} />
+
+                <span className="text-gray-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-lg border border-gray-100">
                   <Calendar className="w-3.5 h-3.5" />
                   Cataloged: {formatDate(location.created)}
                 </span>
@@ -116,39 +68,38 @@ export function LocationDetail({ id }: LocationDetailProps) {
 
           <hr className="my-8 border-gray-100" />
 
-          {/* Detailed Info Grid using StatCard */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <StatCard
               icon={Globe}
               label="Dimension"
               value={location.dimension === 'unknown' ? 'Unknown' : location.dimension}
-              theme="location"
+              theme={pageTheme}
             />
 
             <StatCard
               icon={MapPin}
               label="Classification"
               value={location.type || 'Unclassified'}
-              theme="location"
+              theme={pageTheme}
             />
 
             <StatCard
               icon={Zap}
               label="Population"
               value={`${residentIds.length} Entities`}
-              theme="location"
+              theme={pageTheme}
             />
           </div>
         </DetailCard>
       </div>
 
-      {/* Residents Section - Fetches data internally now */}
       <CharacterGridSection
         title="Known Residents"
         characterIds={residentIds}
         icon={Users}
         emptyTitle="No Bio-Signs Detected"
         emptyMessage="Scans indicate this location is currently uninhabited."
+        theme={pageTheme}
       />
     </div>
   );

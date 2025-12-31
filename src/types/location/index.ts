@@ -1,4 +1,3 @@
-export * from './location-card';
 export * from './location-detail';
 export * from './location-filter';
 

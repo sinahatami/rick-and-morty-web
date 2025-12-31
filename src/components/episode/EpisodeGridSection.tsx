@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { Episode } from '~/types/api/episode';
 import { EpisodeGridSectionProps } from '~/types/episode/episode-grid-section';
 import { apiClient } from '~/lib/api-client';
+import { getThemeStyles } from '~/lib/theme';
 
 const EPISODES_PER_BATCH = 9;
 
@@ -19,28 +20,34 @@ export function EpisodeGridSection({
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // 1. Initial Fetch
+  // 1. Get Theme Styles (Episode = Orange)
+  const theme = 'episode';
+  const styles = getThemeStyles(theme);
+
+  // 2. Fix Infinite Loop: Stable dependency key
+  const idsFingerprint = JSON.stringify(episodeIds);
+
   useEffect(() => {
     let isMounted = true;
+    // Parse back to array
+    const currentIds = JSON.parse(idsFingerprint);
 
     const fetchInitial = async () => {
-      if (episodeIds.length === 0) {
-        setIsLoadingInitial(false);
+      if (currentIds.length === 0) {
+        if (isMounted) setIsLoadingInitial(false);
         return;
       }
 
       try {
-        setIsLoadingInitial(true);
-        // Fetch first batch
-        const firstBatchIds = episodeIds.slice(0, EPISODES_PER_BATCH);
+        if (isMounted) setIsLoadingInitial(true);
+        const firstBatchIds = currentIds.slice(0, EPISODES_PER_BATCH);
 
-        // Ensure your API client handles array of IDs correctly
-        const data = await apiClient.episodes.getById(firstBatchIds as any);
-        const normalized = Array.isArray(data) ? data : [data];
+        // Fetch each episode by id (apiClient.episodes.getById expects a single string)
+        const data = await Promise.all(
+          firstBatchIds.map((id: string) => apiClient.episodes.getById(id))
+        );
 
-        if (isMounted) {
-          setEpisodes(normalized);
-        }
+        if (isMounted) setEpisodes(data);
       } catch (error) {
         console.error('Error fetching initial episodes:', error);
       } finally {
@@ -53,9 +60,8 @@ export function EpisodeGridSection({
     return () => {
       isMounted = false;
     };
-  }, [episodeIds]);
+  }, [idsFingerprint]);
 
-  // 2. Load More Handler
   const handleLoadMore = async () => {
     if (isLoadingMore) return;
 
@@ -65,10 +71,10 @@ export function EpisodeGridSection({
       const nextBatchIds = episodeIds.slice(currentCount, currentCount + EPISODES_PER_BATCH);
 
       if (nextBatchIds.length > 0) {
-        const newData = await apiClient.episodes.getById(nextBatchIds as any);
-        const normalizedNew = Array.isArray(newData) ? newData : [newData];
-
-        setEpisodes(prev => [...prev, ...normalizedNew]);
+        const newData = await Promise.all(
+          nextBatchIds.map((id: string) => apiClient.episodes.getById(id))
+        );
+        setEpisodes(prev => [...prev, ...newData]);
       }
     } catch (error) {
       console.error('Error loading more episodes:', error);
@@ -92,7 +98,8 @@ export function EpisodeGridSection({
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
       <h2 className="flex items-center gap-3 text-lg font-black text-gray-900 uppercase tracking-wide mb-6">
-        <span className="p-2 bg-orange-50 text-orange-500 rounded-lg">
+        {/* 3. Use Theme Styles for Icon */}
+        <span className={`p-2 rounded-lg ${styles.lightBg}`} style={{ color: styles.primary }}>
           <Icon className="h-5 w-5" />
         </span>
         {title}
@@ -114,6 +121,7 @@ export function EpisodeGridSection({
               onClick={handleLoadMore}
               disabled={isLoadingMore}
               isFetchingNextPage={isLoadingMore}
+              theme={theme}
             />
           </div>
         )}

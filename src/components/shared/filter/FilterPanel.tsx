@@ -3,11 +3,20 @@ import { useState, useRef, useEffect } from 'react';
 
 import { FilterPanelProps } from '~/types';
 import { FilterSelect } from './FilterSelect';
+import { getThemeStyles } from '~/lib/theme';
+import { Button } from '../Button';
 
-export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }: FilterPanelProps) {
+export function FilterPanel({
+  filters,
+  filterOptions,
+  onFilterChange,
+  onClose,
+  theme,
+}: FilterPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [localFilters, setLocalFilters] = useState<Record<string, string>>({});
   const panelRef = useRef<HTMLDivElement>(null);
+  const styles = getThemeStyles(theme);
 
   useEffect(() => {
     const initialFilters: Record<string, string> = {};
@@ -33,12 +42,9 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
       resetFilters[key] = '';
     });
     setLocalFilters(resetFilters);
-
-    const cleanedFilters: Record<string, string | undefined> = {};
-    Object.keys(filterOptions).forEach(key => {
-      cleanedFilters[key] = undefined;
-    });
-    onFilterChange(cleanedFilters);
+    onFilterChange(
+      Object.keys(filterOptions).reduce((acc, key) => ({ ...acc, [key]: undefined }), {})
+    );
     setIsOpen(false);
     onClose?.();
   };
@@ -61,6 +67,7 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
 
   return (
     <div className="relative" ref={panelRef}>
+      {/* Main Filter Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
@@ -70,19 +77,25 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
           w-full md:w-auto md:min-w-[200px] border
           ${
             isOpen || activeCount > 0
-              ? 'bg-[#00B5CC]/5 border-[#00B5CC] text-[#00B5CC] ring-4 ring-[#00B5CC]/10'
-              : 'bg-white border-gray-200 text-gray-600 hover:border-[#00B5CC]/50 hover:text-[#00B5CC]'
+              ? `${styles.lightBg} ${styles.lightBorder} ring-4`
+              : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
           }
         `}
+        style={{
+          color: isOpen || activeCount > 0 ? styles.primary : undefined,
+          boxShadow: isOpen || activeCount > 0 ? `0 0 0 4px ${styles.primary}20` : undefined,
+          borderColor: isOpen || activeCount > 0 ? styles.primary : undefined,
+        }}
       >
         <div className="absolute left-5 top-0 bottom-0 flex items-center">
           <ListFilter
-            className={`h-5 w-5 transition-colors ${
-              activeCount > 0 ? 'fill-[#00B5CC] text-[#00B5CC]' : 'text-gray-400'
-            }`}
+            className="h-5 w-5 transition-colors"
+            style={{
+              color: activeCount > 0 ? styles.primary : '#9CA3AF',
+              fill: activeCount > 0 ? `${styles.primary}40` : 'none',
+            }}
           />
         </div>
-
         <span className="font-bold text-sm tracking-widest uppercase pl-4">
           {activeCount > 0 ? `Filters (${activeCount})` : 'Filter'}
         </span>
@@ -90,8 +103,7 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
 
       {isOpen && (
         <div className="absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-          {/* Decorative Top Bar */}
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#00B5CC] to-[#B8E986]" />
+          <div className={`h-1.5 w-full bg-gradient-to-r ${styles.gradient}`} />
 
           <div className="p-6 space-y-6">
             <div className="flex items-center justify-between border-b border-gray-100 pb-4">
@@ -112,23 +124,28 @@ export function FilterPanel({ filters, filterOptions, onFilterChange, onClose }:
                   value={localFilters[key] || ''}
                   options={filterOptions[key]}
                   onChange={val => handleSelectChange(key, val)}
+                  theme={theme}
                 />
               ))}
             </div>
 
             <div className="flex gap-3 pt-2">
-              <button
+              <Button
                 onClick={handleReset}
-                className="flex-1 py-3.5 text-gray-500 font-bold text-xs uppercase tracking-wide hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+                theme={theme}
+                className="flex-1 py-3 text-xs tracking-widest uppercase bg-transparent border-none text-gray-400 hover:bg-red-50 hover:text-red-500 shadow-none"
+                style={{ backgroundColor: 'transparent', color: undefined }} // Overriding default theme behavior for reset
               >
                 Reset
-              </button>
-              <button
+              </Button>
+
+              <Button
                 onClick={handleApply}
-                className="flex-[2] py-3.5 bg-[#00B5CC] hover:bg-[#0091A3] text-white rounded-xl font-black text-xs uppercase tracking-wide shadow-lg shadow-[#00B5CC]/20 transition-all active:scale-95 cursor-pointer"
+                theme={theme}
+                className="flex-[2] py-3 text-xs tracking-widest uppercase shadow-md"
               >
-                Apply Filters
-              </button>
+                Apply
+              </Button>
             </div>
           </div>
         </div>

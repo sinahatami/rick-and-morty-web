@@ -10,21 +10,20 @@ export function NavLink({ href, label, icon, isActive, onClick, isMobile = false
         className={`
           group flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm
           transition-all duration-200 ease-in-out
-          backdrop-blur-md
           ${
             isActive
-              ? 'bg-primary/15 text-primary-dark font-bold'
-              : 'text-text-secondary hover:bg-primary/5 hover:text-primary'
+              ? 'bg-gray-100 text-black font-bold'
+              : 'text-gray-500 hover:bg-gray-50 hover:text-black'
           }
         `}
       >
-        <span
+        <div
           className={`transition-colors duration-200 ${
-            isActive ? 'text-primary-dark' : 'text-gray-400 group-hover:text-primary'
+            isActive ? 'text-black' : 'text-gray-400 group-hover:text-black'
           }`}
         >
           <div className="h-4 w-4 flex items-center justify-center">{icon}</div>
-        </span>
+        </div>
         <span>{label}</span>
       </Link>
     );
@@ -38,12 +37,10 @@ export function NavLink({ href, label, icon, isActive, onClick, isMobile = false
       className={`
         flex items-center justify-center gap-3 px-4 py-4 font-semibold text-lg
         transition-all duration-200 w-full
-        ${
-          isActive ? 'text-primary-dark' : 'text-text-secondary hover:bg-gray-50 hover:text-primary'
-        }
+        ${isActive ? 'bg-gray-100 text-black' : 'text-gray-500 hover:bg-gray-50 hover:text-black'}
       `}
     >
-      <span className={isActive ? 'text-primary-dark' : 'text-gray-400'}>{icon}</span>
+      <span className={isActive ? 'text-black' : 'text-gray-400'}>{icon}</span>
       <span>{label}</span>
     </Link>
   );

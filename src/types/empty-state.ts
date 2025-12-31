@@ -4,4 +4,5 @@ export interface EmptyStateProps {
   onClearFilters: () => void;
   showClearButton?: boolean;
   buttonText?: string;
+  theme: string
 }

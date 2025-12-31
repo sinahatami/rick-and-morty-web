@@ -1,1 +1,1 @@
-export type Theme = 'character' | 'episode' | 'location'
+export type Theme = 'character' | 'location' | 'episode';

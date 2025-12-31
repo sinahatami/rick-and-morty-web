@@ -15,7 +15,6 @@ const getInitialFilters = (params: URLSearchParams) => ({
   name: params.get('name') || undefined,
 });
 
-// --- Main Component ---
 export function EpisodeList() {
   const { searchQuery, setSearchQuery, debouncedSearch } = useUrlSync(getInitialFilters);
 
@@ -28,20 +27,23 @@ export function EpisodeList() {
     setSearchQuery('');
   }, [setSearchQuery]);
 
+  // Define the context once for clarity
+  const PAGE_THEME = 'episode';
+
   return (
     <ResourcePageLayout
+      title="Episodes"
+      theme={PAGE_THEME}
       items={episodes}
       isLoading={isLoading}
-      totalCount={totalCount}
-      title="Episodes"
+      totalCount={totalCount ?? 0}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <PageSubtitle
+          theme={PAGE_THEME}
           prefix="Archived"
-          highlight={totalCount.toLocaleString()}
+          highlight={totalCount?.toLocaleString() || '0'}
           suffix="adventures in the database"
-          colorClass="text-[#FF9800]"
-          decorationClass="decoration-[#FF9800]/30"
         />
       }
       controls={

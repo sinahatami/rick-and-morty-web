@@ -22,18 +22,21 @@ export function ResourcePageLayout<T extends { id: string | number }>({
   renderItem,
   emptyTitle = 'Not Found',
   emptyDescription = 'No results match your criteria.',
+  theme = 'character',
 }: ResourcePageLayoutProps<T>) {
   if (isLoading && items.length === 0) {
-    return <LoadingSpinner message={`Scanning the multiverse for ${title.toLowerCase()}...`} />;
+    return (
+      <Container className="py-20">
+        <LoadingSpinner message={`Scanning the multiverse for ${title.toLowerCase()}...`} />
+      </Container>
+    );
   }
 
-  // WRAPPED IN CONTAINER
   return (
     <Container className="py-10 space-y-10">
       {headerExtra}
 
-      {/* Header & Controls Section */}
-      <section className="space-y-8">
+      <section aria-label="Page Controls" className="space-y-8">
         <PageHeader title={title} visibleCount={items.length} subtitle={subtitle} />
 
         {controls}
@@ -41,13 +44,14 @@ export function ResourcePageLayout<T extends { id: string | number }>({
         {activeFilters}
       </section>
 
-      {/* Content Section */}
-      <section>
+      <section aria-label={`${title} List`} className="min-h-[40vh]">
         {items.length === 0 ? (
           <EmptyState
             title={emptyTitle}
             description={emptyDescription}
             onClearFilters={onClearFilters}
+            showClearButton={!!onClearFilters}
+            theme={theme}
           />
         ) : (
           <div className="space-y-12">
@@ -58,6 +62,7 @@ export function ResourcePageLayout<T extends { id: string | number }>({
                 onClick={onLoadMore}
                 disabled={isFetchingNextPage || false}
                 isFetchingNextPage={isFetchingNextPage || false}
+                theme={theme}
               />
             )}
           </div>

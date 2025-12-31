@@ -1,5 +1,7 @@
 import { Character, Episode, PaginatedResponse, ApiResponse } from '~/types';
 
+import { Location } from '~/types';
+
 class ApiError extends Error {
   constructor(
     message: string,

@@ -1,17 +1,21 @@
 import { ChevronDown } from 'lucide-react';
-
-import { LoadMoreButtonProps } from '~/types';
 import { Button } from './Button';
+import { LoadMoreButtonProps } from '~/types';
 
-export function LoadMoreButton({ onClick, disabled, isFetchingNextPage }: LoadMoreButtonProps) {
+export function LoadMoreButton({
+  onClick,
+  disabled,
+  isFetchingNextPage,
+  theme,
+}: LoadMoreButtonProps) {
   return (
     <div className="flex justify-center py-10">
       <Button
         onClick={onClick}
         disabled={disabled}
         isLoading={isFetchingNextPage}
-        variant="outline"
-        className="group rounded-full tracking-widest uppercase text-xs min-w-[200px]"
+        theme={theme}
+        className="group rounded-full tracking-widest uppercase text-xs min-w-[200px] hover:shadow-lg transition-shadow"
       >
         {isFetchingNextPage ? (
           'Scanning...'
