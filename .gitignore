@@ -27,6 +27,7 @@ yarn-error.log
 # Build artifacts
 build/
 dist/
+out/
 
 # Next.js
 .next

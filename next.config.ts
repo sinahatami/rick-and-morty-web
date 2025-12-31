@@ -7,7 +7,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig: NextConfig = {
   output: 'export',
 
-  basePath: '/rick-and-morty-web-template',
+  // FIX: Change this to match your EXACT repo name
+  basePath: '/rick-and-morty-web',
 
   eslint: {
     ignoreDuringBuilds: false,
