@@ -6,5 +6,5 @@ export interface ActiveFilterTagsProps {
   onClearAll: () => void;
   searchQuery?: string;
   onClearSearch?: () => void;
-  theme: Theme
+  theme?: Theme
 }

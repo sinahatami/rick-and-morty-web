@@ -86,7 +86,7 @@ export function CharacterList() {
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
   // DEFINE THEME ONCE
-  const PAGE_THEME = 'character';
+  const PAGE_THEME = 'portal';
 
   return (
     <ResourcePageLayout
@@ -115,7 +115,7 @@ export function CharacterList() {
           </div>
           <div className="w-full md:w-auto">
             <FilterPanel
-              theme="character"
+              theme="portal"
               filters={filters}
               filterOptions={displayOptions}
               onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}

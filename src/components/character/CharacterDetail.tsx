@@ -36,7 +36,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
       <NotFoundState
         title="Subject Not Found"
         message="The character you are looking for does not exist in this central finite curve."
-        theme="character"
+        theme="portal" // CHANGED: 'character' → 'portal'
       />
     );
   }

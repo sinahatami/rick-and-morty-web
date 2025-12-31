@@ -1,18 +1,18 @@
 @import 'tailwindcss';
 
 :root {
-  /* Semantic Brand Colors */
-  --color-character: #b8e986; /* Portal Green */
-  --color-location: #00b5cc; /* Rick Blue */
-  --color-episode: #ff9800; /* Morty Orange */
+  /* Semantic Theme Colors */
+  --color-portal: #b8e986; /* Portal Green */
+  --color-rick: #00b5cc; /* Rick Blue */
+  --color-morty: #ff9800; /* Morty Orange */
 
   /* UI Colors */
   --background: #ffffff;
   --foreground: #111827;
 
   /* Keep generic names for utility classes if needed */
-  --primary: var(--color-location);
-  --secondary: var(--color-character);
+  --primary: var(--color-rick);
+  --secondary: var(--color-portal);
 }
 
 body {

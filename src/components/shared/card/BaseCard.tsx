@@ -5,7 +5,7 @@ import { getThemeStyles } from '~/lib/theme';
 export function BaseCard({
   children,
   href,
-  theme = 'character',
+  theme = 'portal', // CHANGED: 'character' → 'portal'
   className = '',
   title,
 }: BaseCardProps & { title?: string }) {

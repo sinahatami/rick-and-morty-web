@@ -6,7 +6,7 @@ export function LoadMoreButton({
   onClick,
   disabled,
   isFetchingNextPage,
-  theme,
+  theme = 'portal', // Added default theme
 }: LoadMoreButtonProps) {
   return (
     <div className="flex justify-center py-10">

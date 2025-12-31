@@ -5,7 +5,7 @@ import { getThemeStyles } from '~/lib/theme';
 
 export function Button({
   children,
-  theme = 'character',
+  theme = 'portal',
   isLoading = false,
   icon: Icon,
   className = '',
@@ -21,11 +21,8 @@ export function Button({
 
   const themeStyles: React.CSSProperties = {
     backgroundColor: isHovered ? styles.primary : `${styles.primary}40`,
-
     borderColor: isHovered ? styles.primary : `${styles.primary}4D`,
-
     color: isHovered ? 'white' : styles.primary,
-
     ...style,
   };
 

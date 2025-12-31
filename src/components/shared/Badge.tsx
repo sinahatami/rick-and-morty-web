@@ -1,7 +1,13 @@
+import { memo } from 'react';
 import { BadgeProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 
-export function Badge({ label, icon: Icon, className = '', theme = 'character' }: BadgeProps) {
+export const Badge = memo(function Badge({
+  label,
+  icon: Icon,
+  className = '',
+  theme = 'portal',
+}: BadgeProps) {
   const styles = getThemeStyles(theme);
 
   return (
@@ -14,13 +20,14 @@ export function Badge({ label, icon: Icon, className = '', theme = 'character' }
         ${className}
       `}
       style={{
-        // 2. Use the theme's primary color for text and a slightly darker version for border
         color: styles.primary,
-        borderColor: `${styles.primary}40`, // 25% opacity border for a soft look
+        borderColor: `${styles.primary}40`,
       }}
     >
       {Icon && <Icon className="h-3.5 w-3.5" style={{ color: styles.primary }} />}
       <span>{label}</span>
     </span>
   );
-}
+});
+
+Badge.displayName = 'Badge';

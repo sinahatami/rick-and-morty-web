@@ -22,7 +22,7 @@ export function ResourcePageLayout<T extends { id: string | number }>({
   renderItem,
   emptyTitle = 'Not Found',
   emptyDescription = 'No results match your criteria.',
-  theme = 'character',
+  theme = 'portal', // CHANGED: 'character' → 'portal'
 }: ResourcePageLayoutProps<T>) {
   if (isLoading && items.length === 0) {
     return (

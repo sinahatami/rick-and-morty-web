@@ -1,14 +1,15 @@
 import { Character } from "./api";
 
-export interface useCharactersReturn {
+export interface UseCharactersReturn {
   characters: Character[];
   totalCount: number;
   totalPages: number;
   isLoading: boolean;
   isError: boolean;
-  error: Error | null;
-  fetchNextPage: () => void;
+  error: any;
+  fetchNextPage: () => Promise<any>;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
-  refetch: () => void;
+  refetch: () => Promise<any>;
+  isRefetching?: boolean;
 }

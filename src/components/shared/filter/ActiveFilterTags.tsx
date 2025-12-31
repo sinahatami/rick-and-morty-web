@@ -8,7 +8,7 @@ export function ActiveFilterTags({
   onClearAll,
   searchQuery,
   onClearSearch,
-  theme = 'character',
+  theme = 'portal', // Changed default from 'character' to 'portal'
 }: ActiveFilterTagsProps) {
   // 1. Get Theme Styles
   const styles = getThemeStyles(theme);

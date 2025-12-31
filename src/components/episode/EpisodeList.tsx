@@ -28,7 +28,7 @@ export function EpisodeList() {
   }, [setSearchQuery]);
 
   // Define the context once for clarity
-  const PAGE_THEME = 'episode';
+  const PAGE_THEME = 'morty';
 
   return (
     <ResourcePageLayout

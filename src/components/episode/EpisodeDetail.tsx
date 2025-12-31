@@ -26,7 +26,7 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
     error,
   } = useEntityDetail<Episode>(apiClient.episodes.getById, id, 'Failed to load episode details');
 
-  const theme = 'episode';
+  const theme = 'morty'; // CHANGED: 'episode' → 'morty'
   const styles = getThemeStyles(theme);
 
   const getSeasonInfo = (code: string) => {
@@ -66,7 +66,6 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
                 <Badge label={`Season ${season}`} icon={Tv} theme={theme} />
                 <Badge
                   label={`Episode ${epNum}`}
-                  variant="outline"
                   theme={theme}
                   className="bg-gray-50 border-gray-200 text-gray-500"
                 />

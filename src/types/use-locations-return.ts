@@ -1,4 +1,4 @@
-import { Location } from '~/types';
+import { Location } from "./api";
 
 export interface UseLocationsReturn {
   locations: Location[];
@@ -6,10 +6,10 @@ export interface UseLocationsReturn {
   totalPages: number;
   isLoading: boolean;
   isError: boolean;
-  error: Error | null;
-  fetchNextPage: () => void;
+  error: any;
+  fetchNextPage: () => Promise<any>;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
-  refetch: () => void;
-  isRefetching: boolean;
+  refetch: () => Promise<any>;
+  isRefetching?: boolean;
 }

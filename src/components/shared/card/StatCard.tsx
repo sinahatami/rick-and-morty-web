@@ -4,31 +4,31 @@ export function StatCard({
   icon: Icon,
   label,
   value,
-  theme = 'character',
+  theme = 'portal',
   className = '',
 }: StatCardProps) {
   const themeStyles = {
-    character: {
-      // Rick Blue
-      icon: 'text-[#00B5CC]',
-      // Static State (Subtle Blue)
-      baseBg: 'bg-[#00B5CC]/5',
-      baseBorder: 'border-[#00B5CC]/20',
-      // Hover State (Stronger Blue)
-      cardHover: 'hover:!bg-[#00B5CC]/10 hover:!border-[#00B5CC]/40',
-      iconBg: 'group-hover/card:bg-[#00B5CC]/20',
-    },
-    location: {
+    portal: {
       // Portal Green
       icon: 'text-[#B8E986]',
       // Static State (Subtle Green)
-      baseBg: 'bg-[#B8E986]/10',
-      baseBorder: 'border-[#B8E986]/30',
-      // Hover State
-      cardHover: 'hover:!bg-[#B8E986]/20 hover:!border-[#B8E986]/50',
-      iconBg: 'group-hover/card:bg-[#B8E986]/30',
+      baseBg: 'bg-[#B8E986]/5',
+      baseBorder: 'border-[#B8E986]/20',
+      // Hover State (Stronger Green)
+      cardHover: 'hover:!bg-[#B8E986]/10 hover:!border-[#B8E986]/40',
+      iconBg: 'group-hover/card:bg-[#B8E986]/20',
     },
-    episode: {
+    rick: {
+      // Rick Blue
+      icon: 'text-[#00B5CC]',
+      // Static State (Subtle Blue)
+      baseBg: 'bg-[#00B5CC]/10',
+      baseBorder: 'border-[#00B5CC]/30',
+      // Hover State
+      cardHover: 'hover:!bg-[#00B5CC]/20 hover:!border-[#00B5CC]/50',
+      iconBg: 'group-hover/card:bg-[#00B5CC]/30',
+    },
+    morty: {
       // Morty Orange
       icon: 'text-[#FF9800]',
       // Static State (Subtle Orange)
@@ -40,7 +40,7 @@ export function StatCard({
     },
   };
 
-  const styles = themeStyles[theme];
+  const styles = themeStyles[theme] || themeStyles.portal;
 
   return (
     <div

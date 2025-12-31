@@ -6,8 +6,8 @@ export function ScrollToTop(): any {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // 1. Get Theme Styles
-  const styles = getThemeStyles();
+  // 1. Get Theme Styles (Default to portal theme)
+  const styles = getThemeStyles('portal'); // Changed from empty to 'portal'
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 500);

@@ -12,6 +12,7 @@ import { apiClient } from '~/lib/api-client';
 import { Location, LocationDetailProps } from '~/types';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/helper';
+import { useMemo } from 'react';
 
 export function LocationDetail({ id }: LocationDetailProps) {
   const {
@@ -26,7 +27,8 @@ export function LocationDetail({ id }: LocationDetailProps) {
 
   const isCitadel =
     location?.name.toLowerCase().includes('citadel') || location?.name === 'Last Known Location';
-  const pageTheme = isCitadel ? 'character' : 'location';
+
+  const pageTheme = useMemo(() => (isCitadel ? 'portal' : 'rick'), [isCitadel]);
 
   if (error || !location) {
     return (
@@ -39,9 +41,10 @@ export function LocationDetail({ id }: LocationDetailProps) {
     );
   }
 
-  const residentIds = location.residents
-    .map(extractIdFromUrl)
-    .filter((id): id is number => id !== null);
+  const residentIds = useMemo(
+    () => location?.residents.map(extractIdFromUrl).filter((id): id is number => id !== null) || [],
+    [location?.residents]
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">

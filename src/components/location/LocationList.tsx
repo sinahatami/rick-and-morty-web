@@ -62,8 +62,7 @@ export function LocationList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
-  // DEFINE THEME ONCE
-  const PAGE_THEME = 'location';
+  const PAGE_THEME = 'rick';
 
   return (
     <ResourcePageLayout
@@ -93,7 +92,7 @@ export function LocationList() {
 
           <div className="w-full md:w-auto">
             <FilterPanel
-              theme="location"
+              theme="rick"
               filters={filters as Record<string, string | undefined>}
               filterOptions={displayOptions as unknown as Record<string, string[]>}
               onFilterChange={newFilters => setFilters(newFilters as LocationFilters)}

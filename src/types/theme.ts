@@ -1,1 +1,1 @@
-export type Theme = 'character' | 'location' | 'episode';
+export type Theme = 'portal' | 'rick' | 'morty';

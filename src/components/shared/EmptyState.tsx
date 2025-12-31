@@ -12,7 +12,7 @@ export const EmptyState = memo(
     onClearFilters,
     showClearButton = true,
     buttonText = 'Clear All Filters',
-    theme = 'character',
+    theme = 'portal', // Changed default from 'character' to 'portal'
   }: EmptyStateProps) => {
     // 1. Get Styles
     const styles = getThemeStyles(theme);
@@ -49,7 +49,7 @@ export const EmptyState = memo(
         {showClearButton && onClearFilters && (
           <Button
             onClick={onClearFilters}
-            theme="character"
+            theme="portal"
             className="text-sm min-w-[140px] font-bold border-2 transition-all duration-300"
             style={{
               backgroundColor: isHovered ? styles.primary : 'white',

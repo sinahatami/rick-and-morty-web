@@ -1,28 +1,30 @@
 export const THEME_COLORS = {
-  character: {
+  portal: {
     primary: '#B8E986', // Portal Green
     secondary: '#97C06B',
     text: 'text-green-700',
     lightBg: 'bg-[#B8E986]/10',
     lightBorder: 'border-[#B8E986]/20',
-    // ADDED: Green Gradient
     gradient: 'from-[#B8E986] via-[#43D45D] to-[#B8E986]',
+    name: 'Portal',
   },
-  location: {
+  rick: {
     primary: '#00B5CC', // Rick Blue
     secondary: '#0091A3',
     text: 'text-[#0091A3]',
     lightBg: 'bg-[#00B5CC]/10',
     lightBorder: 'border-[#00B5CC]/20',
     gradient: 'from-[#00B5CC] via-[#00E5FF] to-[#00B5CC]',
+    name: 'Rick',
   },
-  episode: {
+  morty: {
     primary: '#FF9800', // Morty Orange
     secondary: '#F57C00',
     text: 'text-[#E65100]',
     lightBg: 'bg-[#FF9800]/10',
     lightBorder: 'border-[#FF9800]/20',
     gradient: 'from-orange-400 via-amber-300 to-yellow-400',
+    name: 'Morty',
   },
   default: {
     primary: '#9CA3AF',
@@ -31,6 +33,7 @@ export const THEME_COLORS = {
     lightBg: 'bg-gray-50',
     lightBorder: 'border-gray-200',
     gradient: 'from-gray-200 via-gray-300 to-gray-200',
+    name: 'Default',
   },
 };
 
@@ -40,14 +43,21 @@ export function getThemeStyles(type?: string, name?: string) {
   const normalizedType = type?.toLowerCase() || 'default';
   const normalizedName = name?.toLowerCase() || '';
 
-  // Overrides
+  // Overrides - Citadel of Ricks uses portal (green) theme
   if (normalizedName.includes('citadel of ricks') || normalizedName === 'last known location') {
-    return THEME_COLORS.character;
+    return THEME_COLORS.portal;
   }
 
-  if (normalizedType === 'character') return THEME_COLORS.character;
-  if (normalizedType === 'location') return THEME_COLORS.location;
-  if (normalizedType === 'episode') return THEME_COLORS.episode;
+  // Map old names to new names for backward compatibility
+  const themeMap: Record<string, ThemeKey> = {
+    'character': 'portal',
+    'location': 'rick',
+    'episode': 'morty',
+    'portal': 'portal',
+    'rick': 'rick',
+    'morty': 'morty',
+  };
 
-  return THEME_COLORS.default;
+  const themeKey = themeMap[normalizedType] || 'default';
+  return THEME_COLORS[themeKey];
 }

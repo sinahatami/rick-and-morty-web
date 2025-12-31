@@ -1,0 +1,36 @@
+import { Dna } from 'lucide-react';
+import { memo } from 'react';
+import { Badge } from '../../shared/Badge';
+import { CharacterInfoProps } from '~/types';
+
+export const CharacterInfo = memo(function CharacterInfo({
+  name,
+  species,
+  gender,
+}: CharacterInfoProps) {
+  return (
+    <div className="mb-4">
+      <h3
+        className="text-xl font-black text-gray-900 leading-tight group-hover:text-[#B8E986] transition-colors duration-200 line-clamp-1"
+        title={name}
+      >
+        {name}
+      </h3>
+
+      <div className="flex items-center gap-2 mt-2">
+        <Badge
+          label={species}
+          icon={Dna}
+          theme="portal"
+          className="group-hover:border-[#B8E986]/30 group-hover:text-[#B8E986]"
+        />
+
+        <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wide ml-1">
+          {gender}
+        </span>
+      </div>
+    </div>
+  );
+});
+
+CharacterInfo.displayName = 'CharacterInfo';

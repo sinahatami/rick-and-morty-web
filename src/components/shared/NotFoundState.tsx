@@ -9,7 +9,7 @@ export function NotFoundState({
   title,
   message,
   backLabel = 'Return to Safety',
-  theme = 'character',
+  theme = 'portal', // Changed default from 'character' to 'portal'
 }: NotFoundStateProps) {
   const router = useRouter();
   const styles = getThemeStyles(theme);

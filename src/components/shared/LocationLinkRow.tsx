@@ -13,8 +13,8 @@ export function LocationLinkRow({ label, name, url, icon: Icon }: LocationLinkRo
   const locationId = url ? url.split('/').filter(Boolean).pop() : null;
   const isClickable = !isUnknown && !!locationId;
 
-  // 2. Theme: Get dynamic colors (Handles 'Citadel of Ricks' -> Green override automatically)
-  const theme = getThemeStyles('location', name);
+  // 2. Theme: Get dynamic colors (Handles 'Citadel of Ricks' -> Portal override automatically)
+  const theme = getThemeStyles('rick', name); // Changed from 'location' to 'rick'
 
   // 3. Handlers: Navigation
   const handleClick = () => {

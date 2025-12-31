@@ -5,7 +5,7 @@ export function PageSubtitle({
   prefix,
   highlight,
   suffix,
-  theme = 'character',
+  theme = 'portal', // Changed default from 'character' to 'portal'
   colorClass,
   decorationClass,
 }: PageSubtitleProps) {

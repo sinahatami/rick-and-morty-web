@@ -20,8 +20,8 @@ export function EpisodeGridSection({
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // 1. Get Theme Styles (Episode = Orange)
-  const theme = 'episode';
+  // 1. Get Theme Styles (Morty = Orange)
+  const theme = 'morty'; // Changed from 'episode' to 'morty'
   const styles = getThemeStyles(theme);
 
   // 2. Fix Infinite Loop: Stable dependency key
@@ -42,7 +42,7 @@ export function EpisodeGridSection({
         if (isMounted) setIsLoadingInitial(true);
         const firstBatchIds = currentIds.slice(0, EPISODES_PER_BATCH);
 
-        // Fetch each episode by id (apiClient.episodes.getById expects a single string)
+        // Fetch each episode by id
         const data = await Promise.all(
           firstBatchIds.map((id: string) => apiClient.episodes.getById(id))
         );

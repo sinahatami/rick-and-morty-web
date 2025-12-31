@@ -1,7 +1,7 @@
 import { DetailCardProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 
-export function DetailCard({ children, theme = 'character', className = '' }: DetailCardProps) {
+export function DetailCard({ children, theme = 'portal', className = '' }: DetailCardProps) {
   const styles = getThemeStyles(theme);
 
   return (
