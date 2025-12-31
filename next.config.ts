@@ -1,10 +1,14 @@
+import type { NextConfig } from 'next';
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-import type { NextConfig } from 'next'
-
 const nextConfig: NextConfig = {
+  output: 'export',
+
+  basePath: '/rick-and-morty-web-template',
+
   eslint: {
     ignoreDuringBuilds: false,
   },
@@ -13,6 +17,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -21,6 +26,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-}
+};
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig);
