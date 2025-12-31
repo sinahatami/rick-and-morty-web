@@ -7,16 +7,17 @@ import Image from 'next/image';
 import { NavLink } from './shared/navigation/NavLink';
 import { Container } from './shared/Container';
 import icon from '~/public/images/icon.png';
-import { NavItem } from '~/types/nav-item';
+import { NavItem } from '~/types';
+import { ROUTES } from '~/lib/routes';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const navItems: NavItem[] = [
-    { label: 'Characters', href: '/', icon: <UsersRound className="h-5 w-5" /> },
-    { label: 'Locations', href: '/locations', icon: <Map className="h-5 w-5" /> },
-    { label: 'Episodes', href: '/episodes', icon: <Film className="h-5 w-5" /> },
+    { label: 'Characters', href: ROUTES.CHARACTERS.LIST, icon: <UsersRound className="h-5 w-5" /> },
+    { label: 'Locations', href: ROUTES.LOCATIONS.LIST, icon: <Map className="h-5 w-5" /> },
+    { label: 'Episodes', href: ROUTES.EPISODES.LIST, icon: <Film className="h-5 w-5" /> },
   ];
 
   const isActive = (href: string) => {
@@ -29,7 +30,7 @@ const Navigation = () => {
       <Container>
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={ROUTES.HOME} className="flex items-center gap-2">
             <Image src={icon} alt="Logo" width={42} height={42} priority />
           </Link>
 

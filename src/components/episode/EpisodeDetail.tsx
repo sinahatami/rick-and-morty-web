@@ -27,7 +27,7 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
     error,
   } = useEntityDetail<Episode>(apiClient.episodes.getById, id, 'Failed to load episode details');
 
-  const theme = 'morty'; // CHANGED: 'episode' → 'morty'
+  const theme = 'morty';
   const styles = getThemeStyles(theme);
 
   const getSeasonInfo = (code: string) => {

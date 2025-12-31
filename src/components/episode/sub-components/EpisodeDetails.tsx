@@ -1,4 +1,5 @@
 import { Hash, Calendar } from 'lucide-react';
+
 import { CardInfoRow } from '../../shared/card/CardInfoRow';
 import { EpisodeDetailsProps } from '~/types';
 

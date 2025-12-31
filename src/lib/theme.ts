@@ -48,7 +48,6 @@ export function getThemeStyles(type?: string, name?: string) {
     return THEME_COLORS.portal;
   }
 
-  // Map old names to new names for backward compatibility
   const themeMap: Record<string, ThemeKey> = {
     'character': 'portal',
     'location': 'rick',

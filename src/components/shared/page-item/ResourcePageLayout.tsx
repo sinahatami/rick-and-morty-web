@@ -25,7 +25,7 @@ export function ResourcePageLayout<T extends { id: string | number }>(
   const showLoader = props.isLoading && props.items.length === 0;
 
   return (
-    <Container className="py-10 space-y-10">
+    <Container className="py-28 space-y-10">
       {!isMounted || showLoader ? (
         <div className="py-10 min-h-[40vh] flex items-center justify-center">
           <LoadingSpinner message="Scanning the multiverse..." />

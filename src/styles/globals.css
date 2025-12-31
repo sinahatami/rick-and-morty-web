@@ -1,18 +1,6 @@
 @import 'tailwindcss';
 
 :root {
-  /* Semantic Theme Colors */
-  --color-portal: #b8e986; /* Portal Green */
-  --color-rick: #00b5cc; /* Rick Blue */
-  --color-morty: #ff9800; /* Morty Orange */
-
-  /* UI Colors */
-  --background: #ffffff;
-  --foreground: #111827;
-
-  /* Keep generic names for utility classes if needed */
-  --primary: var(--color-rick);
-  --secondary: var(--color-portal);
 }
 
 body {

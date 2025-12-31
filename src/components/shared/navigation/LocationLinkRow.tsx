@@ -8,15 +8,13 @@ import { getThemeStyles } from '~/lib/theme';
 export function LocationLinkRow({ label, name, url, icon: Icon }: LocationLinkRowProps) {
   const router = useRouter();
 
-  // 1. Logic: Parse ID safely and check status
   const isUnknown = name.toLowerCase() === 'unknown';
   const locationId = url ? url.split('/').filter(Boolean).pop() : null;
   const isClickable = !isUnknown && !!locationId;
 
-  // 2. Theme: Get dynamic colors (Handles 'Citadel of Ricks' -> Portal override automatically)
   const theme = getThemeStyles('rick', name); // Changed from 'location' to 'rick'
 
-  // 3. Handlers: Navigation
+  // Handlers: Navigation
   const handleClick = () => {
     if (isClickable && locationId) {
       router.push(`/locations/${locationId}`);

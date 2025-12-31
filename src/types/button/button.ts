@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { Theme } from "./theme/theme";
+import { Theme } from '~/types';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: Theme;

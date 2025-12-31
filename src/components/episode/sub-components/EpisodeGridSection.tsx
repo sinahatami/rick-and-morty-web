@@ -20,16 +20,13 @@ export function EpisodeGridSection({
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // 1. Get Theme Styles (Morty = Orange)
-  const theme = 'morty'; // Changed from 'episode' to 'morty'
+  const theme = 'morty';
   const styles = getThemeStyles(theme);
 
-  // 2. Fix Infinite Loop: Stable dependency key
   const idsFingerprint = JSON.stringify(episodeIds);
 
   useEffect(() => {
     let isMounted = true;
-    // Parse back to array
     const currentIds = JSON.parse(idsFingerprint);
 
     const fetchInitial = async () => {

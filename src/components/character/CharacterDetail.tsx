@@ -36,7 +36,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
       <NotFoundState
         title="Subject Not Found"
         message="The character you are looking for does not exist in this central finite curve."
-        theme="portal" // CHANGED: 'character' → 'portal'
+        theme="portal"
       />
     );
   }
@@ -45,7 +45,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
   const episodeIds = character.episode
     .map(extractIdFromUrl)
     .filter((id): id is number => id !== null)
-    .map(String); // EpisodeGridSection expects strings based on previous code
+    .map(String);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in fade-in duration-500">
