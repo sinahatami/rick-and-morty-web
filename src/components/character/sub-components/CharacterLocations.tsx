@@ -1,5 +1,6 @@
 import { MapPin, Globe } from 'lucide-react';
 import { memo } from 'react';
+
 import { CardInfoRow } from '../../shared/card/CardInfoRow';
 import { CharacterLocationsProps } from '~/types/character';
 

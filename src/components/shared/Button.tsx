@@ -1,11 +1,11 @@
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
 import { ButtonProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
+import { useTheme } from '~/contex/ThemeContext';
 
 export function Button({
   children,
-  theme = 'portal',
+  theme: propTheme,
   isLoading = false,
   icon: Icon,
   className = '',
@@ -13,30 +13,29 @@ export function Button({
   style,
   ...props
 }: ButtonProps) {
-  const styles = getThemeStyles(theme);
-  const [isHovered, setIsHovered] = useState(false);
+  const { theme: contextTheme, styles: contextStyles } = useTheme();
+
+  const styles = propTheme ? getThemeStyles(propTheme) : contextStyles;
 
   const baseStyles =
-    'relative inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none border-2';
-
-  const themeStyles: React.CSSProperties = {
-    backgroundColor: isHovered ? styles.primary : `${styles.primary}40`,
-    borderColor: isHovered ? styles.primary : `${styles.primary}4D`,
-    color: isHovered ? 'white' : styles.primary,
-    ...style,
-  };
+    'relative inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none border-2';
 
   return (
     <button
       disabled={isLoading || disabled}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className={`${baseStyles} ${className}`}
-      style={themeStyles}
+      style={{
+        backgroundColor: `${styles.primary}40`,
+        borderColor: `${styles.primary}4D`,
+        color: styles.primary,
+        ...style,
+      }}
       {...props}
     >
-      {isLoading && <Loader2 className="w-4 h-4 animate-spin text-current" />}
-      {!isLoading && Icon && <Icon className="w-4 h-4 text-current" />}
+      {isLoading && <Loader2 className="w-4 h-4 animate-spin text-current" aria-hidden="true" />}
+
+      {!isLoading && Icon && <Icon className="w-4 h-4 text-current" aria-hidden="true" />}
+
       <span className="relative z-10">{children}</span>
     </button>
   );

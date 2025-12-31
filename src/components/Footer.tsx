@@ -2,7 +2,7 @@ import { Github, Linkedin, Heart } from 'lucide-react';
 
 import { Container } from './shared/Container';
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto">
       <Container className="py-12">

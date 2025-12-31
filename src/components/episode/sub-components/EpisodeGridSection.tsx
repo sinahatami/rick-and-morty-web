@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Film } from 'lucide-react';
 
-import { EpisodeCard } from './EpisodeCard';
-import { LoadMoreButton } from '../shared/LoadMoreButton';
-import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { Episode } from '~/types/api/episode';
 import { EpisodeGridSectionProps } from '~/types/episode/episode-grid-section';
 import { apiClient } from '~/lib/api-client';
 import { getThemeStyles } from '~/lib/theme';
+import { LoadingSpinner } from '~/components/shared/loading/LoadingSpinner';
+import { LoadMoreButton } from '~/components/shared/loading/LoadMoreButton';
+import { EpisodeCard } from '../EpisodeCard';
 
 const EPISODES_PER_BATCH = 9;
 

@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { ResourcePageLayout } from '../shared/ResourcePageLayout';
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
 import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { LocationCard } from './LocationCard';
-import { PageSubtitle } from '../shared/PageSubtitle';
+import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 import { useLocations } from '~/hooks/useLocations';
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { LocationFilterOptions, LocationFilters } from '~/types';
 import { extractLocationOptions } from '../../utils/location-utils';
+import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
 import banner from '~/public/images/location-banner.jpg';
 
@@ -62,19 +62,15 @@ export function LocationList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
-  const PAGE_THEME = 'rick';
-
   return (
     <ResourcePageLayout
       items={locations}
       isLoading={isLoading}
       totalCount={totalCount}
       title="Multiverse Locations"
-      theme={PAGE_THEME}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <PageSubtitle
-          theme={PAGE_THEME}
           prefix="Cataloging"
           highlight={totalCount.toLocaleString()}
           suffix="dimensional nodes"
@@ -102,7 +98,6 @@ export function LocationList() {
       }
       activeFilters={
         <ActiveFilterTags
-          theme={PAGE_THEME}
           filters={filters as Record<string, string | undefined>}
           searchQuery={searchQuery}
           onRemove={key => {

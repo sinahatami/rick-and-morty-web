@@ -8,7 +8,7 @@ export function FilterSelect({
   value,
   options,
   onChange,
-  theme = 'portal', // Changed default from 'character' to 'portal'
+  theme = 'portal',
 }: FilterSelectProps) {
   const styles = getThemeStyles(theme);
 

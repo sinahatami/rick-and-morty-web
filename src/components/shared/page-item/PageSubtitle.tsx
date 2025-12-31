@@ -1,18 +1,22 @@
-import { PageSubtitleProps } from '~/types';
+import { useTheme } from '~/contex/ThemeContext';
 import { getThemeStyles } from '~/lib/theme';
+import { PageSubtitleProps } from '~/types';
 
 export function PageSubtitle({
   prefix,
   highlight,
   suffix,
-  theme = 'portal', // Changed default from 'character' to 'portal'
+  theme: propTheme,
   colorClass,
   decorationClass,
 }: PageSubtitleProps) {
-  // 1. Fetch centralized styles
-  const styles = getThemeStyles(theme);
+  const { theme: contextTheme, styles: contextStyles } = useTheme();
 
-  // 2. Determine classes (Use props if provided, otherwise derive from theme)
+  // Use prop theme if provided, otherwise use context theme
+  const actualTheme = propTheme || contextTheme;
+  const styles = propTheme ? getThemeStyles(propTheme) : contextStyles;
+
+  // Determine classes (Use props if provided, otherwise derive from theme)
   const finalTextColor = colorClass || styles.text;
   const finalDecoration = decorationClass || `decoration-[${styles.primary}]/30`;
 

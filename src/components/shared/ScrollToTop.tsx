@@ -1,13 +1,12 @@
 import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getThemeStyles } from '~/lib/theme';
+import { useTheme } from '~/contex/ThemeContext';
 
 export function ScrollToTop(): any {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // 1. Get Theme Styles (Default to portal theme)
-  const styles = getThemeStyles('portal'); // Changed from empty to 'portal'
+  const { styles } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 500);
@@ -30,11 +29,9 @@ export function ScrollToTop(): any {
         ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}
       `}
       style={{
-        // 2. Dynamic Styles
         borderColor: isHovered ? styles.primary : '#e5e7eb',
         color: isHovered ? styles.primary : '#6b7280',
         backgroundColor: isHovered ? `${styles.primary}20` : 'rgba(255, 255, 255, 0.8)',
-
         transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
       }}
       aria-label="Scroll to top"

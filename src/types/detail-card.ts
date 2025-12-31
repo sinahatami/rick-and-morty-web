@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { Theme } from "./theme";
+import { Theme } from "./theme/theme";
 
 export interface DetailCardProps {
   children: ReactNode;

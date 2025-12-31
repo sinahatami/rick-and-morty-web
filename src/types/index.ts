@@ -32,9 +32,11 @@ export * from './resource-page-layout';
 export * from './search-bar';
 export * from './section-header';
 export * from './stat-card';
-export * from './use-locations-return';
-export * from './use-characters-return';
+export * from './hooks/use-locations-return';
+export * from './hooks/use-characters-return';
 
 export * from './card';
+export * from './theme';
+
 
 

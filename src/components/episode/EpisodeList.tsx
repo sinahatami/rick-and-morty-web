@@ -1,14 +1,16 @@
 import { useCallback } from 'react';
 
 import { EpisodeCard } from './EpisodeCard';
-import { ResourcePageLayout } from '../shared/ResourcePageLayout';
 import { SearchBar } from '../shared/SearchBar';
 import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { SimpleBanner } from '../shared/SimpleBanner';
-import banner from '~/public/images/episode-banner.jpg';
-import { PageSubtitle } from '../shared/PageSubtitle';
+import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { useEpisodes } from '~/hooks/useEpisodes';
+import { Episode } from '~/types';
+import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
+
+import banner from '~/public/images/episode-banner.jpg';
 
 // --- Utilities ---
 const getInitialFilters = (params: URLSearchParams) => ({
@@ -70,7 +72,7 @@ export function EpisodeList() {
       onLoadMore={fetchNextPage}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
-      renderItem={episode => <EpisodeCard key={episode.id} episode={episode} />}
+      renderItem={(episode: Episode) => <EpisodeCard key={episode.id} episode={episode} />}
     />
   );
 }

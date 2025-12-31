@@ -2,14 +2,14 @@ import { apiClient } from '~/lib/api-client';
 import { Character } from '~/types';
 
 import { GoBackButton } from '../shared/GoBackButton';
-import { LoadingSpinner } from '../shared/LoadingSpinner';
-import { NotFoundState } from '../shared/NotFoundState';
-import { EpisodeGridSection } from '../episode/EpisodeGridSection';
-import { CharacterIdentityCard } from './CharacterIdentityCard';
-import { CharacterBiometrics } from './CharacterBiometrics';
-import { CharacterLocationHistory } from './CharacterLocationHistory';
+import { LoadingSpinner } from '../shared/loading/LoadingSpinner';
+import { CharacterIdentityCard } from './sub-components/CharacterIdentityCard';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl } from '~/utils/helper';
+import { NotFoundState } from '../shared/state/NotFoundState';
+import { CharacterBiometrics } from './sub-components/CharacterBiometrics';
+import { CharacterLocationHistory } from './sub-components/CharacterLocationHistory';
+import { EpisodeGridSection } from '../episode/sub-components/EpisodeGridSection';
 
 export interface CharacterDetailProps {
   id: string;

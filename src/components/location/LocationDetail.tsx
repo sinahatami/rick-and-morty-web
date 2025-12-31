@@ -1,18 +1,17 @@
 import { Users, MapPin, Globe, Calendar, Zap } from 'lucide-react';
+import { useMemo } from 'react';
 
-import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { LoadingSpinner } from '../shared/loading/LoadingSpinner';
 import { GoBackButton } from '../shared/GoBackButton';
 import { StatCard } from '../shared/card/StatCard';
 import { DetailCard } from '../shared/card/DetailCard';
-import { NotFoundState } from '../shared/NotFoundState';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
-import { Badge } from '../shared/Badge';
-
+import { Badge } from '../shared/badge/Badge';
 import { apiClient } from '~/lib/api-client';
 import { Location, LocationDetailProps } from '~/types';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/helper';
-import { useMemo } from 'react';
+import { NotFoundState } from '../shared/state/NotFoundState';
 
 export function LocationDetail({ id }: LocationDetailProps) {
   const {
@@ -21,14 +20,19 @@ export function LocationDetail({ id }: LocationDetailProps) {
     error,
   } = useEntityDetail<Location>(apiClient.locations.getById, id, 'Failed to load location details');
 
+  const isCitadel =
+    location?.name?.toLowerCase().includes('citadel') || location?.name === 'Last Known Location';
+
+  const pageTheme = useMemo(() => (isCitadel ? 'portal' : 'rick'), [isCitadel]);
+
+  const residentIds = useMemo(
+    () => location?.residents.map(extractIdFromUrl).filter((id): id is number => id !== null) || [],
+    [location?.residents]
+  );
+
   if (loading) {
     return <LoadingSpinner message="Scanning dimensional coordinates..." />;
   }
-
-  const isCitadel =
-    location?.name.toLowerCase().includes('citadel') || location?.name === 'Last Known Location';
-
-  const pageTheme = useMemo(() => (isCitadel ? 'portal' : 'rick'), [isCitadel]);
 
   if (error || !location) {
     return (
@@ -40,11 +44,6 @@ export function LocationDetail({ id }: LocationDetailProps) {
       />
     );
   }
-
-  const residentIds = useMemo(
-    () => location?.residents.map(extractIdFromUrl).filter((id): id is number => id !== null) || [],
-    [location?.residents]
-  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">

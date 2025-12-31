@@ -1,4 +1,4 @@
-import { Theme } from "../theme";
+import { Theme } from "../theme/theme";
 
 export interface FilterPanelProps {
   filters: Record<string, string | undefined>;

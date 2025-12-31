@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import { AlertCircle } from 'lucide-react';
 
-import { Button } from './Button';
 import { getThemeStyles } from '~/lib/theme';
 import { NotFoundStateProps } from '~/types';
+import { Button } from '../Button';
 
 export function NotFoundState({
   title,
   message,
   backLabel = 'Return to Safety',
-  theme = 'portal', // Changed default from 'character' to 'portal'
+  theme = 'portal',
 }: NotFoundStateProps) {
   const router = useRouter();
   const styles = getThemeStyles(theme);

@@ -1,14 +1,13 @@
-import { memo } from 'react';
 import { BadgeProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
+import { useTheme } from '~/contex/ThemeContext';
 
-export const Badge = memo(function Badge({
-  label,
-  icon: Icon,
-  className = '',
-  theme = 'portal',
-}: BadgeProps) {
-  const styles = getThemeStyles(theme);
+export function Badge({ label, icon: Icon, className = '', theme: propTheme }: BadgeProps) {
+  const { theme: contextTheme, styles: contextStyles } = useTheme();
+
+  // Use prop theme if provided, otherwise use context theme
+  const actualTheme = propTheme || contextTheme;
+  const styles = propTheme ? getThemeStyles(propTheme) : contextStyles;
 
   return (
     <span
@@ -28,6 +27,4 @@ export const Badge = memo(function Badge({
       <span>{label}</span>
     </span>
   );
-});
-
-Badge.displayName = 'Badge';
+}

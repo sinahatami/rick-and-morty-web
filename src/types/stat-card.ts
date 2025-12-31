@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { Theme } from "./theme";
+import { Theme } from "./theme/theme";
 
 export interface StatCardProps {
   icon: LucideIcon;

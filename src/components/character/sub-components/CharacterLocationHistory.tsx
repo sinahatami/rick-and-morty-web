@@ -1,8 +1,8 @@
 import { MapPin, Globe } from 'lucide-react';
 
-import { LocationLinkRow } from '../shared/LocationLinkRow';
 import { Character } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
+import { LocationLinkRow } from '~/components/shared/navigation/LocationLinkRow';
 
 interface CharacterLocationHistoryProps {
   origin: Character['origin'];

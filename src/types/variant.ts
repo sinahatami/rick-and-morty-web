@@ -1,1 +1,0 @@
-export type Variant = 'default' | 'outline' | 'accent' | 'ghost' 

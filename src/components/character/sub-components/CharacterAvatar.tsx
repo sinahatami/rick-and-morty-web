@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import { StatusBadge } from '../shared/StatusBadge';
 import { CharacterAvatarProps } from '~/types';
+import { StatusBadge } from '~/components/shared/badge/StatusBadge';
 
 export function CharacterAvatar({ name, image, status }: CharacterAvatarProps) {
   // Helper to determine border color based on status

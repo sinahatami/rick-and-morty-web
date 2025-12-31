@@ -1,6 +1,6 @@
 import { Location } from '~/types';
 
-import { Theme } from '../theme';
+import { Theme } from '../theme/theme';
 
 export interface LocationHeaderProps {
     location: Location;

@@ -1,6 +1,6 @@
 import { Earth, Globe, MapPin } from 'lucide-react';
 
-import { Badge } from '../../shared/Badge';
+import { Badge } from '../../shared/badge/Badge';
 import { LocationHeaderProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 

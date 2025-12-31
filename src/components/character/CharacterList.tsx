@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { ResourcePageLayout } from '../shared/ResourcePageLayout';
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
 import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
 import { SimpleBanner } from '../shared/SimpleBanner';
-import { PageSubtitle } from '../shared/PageSubtitle';
+import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { useCharacters } from '~/hooks/useCharacters';
 import { Character, FilterOptionsCharacter, URLFiltersCharacter } from '~/types';
+import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
 import banner from '~/public/images/character-banner.jpg';
 
@@ -85,20 +85,15 @@ export function CharacterList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
-  // DEFINE THEME ONCE
-  const PAGE_THEME = 'portal';
-
   return (
     <ResourcePageLayout
       items={characters}
       isLoading={isLoading}
       totalCount={totalCount}
       title="Characters"
-      theme={PAGE_THEME}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
         <PageSubtitle
-          theme={PAGE_THEME}
           prefix="Exploring"
           highlight={totalCount.toLocaleString()}
           suffix="souls across the cosmos"
@@ -126,7 +121,6 @@ export function CharacterList() {
       activeFilters={
         hasActiveFilters ? (
           <ActiveFilterTags
-            theme={PAGE_THEME}
             filters={filters}
             searchQuery={searchQuery}
             onRemove={key => {

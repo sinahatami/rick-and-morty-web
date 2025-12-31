@@ -1,6 +1,6 @@
 import { User, Dna } from 'lucide-react';
 
-import { AttributeRow } from '../shared/AttributeRow';
+import { AttributeRow } from '~/components/shared/AttributeRow';
 import { Character } from '~/types';
 
 interface CharacterBiometricsProps {

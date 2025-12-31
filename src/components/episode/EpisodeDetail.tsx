@@ -1,18 +1,19 @@
 import { Users, Calendar, Tv, MonitorPlay } from 'lucide-react';
 
-import { LoadingSpinner } from '../shared/LoadingSpinner';
+import { LoadingSpinner } from '../shared/loading/LoadingSpinner';
 import { GoBackButton } from '../shared/GoBackButton';
 import { StatCard } from '../shared/card/StatCard';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
 import { DetailCard } from '../shared/card/DetailCard';
-import { NotFoundState } from '../shared/NotFoundState';
-import { Badge } from '../shared/Badge';
+
+import { Badge } from '../shared/badge/Badge';
 import { Episode } from '~/types/api/episode';
 import { apiClient } from '~/lib/api-client';
 import { getThemeStyles } from '~/lib/theme';
 
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/helper';
+import { NotFoundState } from '../shared/state/NotFoundState';
 
 export interface EpisodeDetailProps {
   id: string;

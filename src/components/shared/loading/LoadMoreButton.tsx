@@ -1,12 +1,12 @@
 import { ChevronDown } from 'lucide-react';
-import { Button } from './Button';
+import { Button } from '../Button';
 import { LoadMoreButtonProps } from '~/types';
 
 export function LoadMoreButton({
   onClick,
   disabled,
   isFetchingNextPage,
-  theme = 'portal', // Added default theme
+  theme = 'portal',
 }: LoadMoreButtonProps) {
   return (
     <div className="flex justify-center py-10">

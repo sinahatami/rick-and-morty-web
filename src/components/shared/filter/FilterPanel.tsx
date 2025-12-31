@@ -134,7 +134,7 @@ export function FilterPanel({
                 onClick={handleReset}
                 theme={theme}
                 className="flex-1 py-3 text-xs tracking-widest uppercase bg-transparent border-none text-gray-400 hover:bg-red-50 hover:text-red-500 shadow-none"
-                style={{ backgroundColor: 'transparent', color: undefined }} // Overriding default theme behavior for reset
+                style={{ backgroundColor: 'transparent', color: undefined }}
               >
                 Reset
               </Button>

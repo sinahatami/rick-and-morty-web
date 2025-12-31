@@ -1,7 +1,7 @@
-import { Location } from "./api";
+import { Character } from "../api";
 
-export interface UseLocationsReturn {
-  locations: Location[];
+export interface UseCharactersReturn {
+  characters: Character[];
   totalCount: number;
   totalPages: number;
   isLoading: boolean;

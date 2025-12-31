@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { Users } from 'lucide-react';
 
 import { CharacterCard } from '../character/CharacterCard';
-import { LoadMoreButton } from './LoadMoreButton';
-import { LoadingSpinner } from './LoadingSpinner';
+import { LoadMoreButton } from './loading/LoadMoreButton';
+import { LoadingSpinner } from './loading/LoadingSpinner';
 import { SectionHeader } from './SectionHeader';
 import { Grid } from './Grid';
-import { EmptyState } from './EmptyState';
 import { apiClient } from '~/lib/api-client';
 import { Character, CharacterGridSectionProps } from '~/types';
+import { EmptyState } from './state/EmptyState';
 
 const PER_PAGE = 12;
 

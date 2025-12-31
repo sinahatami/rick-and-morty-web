@@ -1,9 +1,6 @@
 import { ReactNode } from 'react';
-
 import Navigation from './Navigation';
-import { Footer } from './Footer';
-import { ScrollToTop } from './shared/ScrollToTop';
-import { GlobalLoading } from './shared/GlobalLoading';
+import Footer from './Footer';
 
 export interface LayoutProps {
   children: ReactNode;
@@ -11,16 +8,10 @@ export interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900">
-      {/* Global Utils */}
-      <GlobalLoading />
-      <ScrollToTop />
-
-      {/* Main Structure */}
+    <div className="min-h-screen flex flex-col bg-white text-gray-900">
       <Navigation />
 
-      {/* Main Content grows to fill space, pushing footer down */}
-      <main className="flex-grow">{children}</main>
+      <main className="flex-1">{children}</main>
 
       <Footer />
     </div>

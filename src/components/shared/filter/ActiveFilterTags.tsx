@@ -8,12 +8,10 @@ export function ActiveFilterTags({
   onClearAll,
   searchQuery,
   onClearSearch,
-  theme = 'portal', // Changed default from 'character' to 'portal'
+  theme = 'portal',
 }: ActiveFilterTagsProps) {
-  // 1. Get Theme Styles
   const styles = getThemeStyles(theme);
 
-  // Combine filters with search query
   const allFilters = { ...filters };
   if (searchQuery) {
     allFilters.name = searchQuery;
@@ -31,7 +29,6 @@ export function ActiveFilterTags({
       {activeEntries.map(([key, value]) => (
         <div
           key={key}
-          // 2. Use Theme Classes for Background & Border
           className={`
             group flex items-center gap-2 pl-3 pr-1.5 py-1.5 
             border rounded-lg transition-colors
@@ -42,7 +39,6 @@ export function ActiveFilterTags({
         >
           <span
             className="text-[10px] font-bold uppercase opacity-70"
-            // 3. Use Hex for Text Color
             style={{ color: styles.primary }}
           >
             {key}:
@@ -63,7 +59,6 @@ export function ActiveFilterTags({
               }
             }}
             className="p-1 rounded-md transition-colors cursor-pointer hover:text-white"
-            // 4. Dynamic Button Styling
             style={{ color: styles.primary }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = styles.primary;

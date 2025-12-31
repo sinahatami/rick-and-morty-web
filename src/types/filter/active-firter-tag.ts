@@ -1,4 +1,4 @@
-import { Theme } from "../theme";
+import { Theme } from "../theme/theme";
 
 export interface ActiveFilterTagsProps {
   filters: Record<string, string | undefined>;

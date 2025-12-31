@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Theme } from "./theme";
+import { Theme } from "./theme/theme";
 
 export interface ResourcePageLayoutProps<T> {
   items: T[];
@@ -17,5 +17,5 @@ export interface ResourcePageLayoutProps<T> {
   renderItem: (item: T) => ReactNode;
   emptyTitle?: string;
   emptyDescription?: string;
-  theme: Theme
+  theme?: Theme
 }
