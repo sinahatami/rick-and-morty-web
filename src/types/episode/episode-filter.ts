@@ -1,5 +1,8 @@
+import { EpisodeCode, EpisodeSeason } from "./episode-season-episode-code";
+
 export interface EpisodeFilters {
   name?: string;
-  episode?: string;
-  page?: number;
+  season?: EpisodeSeason;
+  episode?: EpisodeCode;
+  [key: string]: string | undefined;
 }

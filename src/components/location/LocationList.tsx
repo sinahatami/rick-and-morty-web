@@ -76,9 +76,7 @@ export function LocationList() {
             <FilterPanel
               theme={PAGE_THEME}
               filters={filters}
-              // 2. Use the static constant
               filterOptions={STATIC_FILTER_OPTIONS}
-              // 3. Use the same consistent state update pattern
               onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
             />
           </div>
