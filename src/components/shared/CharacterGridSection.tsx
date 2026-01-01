@@ -18,7 +18,7 @@ export function CharacterGridSection({
   icon: Icon = Users,
   emptyTitle = 'No Data Found',
   emptyMessage = 'No characters found for this entry.',
-  theme = 'portal', // Changed default from 'character' to 'portal'
+  theme = 'portal',
 }: CharacterGridSectionProps) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
@@ -33,9 +33,6 @@ export function CharacterGridSection({
 
     const fetchInitial = async () => {
       if (currentIds.length === 0) {
-        {
-          theme;
-        }
         if (isMounted) setIsLoadingInitial(false);
         return;
       }

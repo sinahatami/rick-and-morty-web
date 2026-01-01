@@ -23,6 +23,7 @@ export function EpisodeGridSection({
   const theme = 'morty';
   const styles = getThemeStyles(theme);
 
+  // Stable fingerprint for dependency array
   const idsFingerprint = JSON.stringify(episodeIds);
 
   useEffect(() => {
@@ -39,7 +40,6 @@ export function EpisodeGridSection({
         if (isMounted) setIsLoadingInitial(true);
         const firstBatchIds = currentIds.slice(0, EPISODES_PER_BATCH);
 
-        // Fetch each episode by id
         const data = await Promise.all(
           firstBatchIds.map((id: string) => apiClient.episodes.getById(id))
         );
@@ -84,7 +84,7 @@ export function EpisodeGridSection({
 
   if (isLoadingInitial) {
     return (
-      <div className="py-8">
+      <div className="bg-white rounded-3xl p-12 shadow-sm border border-gray-100 flex justify-center">
         <LoadingSpinner message="Loading episodes..." />
       </div>
     );
@@ -95,7 +95,6 @@ export function EpisodeGridSection({
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
       <h2 className="flex items-center gap-3 text-lg font-black text-gray-900 uppercase tracking-wide mb-6">
-        {/* 3. Use Theme Styles for Icon */}
         <span className={`p-2 rounded-lg ${styles.lightBg}`} style={{ color: styles.primary }}>
           <Icon className="h-5 w-5" />
         </span>

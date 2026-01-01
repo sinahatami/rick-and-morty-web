@@ -35,7 +35,7 @@ export function LocationDetail({ id }: LocationDetailProps) {
   );
 
   if (loading) {
-    return <LoadingSpinner message="Scanning dimensional coordinates..." />;
+    return <LoadingSpinner message="Retrieving archival footage..." className="min-h-[50vh]" />;
   }
 
   if (error || !location) {

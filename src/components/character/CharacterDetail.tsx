@@ -16,7 +16,6 @@ export interface CharacterDetailProps {
 }
 
 export function CharacterDetail({ id }: CharacterDetailProps) {
-  // 1. Use the custom hook for fetching
   const {
     data: character,
     loading,
@@ -28,7 +27,11 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
   );
 
   if (loading) {
-    return <LoadingSpinner message="Accessing Galactic Federation Database..." />;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <LoadingSpinner message="Accessing Galactic Federation Database..." />
+      </div>
+    );
   }
 
   if (error || !character) {
@@ -41,7 +44,6 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
     );
   }
 
-  // 2. Use the shared helper for ID extraction
   const episodeIds = character.episode
     .map(extractIdFromUrl)
     .filter((id): id is number => id !== null)
@@ -52,10 +54,8 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
       <GoBackButton />
 
       <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 items-start">
-        {/* --- LEFT COLUMN --- */}
         <CharacterIdentityCard character={character} />
 
-        {/* --- RIGHT COLUMN --- */}
         <div className="space-y-8">
           <CharacterBiometrics character={character} />
 
