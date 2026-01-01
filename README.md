@@ -1,5 +1,12 @@
 # 🧪 Rick & Morty Wiki
 
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://sinahatami.github.io/rick-and-morty-web)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**🔗 Live Demo:** [https://sinahatami.github.io/rick-and-morty-web](https://sinahatami.github.io/rick-and-morty-web)
+
+![Homepage](public/images/screenshot.png)
+
 An interdimensional database for exploring characters, locations, and episodes from the Rick and Morty universe. Built with performance, scalability, and clean architecture in mind.
 
 ---
