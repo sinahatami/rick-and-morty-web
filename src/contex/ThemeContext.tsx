@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/router';
+
 import { getThemeStyles } from '~/lib/theme';
 import { ThemeContextType, Theme } from '~/types';
 
@@ -15,7 +16,6 @@ export function ThemeProvider({ children, defaultTheme = 'portal' }: ThemeProvid
 
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
-  // update AFTER mount, but do not block render
   useEffect(() => {
     if (!router.isReady) return;
 

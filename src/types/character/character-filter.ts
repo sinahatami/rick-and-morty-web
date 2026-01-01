@@ -1,7 +1,9 @@
+import { CharacterGender, CharacterSpecies, CharacterStatus } from "./character-species-status-gender";
+
 export interface CharacterFilters {
   name?: string;
-  status?: string;
-  species?: string;
-  gender?: string;
-  page?: number;
-}
+  status?: CharacterStatus;
+  species?: CharacterSpecies;
+  gender?: CharacterGender;
+  [key: string]: string | undefined;
+} 

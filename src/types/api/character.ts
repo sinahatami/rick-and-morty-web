@@ -1,10 +1,10 @@
-import { CharacterGender, CharacterStatus } from "../character";
+import { CharacterGender, CharacterSpecies, CharacterStatus } from "../character";
 
 export interface Character {
   id: number;
   name: string;
   status: CharacterStatus;
-  species: string;
+  species: CharacterSpecies;
   type: string;
   gender: CharacterGender;
   origin: {

@@ -9,8 +9,5 @@ export function useCharacters(filters: CharacterFilters = {}) {
 
   const { items, ...rest } = result;
 
-  return {
-    characters: items,
-    ...rest,
-  };
+  return { characters: items, ...rest };
 }

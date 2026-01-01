@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Theme } from "./theme/theme";
+
+import { Theme } from "~/types";
 
 export interface ResourcePageLayoutProps<T> {
   items: T[];

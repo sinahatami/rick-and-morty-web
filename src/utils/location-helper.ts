@@ -1,5 +1,4 @@
-import { Location } from '~/types/api';
-import { LocationFilterOptions } from '~/types';
+import { Location, LocationFilterOptions } from '~/types';
 
 export const extractLocationOptions = (locations: Location[]): LocationFilterOptions => {
   const typeSet = new Set<string>();

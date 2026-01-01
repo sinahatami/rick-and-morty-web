@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
@@ -9,49 +9,31 @@ import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { useCharacters } from '~/hooks/useCharacters';
-import { Character, FilterOptionsCharacter, URLFiltersCharacter } from '~/types';
+import { SPECIES_OPTIONS, GENDER_OPTIONS, STATUS_OPTIONS, CharacterFilters } from '~/types';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
 import banner from '~/public/images/character-banner.png';
+import { createFilterParser } from '~/utils/url-helper';
 
 // --- Utilities ---
-const extractFilterOptions = (characters: Character[]): FilterOptionsCharacter => {
-  const speciesSet = new Set<string>();
-  const genderSet = new Set<string>();
-  const statusSet = new Set<string>();
 
-  characters.forEach(character => {
-    if (character.species) speciesSet.add(character.species);
-    if (character.gender) genderSet.add(character.gender);
-    if (character.status) statusSet.add(character.status);
-  });
-
-  return {
-    species: Array.from(speciesSet).sort(),
-    gender: Array.from(genderSet).sort(),
-    status: Array.from(statusSet).sort(),
-  };
+const STATIC_FILTER_OPTIONS = {
+  species: [...SPECIES_OPTIONS],
+  gender: [...GENDER_OPTIONS],
+  status: [...STATUS_OPTIONS],
 };
 
-const getInitialFiltersFromUrl = (searchParams: URLSearchParams): URLFiltersCharacter => {
-  return {
-    name: searchParams.get('name') || undefined,
-    status: searchParams.get('status') || undefined,
-    species: searchParams.get('species') || undefined,
-    gender: searchParams.get('gender') || undefined,
-  };
-};
+const getInitialFiltersFromUrl = createFilterParser<CharacterFilters>({
+  name: true,
+  status: STATUS_OPTIONS,
+  species: SPECIES_OPTIONS,
+  gender: GENDER_OPTIONS,
+});
 
 // --- Main Component ---
 export function CharacterList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
-
-  const [filterOptions, setFilterOptions] = useState<FilterOptionsCharacter>({
-    species: [],
-    gender: [],
-    status: [],
-  });
 
   const { characters, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
     useCharacters({
@@ -61,29 +43,14 @@ export function CharacterList() {
       gender: filters.gender,
     });
 
-  const [initialOptions, setInitialOptions] = useState<FilterOptionsCharacter | null>(null);
-
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender
   );
-
-  // Extract filters from dynamic data
-  useEffect(() => {
-    if (characters.length > 0) {
-      const newOptions = extractFilterOptions(characters);
-      if (!hasActiveFilters && !initialOptions) {
-        setInitialOptions(newOptions);
-      }
-      setFilterOptions(newOptions);
-    }
-  }, [characters, hasActiveFilters, initialOptions]);
 
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
     setFilters({});
   }, [setSearchQuery, setFilters]);
-
-  const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
   return (
     <ResourcePageLayout
@@ -112,7 +79,7 @@ export function CharacterList() {
             <FilterPanel
               theme="portal"
               filters={filters}
-              filterOptions={displayOptions}
+              filterOptions={STATIC_FILTER_OPTIONS}
               onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
             />
           </div>
@@ -130,6 +97,7 @@ export function CharacterList() {
             }}
             onClearAll={handleClearFilters}
             onClearSearch={() => setSearchQuery('')}
+            theme="portal"
           />
         ) : null
       }

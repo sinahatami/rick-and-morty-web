@@ -12,7 +12,7 @@ export function LocationLinkRow({ label, name, url, icon: Icon }: LocationLinkRo
   const locationId = url ? url.split('/').filter(Boolean).pop() : null;
   const isClickable = !isUnknown && !!locationId;
 
-  const theme = getThemeStyles('rick', name); // Changed from 'location' to 'rick'
+  const theme = getThemeStyles('rick', name);
 
   // Handlers: Navigation
   const handleClick = () => {
@@ -63,9 +63,8 @@ export function LocationLinkRow({ label, name, url, icon: Icon }: LocationLinkRo
       <div
         className="p-3 rounded-xl transition-colors duration-300"
         style={{
-          backgroundColor: isUnknown ? '#f3f4f6' : `${theme.primary}20`, // 20% opacity hex
-          color: isUnknown ? '#9ca3af' : theme.text.replace('text-[', '').replace(']', ''), // Fallback if using classes, or better:
-          // specific color override:
+          backgroundColor: isUnknown ? '#f3f4f6' : `${theme.primary}20`,
+          color: isUnknown ? '#9ca3af' : theme.text.replace('text-[', '').replace(']', ''),
           ...(!isUnknown && { color: theme.secondary }),
         }}
       >

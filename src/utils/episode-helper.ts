@@ -1,4 +1,4 @@
-import { Episode } from '~/types/api/episode';
+import { Episode } from '~/types';
 import { formatDate, parseEpisodeCode } from './string-helper';
 
 export function parseEpisodeData(episode: Episode) {

@@ -1,4 +1,5 @@
 import { ChevronDown } from 'lucide-react';
+
 import { Button } from '../Button';
 import { LoadMoreButtonProps } from '~/types';
 

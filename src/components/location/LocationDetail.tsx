@@ -8,10 +8,14 @@ import { DetailCard } from '../shared/card/DetailCard';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
 import { Badge } from '../shared/badge/Badge';
 import { apiClient } from '~/lib/api-client';
-import { Location, LocationDetailProps } from '~/types';
+import { Location } from '~/types';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
+
+interface LocationDetailProps {
+  id: string;
+}
 
 export function LocationDetail({ id }: LocationDetailProps) {
   const {

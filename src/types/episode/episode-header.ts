@@ -1,8 +1,8 @@
-import { Theme } from "../theme/theme";
+import { Theme } from "~/types";
 
 export interface EpisodeHeaderProps {
-    episode: {
-        season: string;
-    };
-    theme: Theme;
+  episode: {
+    season: string;
+  };
+  theme: Theme;
 }

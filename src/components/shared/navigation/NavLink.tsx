@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { useTheme } from '~/contex/ThemeContext';
 import { NavLinkProps } from '~/types';
 

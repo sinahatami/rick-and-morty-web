@@ -45,7 +45,6 @@ export function FilterPanel({
     onFilterChange(
       Object.keys(filterOptions).reduce((acc, key) => ({ ...acc, [key]: undefined }), {})
     );
-    setIsOpen(true);
     onClose?.();
   };
 

@@ -1,4 +1,4 @@
-import { Theme } from "./theme";
+import { Theme } from "~/types";
 
 export interface EmptyStateProps {
   title: string;

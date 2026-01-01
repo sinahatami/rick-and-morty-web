@@ -58,7 +58,7 @@ export function ActiveFilterTags({
                 onRemove(key);
               }
             }}
-            className="p-1 rounded-md transition-colors cursor-pointer hover:text-white"
+            className="p-1 rounded-md transition-colors cursor-pointer"
             style={{ color: styles.primary }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = styles.primary;

@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 
-interface UseEntityDetailResult<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-}
+import { UseEntityDetailResult } from '~/types';
 
 export function useEntityDetail<T>(
   fetchFn: (id: string) => Promise<T>,

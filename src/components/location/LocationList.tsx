@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
@@ -8,30 +8,29 @@ import { LocationCard } from './LocationCard';
 import { PageSubtitle } from '../shared/page-item/PageSubtitle';
 import { useLocations } from '~/hooks/useLocations';
 import { useUrlSync } from '~/hooks/useUrlSync';
-import { LocationFilterOptions, LocationFilters } from '~/types';
-import { extractLocationOptions } from '../../utils/location-helper';
+import { LocationFilters, TYPE_OPTIONS, DIMENSION_OPTIONS } from '~/types';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
+import { createFilterParser } from '~/utils/url-helper';
 
 import banner from '~/public/images/location-banner.png';
 
 // --- Utilities ---
-const getInitialFiltersFromUrl = (searchParams: URLSearchParams): LocationFilters => {
-  return {
-    name: searchParams.get('name') || undefined,
-    type: searchParams.get('type') || undefined,
-    dimension: searchParams.get('dimension') || undefined,
-  };
+
+const STATIC_FILTER_OPTIONS = {
+  type: [...TYPE_OPTIONS],
+  dimension: [...DIMENSION_OPTIONS],
 };
+
+const getInitialFiltersFromUrl = createFilterParser<LocationFilters>({
+  name: true,
+  type: TYPE_OPTIONS,
+  dimension: DIMENSION_OPTIONS,
+});
 
 // --- Main Component ---
 export function LocationList() {
-  const [filterOptions, setFilterOptions] = useState<LocationFilterOptions>({
-    type: [],
-    dimension: [],
-  });
-
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
-    useUrlSync<LocationFilters>(getInitialFiltersFromUrl);
+    useUrlSync(getInitialFiltersFromUrl);
 
   const { locations, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
     useLocations({
@@ -40,27 +39,12 @@ export function LocationList() {
       dimension: filters.dimension,
     });
 
-  const [initialOptions, setInitialOptions] = useState<LocationFilterOptions | null>(null);
-
   const hasActiveFilters = Boolean(searchQuery.trim() || filters.type || filters.dimension);
-
-  useEffect(() => {
-    if (locations.length > 0) {
-      const newOptions = extractLocationOptions(locations);
-
-      if (!hasActiveFilters && !initialOptions) {
-        setInitialOptions(newOptions);
-      }
-      setFilterOptions(newOptions);
-    }
-  }, [locations, hasActiveFilters, initialOptions]);
 
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
     setFilters({});
   }, [setSearchQuery, setFilters]);
-
-  const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
   const PAGE_THEME = 'rick';
 
@@ -91,28 +75,32 @@ export function LocationList() {
           <div className="w-full md:w-auto">
             <FilterPanel
               theme={PAGE_THEME}
-              filters={filters as Record<string, string | undefined>}
-              filterOptions={displayOptions as unknown as Record<string, string[]>}
-              onFilterChange={newFilters => setFilters(newFilters as LocationFilters)}
+              filters={filters}
+              // 2. Use the static constant
+              filterOptions={STATIC_FILTER_OPTIONS}
+              // 3. Use the same consistent state update pattern
+              onFilterChange={newFilters => setFilters(prev => ({ ...prev, ...newFilters }))}
             />
           </div>
         </div>
       }
       activeFilters={
-        <ActiveFilterTags
-          theme={PAGE_THEME}
-          filters={filters as Record<string, string | undefined>}
-          searchQuery={searchQuery}
-          onRemove={key => {
-            if (key === 'name') {
-              setSearchQuery('');
-            } else {
-              setFilters(prev => ({ ...prev, [key]: undefined }));
-            }
-          }}
-          onClearAll={handleClearFilters}
-          onClearSearch={() => setSearchQuery('')}
-        />
+        hasActiveFilters ? (
+          <ActiveFilterTags
+            theme={PAGE_THEME}
+            filters={filters}
+            searchQuery={searchQuery}
+            onRemove={key => {
+              if (key === 'name') {
+                setSearchQuery('');
+              } else {
+                setFilters(prev => ({ ...prev, [key]: undefined }));
+              }
+            }}
+            onClearAll={handleClearFilters}
+            onClearSearch={() => setSearchQuery('')}
+          />
+        ) : null
       }
       onClearFilters={handleClearFilters}
       onLoadMore={fetchNextPage}

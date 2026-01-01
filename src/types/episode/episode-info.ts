@@ -1,6 +1,6 @@
-import { Theme } from "../theme/theme";
+import { Theme } from "~/types";
 
 export interface EpisodeInfoProps {
-    name: string;
-    theme: Theme;
+  name: string;
+  theme: Theme;
 }

@@ -1,4 +1,4 @@
-import { Theme } from "../theme/theme";
+import { Theme } from "~/types";
 
 export interface PageSubtitleProps {
   prefix: string;

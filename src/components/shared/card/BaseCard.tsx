@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { BaseCardProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 
