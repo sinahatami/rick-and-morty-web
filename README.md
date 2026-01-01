@@ -7,11 +7,15 @@ An interdimensional database for exploring characters, locations, and episodes f
 ## 🚀 Features
 
 - **Multiverse Explorer** — Browse detailed lists of Characters, Locations, and Episodes.
+
 - **Deep Linking** — Fully interconnected data. Navigate from a Character to their Origin Location, or see all Characters in a specific Episode.
+
 - **Advanced Filtering** — Filter by status, species, gender, type, and dimension.
+
 - **URL Synchronization** — All search and filter states are synced to the URL (`useUrlSync`), allowing users to share exact search results.
+
 - **Infinite Scrolling** — Seamless pagination powered by TanStack Query.
-- **Dark Mode** — Fully responsive Light/Dark themes using `next-themes`.
+
 - **Responsive Design** — Mobile-first layout with a custom navigation drawer and grid system.
 
 ---
@@ -142,31 +146,3 @@ src/
 ```
 
 ---
-
-## ✅ Notes & Suggestions (styles / other issues)
-
-- **README formatting**: Standardized headings and fixed multiple `##` lines at the start of the file.
-- **Code blocks**: Combined scattered single-line code fences into proper multi-line code blocks for clarity.
-- **Dependency list**: Converted to a Markdown table for readability and consistency.
-- **Typos / wording**: Fixed small typos (e.g., `bearbones` → `bare-bones`) and made phrasing more consistent.
-- **Git clone command**: Fixed the broken line-break in the `git clone` example.
-- **Scripts documentation**: Consolidated QA commands into a table for easier scanning.
-
-**Style suggestions for the project itself (not the README):**
-
-- Ensure your Tailwind config exports the correct `content` paths to avoid missing classes in production builds.
-- If you use custom themes, verify `next-themes` is wrapped at the \_app level and server-side rendering issues are handled (e.g., `useEffect` guarded theme hydration).
-- Run Tailwind's JIT mode or `NODE_ENV=production` build locally to catch missing classes that only appear at runtime.
-- Add a small visual snapshot (PNG) in the README `public/` folder and reference it for quick context.
-
----
-
-## Contributing
-
-Contributions are welcome! Please open an issue or a pull request with a clear description of the change.
-
----
-
-## License
-
-Specify your license here (e.g., MIT).
