@@ -6,4 +6,4 @@ export interface CharacterFilters {
   species?: CharacterSpecies;
   gender?: CharacterGender;
   [key: string]: string | undefined;
-} 
+}

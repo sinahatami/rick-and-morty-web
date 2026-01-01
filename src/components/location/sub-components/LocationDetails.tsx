@@ -1,4 +1,5 @@
 import { MapPin, Users } from 'lucide-react';
+
 import { CardInfoRow } from '../../shared/card/CardInfoRow';
 
 interface LocationDetailsProps {

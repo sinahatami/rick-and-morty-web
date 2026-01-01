@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useMemo, useCallback } from 'react';
+
 import { BaseCard } from '../shared/card/BaseCard';
 import { CharacterImage } from './sub-components/CharacterImage';
 import { CharacterInfo } from './sub-components/CharacterInfo';

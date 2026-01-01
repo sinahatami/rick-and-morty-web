@@ -5,12 +5,10 @@ import { GoBackButton } from '../shared/GoBackButton';
 import { StatCard } from '../shared/card/StatCard';
 import { CharacterGridSection } from '../shared/CharacterGridSection';
 import { DetailCard } from '../shared/card/DetailCard';
-
 import { Badge } from '../shared/badge/Badge';
 import { Episode } from '~/types/api/episode';
 import { apiClient } from '~/lib/api-client';
 import { getThemeStyles } from '~/lib/theme';
-
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';

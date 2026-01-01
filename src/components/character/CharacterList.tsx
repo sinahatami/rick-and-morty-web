@@ -6,14 +6,13 @@ import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
 import { CharacterCard } from './CharacterCard';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { PageSubtitle } from '../shared/page-item/PageSubtitle';
-
 import { useUrlSync } from '~/hooks/useUrlSync';
 import { useCharacters } from '~/hooks/useCharacters';
 import { SPECIES_OPTIONS, GENDER_OPTIONS, STATUS_OPTIONS, CharacterFilters } from '~/types';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
+import { createFilterParser } from '~/utils/url-helper';
 
 import banner from '~/public/images/character-banner.png';
-import { createFilterParser } from '~/utils/url-helper';
 
 // --- Utilities ---
 

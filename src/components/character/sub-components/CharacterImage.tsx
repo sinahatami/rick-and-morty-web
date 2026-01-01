@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { memo } from 'react';
+
 import { StatusBadge } from '../../shared/badge/StatusBadge';
 import { CharacterImageProps } from '~/types/character';
 

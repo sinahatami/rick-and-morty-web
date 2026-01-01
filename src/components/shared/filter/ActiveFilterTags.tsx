@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+
 import { ActiveFilterTagsProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 

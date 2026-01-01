@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import { CharacterList } from '~/components/character/CharacterList';
 
 export default function Home() {

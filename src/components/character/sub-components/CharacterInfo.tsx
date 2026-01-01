@@ -1,5 +1,6 @@
 import { Dna } from 'lucide-react';
 import { memo } from 'react';
+
 import { Badge } from '../../shared/badge/Badge';
 import { CharacterInfoProps } from '~/types';
 
