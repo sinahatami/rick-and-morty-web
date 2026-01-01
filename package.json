@@ -16,7 +16,7 @@
     "test": "vitest",
     "test:once": "vitest run",
     "analyze": "ANALYZE=true next build",
-    "deploy": "yarn build && gh-pages -d out"
+    "deploy": "yarn build && yarn run gh-pages -d out -t"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",

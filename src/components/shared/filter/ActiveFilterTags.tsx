@@ -8,7 +8,7 @@ export function ActiveFilterTags({
   onClearAll,
   searchQuery,
   onClearSearch,
-  theme = 'portal',
+  theme,
 }: ActiveFilterTagsProps) {
   const styles = getThemeStyles(theme);
 

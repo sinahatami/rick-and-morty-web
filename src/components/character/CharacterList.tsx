@@ -12,7 +12,7 @@ import { useCharacters } from '~/hooks/useCharacters';
 import { Character, FilterOptionsCharacter, URLFiltersCharacter } from '~/types';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
-import banner from '~/public/images/character-banner.jpg';
+import banner from '~/public/images/character-banner.png';
 
 // --- Utilities ---
 const extractFilterOptions = (characters: Character[]): FilterOptionsCharacter => {

@@ -4,11 +4,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig: NextConfig = {
   output: 'export',
 
-  // FIX: Change this to match your EXACT repo name
-  basePath: '/rick-and-morty-web',
+  basePath: isProd ? '/rick-and-morty-web' : '',
 
   eslint: {
     ignoreDuringBuilds: false,

@@ -13,7 +13,7 @@ export function GoBackButton({ label = 'GO BACK', className = '' }: GoBackButton
     <button
       onClick={() => router.back()}
       className={`
-        flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors group cursor-pointer
+        flex items-center gap-2 text-gray-600 hover:text-gray-900 mt-18 transition-colors group cursor-pointer
         ${className}
       `}
     >

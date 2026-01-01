@@ -15,7 +15,7 @@ export function NotFoundState({
   const styles = getThemeStyles(theme);
 
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center max-w-lg mx-auto">
+    <div className="flex flex-col items-center justify-center p-12 mt-24 text-center max-w-lg mx-auto">
       <div className={`p-6 rounded-full mb-6 ${styles.lightBg}`}>
         <AlertCircle className="h-12 w-12" style={{ color: styles.primary }} />
       </div>

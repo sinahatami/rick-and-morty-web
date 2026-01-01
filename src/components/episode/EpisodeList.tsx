@@ -10,7 +10,7 @@ import { useEpisodes } from '~/hooks/useEpisodes';
 import { Episode } from '~/types';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
-import banner from '~/public/images/episode-banner.jpg';
+import banner from '~/public/images/episode-banner.png';
 
 // --- Utilities ---
 const getInitialFilters = (params: URLSearchParams) => ({
@@ -29,7 +29,6 @@ export function EpisodeList() {
     setSearchQuery('');
   }, [setSearchQuery]);
 
-  // Define the context once for clarity
   const PAGE_THEME = 'morty';
 
   return (
@@ -61,6 +60,7 @@ export function EpisodeList() {
       }
       activeFilters={
         <ActiveFilterTags
+          theme={PAGE_THEME}
           filters={{}}
           searchQuery={searchQuery}
           onRemove={() => {}}

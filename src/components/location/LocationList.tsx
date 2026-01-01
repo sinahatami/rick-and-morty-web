@@ -12,7 +12,7 @@ import { LocationFilterOptions, LocationFilters } from '~/types';
 import { extractLocationOptions } from '../../utils/location-helper';
 import { ResourcePageLayout } from '../shared/page-item/ResourcePageLayout';
 
-import banner from '~/public/images/location-banner.jpg';
+import banner from '~/public/images/location-banner.png';
 
 // --- Utilities ---
 const getInitialFiltersFromUrl = (searchParams: URLSearchParams): LocationFilters => {
@@ -62,6 +62,8 @@ export function LocationList() {
 
   const displayOptions = hasActiveFilters && initialOptions ? initialOptions : filterOptions;
 
+  const PAGE_THEME = 'rick';
+
   return (
     <ResourcePageLayout
       items={locations}
@@ -88,7 +90,7 @@ export function LocationList() {
 
           <div className="w-full md:w-auto">
             <FilterPanel
-              theme="rick"
+              theme={PAGE_THEME}
               filters={filters as Record<string, string | undefined>}
               filterOptions={displayOptions as unknown as Record<string, string[]>}
               onFilterChange={newFilters => setFilters(newFilters as LocationFilters)}
@@ -98,6 +100,7 @@ export function LocationList() {
       }
       activeFilters={
         <ActiveFilterTags
+          theme={PAGE_THEME}
           filters={filters as Record<string, string | undefined>}
           searchQuery={searchQuery}
           onRemove={key => {

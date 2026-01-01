@@ -45,7 +45,7 @@ export function FilterPanel({
     onFilterChange(
       Object.keys(filterOptions).reduce((acc, key) => ({ ...acc, [key]: undefined }), {})
     );
-    setIsOpen(false);
+    setIsOpen(true);
     onClose?.();
   };
 
@@ -64,6 +64,8 @@ export function FilterPanel({
   }, [isOpen]);
 
   const activeCount = Object.values(filters).filter(Boolean).length;
+
+  const hasActiveFilters = Object.values(localFilters).some(val => val !== '');
 
   return (
     <div className="relative" ref={panelRef}>
@@ -133,6 +135,7 @@ export function FilterPanel({
               <Button
                 onClick={handleReset}
                 theme={theme}
+                disabled={!hasActiveFilters}
                 className="flex-1 py-3 text-xs tracking-widest uppercase bg-transparent border-none text-gray-400 hover:bg-red-50 hover:text-red-500 shadow-none"
                 style={{ backgroundColor: 'transparent', color: undefined }}
               >
