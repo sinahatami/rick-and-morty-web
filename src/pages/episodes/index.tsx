@@ -9,7 +9,6 @@ export default function EpisodesPage() {
         <title>Episodes | Rick and Morty</title>
         <meta name="description" content="Browse all episodes from the Rick and Morty series" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/images/icon.png" />
       </Head>
       <EpisodeList />
     </>

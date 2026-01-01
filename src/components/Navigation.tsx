@@ -6,9 +6,9 @@ import Image from 'next/image';
 
 import { NavLink } from './shared/navigation/NavLink';
 import { Container } from './shared/Container';
-import icon from '~/public/images/icon.png';
 import { NavItem } from '~/types';
 import { ROUTES } from '~/lib/routes';
+import { BASE_PATH } from '~/lib/constants';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const Navigation = () => {
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') return router.pathname === '/';
+    if (href === '/') return router.pathname === '/' || router.pathname.startsWith('/characters');
     return router.pathname.startsWith(href);
   };
 
@@ -31,7 +31,14 @@ const Navigation = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link href={ROUTES.HOME} className="flex items-center gap-2">
-            <Image src={icon} alt="Logo" width={42} height={42} priority />
+            <Image
+              src={`${BASE_PATH}/images/icon.png`}
+              alt="Logo"
+              width={42}
+              height={42}
+              priority
+              unoptimized
+            />
           </Link>
 
           {/* Desktop */}

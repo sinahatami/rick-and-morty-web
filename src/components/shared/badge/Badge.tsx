@@ -12,7 +12,7 @@ export function Badge({ label, icon: Icon, className = '', theme: propTheme }: B
   return (
     <span
       className={`
-        inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border
+        inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border mt-1
         text-[10px] font-black uppercase tracking-widest
         transition-all duration-300
         ${styles.lightBg} ${styles.lightBorder}

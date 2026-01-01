@@ -11,7 +11,6 @@ export default function Home() {
           content="Explore all characters from the Rick and Morty universe"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/images/icon.png" />
       </Head>
       <CharacterList />
     </>
