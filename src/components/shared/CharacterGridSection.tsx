@@ -114,7 +114,7 @@ export function CharacterGridSection({
             onClick={handleLoadMore}
             disabled={isLoadingMore}
             isFetchingNextPage={isLoadingMore}
-            theme={theme}
+            theme="portal"
           />
         )}
       </div>

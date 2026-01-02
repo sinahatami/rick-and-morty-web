@@ -26,15 +26,6 @@ export const THEME_COLORS = {
     gradient: 'from-orange-400 via-amber-300 to-yellow-400',
     name: 'Morty',
   },
-  default: {
-    primary: '#9CA3AF',
-    secondary: '#6B7280',
-    text: 'text-gray-600',
-    lightBg: 'bg-gray-50',
-    lightBorder: 'border-gray-200',
-    gradient: 'from-gray-200 via-gray-300 to-gray-200',
-    name: 'Default',
-  },
 };
 
 export type ThemeKey = keyof typeof THEME_COLORS;
