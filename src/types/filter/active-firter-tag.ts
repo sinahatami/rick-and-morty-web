@@ -1,4 +1,4 @@
-import { Theme } from "~/types";
+import { Theme } from '~/types';
 
 export interface ActiveFilterTagsProps {
   filters: Record<string, string | undefined>;
@@ -6,5 +6,5 @@ export interface ActiveFilterTagsProps {
   onClearAll: () => void;
   searchQuery?: string;
   onClearSearch?: () => void;
-  theme?: Theme
+  theme?: Theme;
 }

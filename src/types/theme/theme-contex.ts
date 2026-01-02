@@ -1,5 +1,5 @@
-import { getThemeStyles } from "~/lib/theme";
-import { Theme } from "~/types";
+import { getThemeStyles } from '~/lib/theme';
+import { Theme } from '~/types';
 
 export interface ThemeContextType {
   theme: Theme;

@@ -1,4 +1,4 @@
-import { Theme } from "~/types";
+import { Theme } from '~/types';
 
 export interface PageSubtitleProps {
   prefix: string;
@@ -6,5 +6,5 @@ export interface PageSubtitleProps {
   suffix: string;
   colorClass?: string;
   decorationClass?: string;
-  theme?: Theme
+  theme?: Theme;
 }

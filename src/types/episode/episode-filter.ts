@@ -1,4 +1,4 @@
-import { EpisodeCode, EpisodeSeason } from "./episode-season-episode-code";
+import { EpisodeCode, EpisodeSeason } from './episode-season-episode-code';
 
 export interface EpisodeFilters {
   name?: string;

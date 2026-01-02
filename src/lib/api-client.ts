@@ -10,6 +10,7 @@ class ApiError extends Error {
   ) {
     super(message);
     this.name = 'ApiError';
+    Object.setPrototypeOf(this, ApiError.prototype);
   }
 }
 class ApiClient {
@@ -35,10 +36,7 @@ class ApiClient {
       }
 
       if (!response.ok) {
-        throw new ApiError(
-          `Something went wrong. Please try again.`,
-          response.status
-        );
+        throw new ApiError(`Something went wrong. Please try again.`, response.status);
       }
 
       return await response.json();
@@ -55,8 +53,7 @@ class ApiClient {
     getAll: (params?: Record<string, string>): Promise<PaginatedResponse<Character>> =>
       this.request<PaginatedResponse<Character>>('/character', params),
 
-    getById: (id: string) =>
-      this.request<Character>(`/character/${id}`),
+    getById: (id: string) => this.request<Character>(`/character/${id}`),
 
     getMultiple: (ids: number[]) => {
       if (ids.length === 0) return Promise.resolve([]);
@@ -73,8 +70,7 @@ class ApiClient {
     getAll: (params?: Record<string, string>) =>
       this.request<ApiResponse<Location>>('/location', params),
 
-    getById: (id: string) =>
-      this.request<Location>(`/location/${id}`),
+    getById: (id: string) => this.request<Location>(`/location/${id}`),
   };
 
   // Episode endpoints
@@ -82,8 +78,7 @@ class ApiClient {
     getAll: (params?: Record<string, string>) =>
       this.request<ApiResponse<Episode>>('/episode', params),
 
-    getById: (id: string) =>
-      this.request<Episode>(`/episode/${id}`),
+    getById: (id: string) => this.request<Episode>(`/episode/${id}`),
   };
 }
 

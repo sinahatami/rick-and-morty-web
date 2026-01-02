@@ -1,4 +1,4 @@
-import { CharacterGender, CharacterSpecies, CharacterStatus } from "~/types";
+import { CharacterGender, CharacterSpecies, CharacterStatus } from '~/types';
 
 export interface FilterOptionsCharacter {
   species: CharacterSpecies[];

@@ -1,4 +1,4 @@
-import { Theme } from "~/types";
+import { Theme } from '~/types';
 
 export interface EpisodeInfoProps {
   name: string;

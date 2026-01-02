@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { useDebounce } from '~/hooks/useDebounce';
@@ -31,7 +31,7 @@ export function useUrlSync<T extends Record<string, any>>(
         setSearchQuery((parsed as any).name);
       }
     }
-  }, [router.isReady]);
+  }, [router.isReady, parseFilters]);
 
   const debouncedSearch = useDebounce(searchQuery, delay);
 
@@ -50,12 +50,7 @@ export function useUrlSync<T extends Record<string, any>>(
     Object.entries(filters).forEach(([key, value]) => {
       if (key === 'name') return;
 
-      if (
-        value !== undefined &&
-        value !== null &&
-        value !== '' &&
-        value !== 'undefined'
-      ) {
+      if (value !== undefined && value !== null && value !== '' && value !== 'undefined') {
         params.set(key, String(value));
       }
     });
@@ -65,13 +60,20 @@ export function useUrlSync<T extends Record<string, any>>(
 
     // Only push if the URL actually changed
     if (newPath !== router.asPath.split('#')[0]) {
-      router.push(
-        { pathname: router.pathname, query: queryString },
-        undefined,
-        { shallow: true, scroll: false }
-      );
+      router.push({ pathname: router.pathname, query: queryString }, undefined, {
+        shallow: true,
+        scroll: false,
+      });
     }
-  }, [debouncedSearch, filters, router.isReady]);
+  }, [
+    debouncedSearch,
+    filters,
+    router,
+    router.isReady,
+    router.pathname,
+    router.asPath,
+    router.push
+  ]);
 
   return {
     filters,

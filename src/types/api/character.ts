@@ -1,4 +1,4 @@
-import { CharacterGender, CharacterSpecies, CharacterStatus } from "../character";
+import { CharacterGender, CharacterSpecies, CharacterStatus } from '../character';
 
 export interface Character {
   id: number;

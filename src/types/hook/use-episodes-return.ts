@@ -1,4 +1,4 @@
-import { Episode } from "../api";
+import { Episode } from '../api';
 
 export interface UseEpisodesReturn {
   episodes: Episode[];

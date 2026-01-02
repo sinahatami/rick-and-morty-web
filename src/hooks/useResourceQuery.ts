@@ -12,15 +12,19 @@ interface UseResourceQueryOptions<F> {
   filters: F;
 }
 
-export function useResourceQuery<T, F extends { name?: string }>(
-  { resource, filters }: UseResourceQueryOptions<F>
-) {
+export function useResourceQuery<T, F extends { name?: string }>({
+  resource,
+  filters,
+}: UseResourceQueryOptions<F>) {
   const debouncedName = useDebounce(filters.name, 300);
 
-  const optimizedFilters = useMemo(() => ({
-    ...filters,
-    name: debouncedName,
-  }), [filters, debouncedName]);
+  const optimizedFilters = useMemo(
+    () => ({
+      ...filters,
+      name: debouncedName,
+    }),
+    [filters, debouncedName]
+  );
 
   const queryResult = useInfiniteQuery({
     queryKey: [resource, optimizedFilters],

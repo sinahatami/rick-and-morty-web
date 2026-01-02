@@ -40,12 +40,12 @@ export function getThemeStyles(type?: string, name?: string) {
   }
 
   const themeMap: Record<string, ThemeKey> = {
-    'character': 'portal',
-    'location': 'rick',
-    'episode': 'morty',
-    'portal': 'portal',
-    'rick': 'rick',
-    'morty': 'morty',
+    character: 'portal',
+    location: 'rick',
+    episode: 'morty',
+    portal: 'portal',
+    rick: 'rick',
+    morty: 'morty',
   };
 
   const themeKey = themeMap[normalizedType] || 'default';

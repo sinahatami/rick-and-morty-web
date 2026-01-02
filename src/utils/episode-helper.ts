@@ -11,7 +11,7 @@ export function parseEpisodeData(episode: Episode) {
     episode: episodeNum,
     episodeCode: episode.episode,
     airDate: formatDate(episode.air_date),
-    theme: 'morty' as const
+    theme: 'morty' as const,
   };
 }
 

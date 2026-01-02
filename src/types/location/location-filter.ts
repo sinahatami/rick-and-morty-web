@@ -1,4 +1,4 @@
-import { LocationDimention, LocationType } from "./location-type-dimention";
+import { LocationDimention, LocationType } from './location-type-dimention';
 
 export interface LocationFilters {
   name?: string;

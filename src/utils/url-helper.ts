@@ -1,6 +1,4 @@
-export function createFilterParser<T>(
-  config: Partial<Record<keyof T, readonly string[] | true>>
-) {
+export function createFilterParser<T>(config: Partial<Record<keyof T, readonly string[] | true>>) {
   return (searchParams: URLSearchParams): T => parseUrlFilters<T>(searchParams, config);
 }
 
@@ -10,14 +8,14 @@ export function parseUrlFilters<T>(
 ): T {
   const filters: any = {};
 
-  (Object.keys(config) as (keyof T)[]).forEach((key) => {
+  (Object.keys(config) as (keyof T)[]).forEach(key => {
     const rawValue = searchParams.get(String(key));
     const rule = config[key];
 
     if (!rawValue) return;
 
     if (Array.isArray(rule)) {
-      const validOption = rule.find((opt) => opt === rawValue);
+      const validOption = rule.find(opt => opt === rawValue);
       if (validOption) {
         filters[key] = validOption;
       }

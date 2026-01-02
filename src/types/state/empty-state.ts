@@ -1,4 +1,4 @@
-import { Theme } from "~/types";
+import { Theme } from '~/types';
 
 export interface EmptyStateProps {
   title: string;
@@ -6,5 +6,5 @@ export interface EmptyStateProps {
   onClearFilters: () => void;
   showClearButton?: boolean;
   buttonText?: string;
-  theme: Theme
+  theme: Theme;
 }

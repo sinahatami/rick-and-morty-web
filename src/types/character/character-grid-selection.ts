@@ -1,4 +1,4 @@
-import { Theme } from "~/types";
+import { Theme } from '~/types';
 
 export interface CharacterGridSectionProps {
   title: string;
@@ -6,5 +6,5 @@ export interface CharacterGridSectionProps {
   icon?: any;
   emptyTitle?: string;
   emptyMessage?: string;
-  theme: Theme
+  theme: Theme;
 }

@@ -1,4 +1,4 @@
-import { CharacterGender, CharacterSpecies } from "./character-species-status-gender";
+import { CharacterGender, CharacterSpecies } from './character-species-status-gender';
 
 export interface CharacterInfoProps {
   name: string;

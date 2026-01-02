@@ -1,4 +1,4 @@
-import { Location } from "../api";
+import { Location } from '../api';
 
 export interface UseLocationsReturn {
   locations: Location[];

@@ -10,5 +10,3 @@ export * from './character-location';
 export * from './character-info';
 
 export * from './character-location-history';
-
-

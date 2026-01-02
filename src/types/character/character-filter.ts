@@ -1,4 +1,8 @@
-import { CharacterGender, CharacterSpecies, CharacterStatus } from "./character-species-status-gender";
+import {
+  CharacterGender,
+  CharacterSpecies,
+  CharacterStatus,
+} from './character-species-status-gender';
 
 export interface CharacterFilters {
   name?: string;
