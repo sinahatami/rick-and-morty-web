@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
   output: 'export',
   basePath: basePath, // Used by Next.js internals
 
-  // 1. EXPOSE TO THE APP HERE
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
