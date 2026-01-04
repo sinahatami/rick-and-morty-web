@@ -1,9 +1,8 @@
-// pages/_app.tsx
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Layout } from '~/components/Layout';
-import { ThemeProvider } from '~/contex/ThemeContext';
+import { ThemeProvider } from '~/context/ThemeContext';
 import { DEFAULT_QUERY_OPTIONS } from '~/lib/query-config';
 
 import '~/styles/globals.css';

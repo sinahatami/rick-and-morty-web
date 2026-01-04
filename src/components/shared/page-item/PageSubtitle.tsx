@@ -1,4 +1,4 @@
-import { useTheme } from '~/contex/ThemeContext';
+import { useTheme } from '~/context/ThemeContext';
 import { getThemeStyles } from '~/lib/theme';
 import { PageSubtitleProps } from '~/types';
 

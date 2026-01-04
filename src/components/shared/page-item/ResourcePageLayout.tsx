@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { ResourcePageLayoutProps } from '~/types';
-import { useTheme } from '~/contex/ThemeContext';
+import { useTheme } from '~/context/ThemeContext';
 import { LoadingSpinner } from '../loading/LoadingSpinner';
 import { LoadMoreButton } from '../loading/LoadMoreButton';
 import { EmptyState } from '../state/EmptyState';

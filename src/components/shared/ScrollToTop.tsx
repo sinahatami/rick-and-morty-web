@@ -1,7 +1,7 @@
 import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { useTheme } from '~/contex/ThemeContext';
+import { useTheme } from '~/context/ThemeContext';
 
 export function ScrollToTop(): any {
   const [showScrollTop, setShowScrollTop] = useState(false);

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { useTheme } from '~/contex/ThemeContext';
+import { useTheme } from '~/context/ThemeContext';
 import { NavLinkProps } from '~/types';
 
 export function NavLink({ href, label, icon, isActive, onClick, isMobile = false }: NavLinkProps) {
