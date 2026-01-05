@@ -7,7 +7,7 @@ import { CharacterInfo } from './sub-components/CharacterInfo';
 import { CharacterLocations } from './sub-components/CharacterLocations';
 import { CharacterCardProps } from '~/types';
 
-export const CharacterCard = function CharacterCard({ character }: CharacterCardProps) {
+export function CharacterCard({ character }: CharacterCardProps) {
   const router = useRouter();
 
   // Memoize the click handler
@@ -49,4 +49,4 @@ export const CharacterCard = function CharacterCard({ character }: CharacterCard
       </div>
     </BaseCard>
   );
-};
+}
