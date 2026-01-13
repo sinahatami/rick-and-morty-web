@@ -1,16 +1,11 @@
-import { Location, LocationFilterOptions } from '~/types';
+import { Location, LocationType } from '~/types';
 
-export const extractLocationOptions = (locations: Location[]): LocationFilterOptions => {
-  const typeSet = new Set<string>();
-  const dimensionSet = new Set<string>();
-
-  locations.forEach(location => {
-    if (location.type) typeSet.add(location.type);
-    if (location.dimension) dimensionSet.add(location.dimension);
-  });
-
+export function parseLocationData(location: Location) {
   return {
-    type: Array.from(typeSet).sort(),
-    dimension: Array.from(dimensionSet).sort(),
+    id: location.id,
+    name: location.name,
+    type: (location.type as LocationType) || 'unknown',
+    residentsCount: location.residents.length,
+    theme: 'rick' as const,
   };
-};
+}

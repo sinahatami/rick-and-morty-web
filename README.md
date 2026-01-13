@@ -41,16 +41,12 @@ An interdimensional database for exploring characters, locations, and episodes f
 
 ## 📦 Key Dependencies
 
-| Package                       | Purpose                                                                |
-| ----------------------------- | ---------------------------------------------------------------------- |
-| `@tanstack/react-query`       | Handles server state, caching, and infinite scroll pagination.         |
-| `zustand`                     | A small, fast, bare-bones state-management solution.                   |
-| `axios`                       | Promise-based HTTP client for requests to the Rick and Morty API.      |
-| `react-intersection-observer` | Monitors scroll position to trigger "Load More" actions automatically. |
-| `lucide-react`                | Provides a clean, consistent set of SVG icons.                         |
-| `tailwindcss`                 | Utility-first CSS framework for rapid UI development.                  |
-| `msw`                         | Mock Service Worker for API mocking during testing.                    |
-| `vitest`                      | Fast unit test framework powered by Vite.                              |
+| Package                 | Purpose                                                        |
+| ----------------------- | -------------------------------------------------------------- |
+| `@tanstack/react-query` | Handles server state, caching, and infinite scroll pagination. |
+| `lucide-react`          | Provides a clean, consistent set of SVG icons.                 |
+| `tailwindcss`           | Utility-first CSS framework for rapid UI development.          |
+| `vitest`                | Fast unit test framework powered by Vite.                      |
 
 ---
 
@@ -100,6 +96,7 @@ This project uses a strict suite of tools to ensure code quality.
 | `yarn lint`      | Runs ESLint to catch code issues.                      |
 | `yarn format`    | Formats code using Prettier.                           |
 | `yarn test`      | Runs unit tests using Vitest.                          |
+| `yarn knip`      | Finds unused files, dependencies, and exports.         |
 
 ---
 

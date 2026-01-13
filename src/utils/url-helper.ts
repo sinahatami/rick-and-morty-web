@@ -2,7 +2,7 @@ export function createFilterParser<T>(config: Partial<Record<keyof T, readonly s
   return (searchParams: URLSearchParams): T => parseUrlFilters<T>(searchParams, config);
 }
 
-export function parseUrlFilters<T>(
+function parseUrlFilters<T>(
   searchParams: URLSearchParams,
   config: Partial<Record<keyof T, readonly string[] | true>>
 ): T {

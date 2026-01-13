@@ -1,4 +1,4 @@
-export const THEME_COLORS = {
+const THEME_COLORS = {
   portal: {
     primary: '#B8E986', // Portal Green
     secondary: '#97C06B',

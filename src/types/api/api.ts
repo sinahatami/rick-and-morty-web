@@ -10,9 +10,3 @@ export interface PaginatedResponse<T> {
 }
 
 export type ApiResponse<T> = PaginatedResponse<T>;
-
-// For React Query's infinite query - this wraps multiple pages
-export interface InfiniteQueryResponse<T> {
-  pages: PaginatedResponse<T>[];
-  pageParams: number[];
-}

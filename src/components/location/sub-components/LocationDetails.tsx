@@ -1,9 +1,9 @@
 import { MapPin, Users } from 'lucide-react';
-
 import { CardInfoRow } from '../../shared/card/CardInfoRow';
+import { LocationType } from '~/types';
 
 interface LocationDetailsProps {
-  type?: string;
+  type?: LocationType;
   residentsCount: number;
 }
 

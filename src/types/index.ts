@@ -10,7 +10,7 @@ export * from './episode';
 
 export * from './filter';
 
-export * from './hook';
+export * from './hook/use-entity-detail-result';
 
 export * from './location';
 
@@ -24,7 +24,7 @@ export * from './theme';
 
 export * from './attribute-row';
 export * from './badge';
-export * from './container';
+
 export * from './resource-page-layout';
 export * from './search-bar';
 export * from './section-header';
