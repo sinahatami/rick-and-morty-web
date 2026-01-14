@@ -1,5 +1,6 @@
 import { X, ListFilter } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 import { FilterPanelProps } from '~/types';
 import { FilterSelect } from './FilterSelect';
@@ -19,6 +20,8 @@ export function FilterPanel({
   const styles = getThemeStyles(theme);
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const initialFilters: Record<string, string> = {};
     Object.keys(filterOptions).forEach(key => {
       initialFilters[key] = filters[key] || '';
@@ -63,8 +66,54 @@ export function FilterPanel({
   }, [isOpen]);
 
   const activeCount = Object.values(filters).filter(Boolean).length;
-
   const hasActiveFilters = Object.values(localFilters).some(val => val !== '');
+
+  const FilterContent = (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+        <h3 className="text-lg font-black text-gray-900 tracking-tight">Refine Search</h3>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+        >
+          <X className="h-5 w-5 text-gray-400" />
+        </button>
+      </div>
+
+      <div className="space-y-5">
+        {Object.keys(filterOptions).map(key => (
+          <FilterSelect
+            key={key}
+            label={key.charAt(0).toUpperCase() + key.slice(1)}
+            value={localFilters[key] || ''}
+            options={filterOptions[key]}
+            onChange={val => handleSelectChange(key, val)}
+            theme={theme}
+          />
+        ))}
+      </div>
+
+      <div className="flex gap-3 pt-2">
+        <Button
+          onClick={handleReset}
+          theme={theme}
+          disabled={!hasActiveFilters}
+          className="flex-1 py-3 text-xs tracking-widest uppercase bg-transparent border-none text-gray-400 hover:bg-red-50 hover:text-red-500 shadow-none"
+          style={{ backgroundColor: 'transparent', color: undefined }}
+        >
+          Reset
+        </Button>
+
+        <Button
+          onClick={handleApply}
+          theme={theme}
+          className="flex-[2] py-3 text-xs tracking-widest uppercase shadow-md"
+        >
+          Apply
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="relative" ref={panelRef}>
@@ -102,56 +151,32 @@ export function FilterPanel({
         </span>
       </button>
 
+      {/* DESKTOP DROPDOWN (Original) */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+        <div className="hidden md:block absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
           <div className={`h-1.5 w-full bg-gradient-to-r ${styles.gradient}`} />
-
-          <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-              <h3 className="text-lg font-black text-gray-900 tracking-tight">Refine Search</h3>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-              >
-                <X className="h-5 w-5 text-gray-400" />
-              </button>
-            </div>
-
-            <div className="space-y-5">
-              {Object.keys(filterOptions).map(key => (
-                <FilterSelect
-                  key={key}
-                  label={key.charAt(0).toUpperCase() + key.slice(1)}
-                  value={localFilters[key] || ''}
-                  options={filterOptions[key]}
-                  onChange={val => handleSelectChange(key, val)}
-                  theme={theme}
-                />
-              ))}
-            </div>
-
-            <div className="flex gap-3 pt-2">
-              <Button
-                onClick={handleReset}
-                theme={theme}
-                disabled={!hasActiveFilters}
-                className="flex-1 py-3 text-xs tracking-widest uppercase bg-transparent border-none text-gray-400 hover:bg-red-50 hover:text-red-500 shadow-none"
-                style={{ backgroundColor: 'transparent', color: undefined }}
-              >
-                Reset
-              </Button>
-
-              <Button
-                onClick={handleApply}
-                theme={theme}
-                className="flex-[2] py-3 text-xs tracking-widest uppercase shadow-md"
-              >
-                Apply
-              </Button>
-            </div>
-          </div>
+          {FilterContent}
         </div>
       )}
+
+      {/* MOBILE MODAL */}
+      {typeof document !== 'undefined' &&
+        isOpen &&
+        createPortal(
+          <div className="md:hidden fixed inset-0 z-[100] flex items-end justify-center">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300"
+              onClick={() => setIsOpen(false)}
+            />
+            {/* Bottom Sheet */}
+            <div className="relative w-full bg-white rounded-t-[2.5rem] shadow-2xl animate-in slide-in-from-bottom duration-300 overflow-hidden">
+              <div className={`h-1.5 w-full bg-gradient-to-r ${styles.gradient}`} />
+              {FilterContent}
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }
