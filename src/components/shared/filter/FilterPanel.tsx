@@ -16,12 +16,14 @@ export function FilterPanel({
 }: FilterPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [localFilters, setLocalFilters] = useState<Record<string, string>>({});
+
   const panelRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const styles = getThemeStyles(theme);
 
   useEffect(() => {
     if (!isOpen) return;
-
     const initialFilters: Record<string, string> = {};
     Object.keys(filterOptions).forEach(key => {
       initialFilters[key] = filters[key] || '';
@@ -57,10 +59,17 @@ export function FilterPanel({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+
+      // Check if click is inside the main button OR the portal content
+      const clickedInsideTrigger = panelRef.current?.contains(target);
+      const clickedInsideContent = contentRef.current?.contains(target);
+
+      if (!clickedInsideTrigger && !clickedInsideContent) {
         setIsOpen(false);
       }
     };
+
     if (isOpen) document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
@@ -117,7 +126,6 @@ export function FilterPanel({
 
   return (
     <div className="relative" ref={panelRef}>
-      {/* Main Filter Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
@@ -151,9 +159,12 @@ export function FilterPanel({
         </span>
       </button>
 
-      {/* DESKTOP DROPDOWN (Original) */}
+      {/* DESKTOP DROPDOWN */}
       {isOpen && (
-        <div className="hidden md:block absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+        <div
+          ref={contentRef}
+          className="hidden md:block absolute top-full right-0 mt-3 z-50 w-full md:w-96 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in-95 duration-200 overflow-hidden"
+        >
           <div className={`h-1.5 w-full bg-gradient-to-r ${styles.gradient}`} />
           {FilterContent}
         </div>
@@ -164,13 +175,14 @@ export function FilterPanel({
         isOpen &&
         createPortal(
           <div className="md:hidden fixed inset-0 z-[100] flex items-end justify-center">
-            {/* Backdrop */}
             <div
               className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300"
               onClick={() => setIsOpen(false)}
             />
-            {/* Bottom Sheet */}
-            <div className="relative w-full bg-white rounded-t-[2.5rem] shadow-2xl animate-in slide-in-from-bottom duration-300 overflow-hidden">
+            <div
+              ref={contentRef}
+              className="relative w-full bg-white rounded-t-[2.5rem] shadow-2xl animate-in slide-in-from-bottom duration-300 overflow-hidden"
+            >
               <div className={`h-1.5 w-full bg-gradient-to-r ${styles.gradient}`} />
               {FilterContent}
             </div>
