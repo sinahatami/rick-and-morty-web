@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "test": "vitest",
+    "test:ui": "vitest --ui",
     "test:once": "vitest run",
     "analyze": "ANALYZE=true next build",
     "deploy": "yarn build && yarn run gh-pages -d out -t",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
+    "@vitest/ui": "^4.0.17",
     "lucide-react": "^0.562.0",
     "next": "^15.5.9",
     "react": "19.1.0",

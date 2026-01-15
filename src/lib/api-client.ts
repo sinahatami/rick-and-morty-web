@@ -16,7 +16,7 @@ class ApiError extends Error {
 class ApiClient {
   private baseUrl = 'https://rickandmortyapi.com/api';
 
-  private async request<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
+  protected async request<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
     if (params) {
