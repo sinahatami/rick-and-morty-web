@@ -1,7 +1,6 @@
-import { FilterX } from 'lucide-react';
+import { FilterX, AlertTriangle } from 'lucide-react'; // Added AlertTriangle
 import { memo } from 'react';
-
-import { EmptyStateProps } from '~/types';
+import { EmptyStateProps } from '~/types'; // Add isError to interface here
 import { getThemeStyles } from '~/lib/theme';
 import { Button } from '../Button';
 
@@ -12,11 +11,14 @@ export const EmptyState = memo(function EmptyState({
   showClearButton = true,
   buttonText = 'Clear All Filters',
   theme = 'portal',
+  isError = false, // New Prop
 }: EmptyStateProps) {
   const styles = getThemeStyles(theme);
 
-  const containerBg = styles.lightBg || 'bg-gray-50';
-  const containerBorder = styles.lightBorder || 'border-gray-200';
+  // Dynamic styling for Error vs Empty
+  const containerBg = isError ? 'bg-red-50' : styles.lightBg || 'bg-gray-50';
+  const containerBorder = isError ? 'border-red-200' : styles.lightBorder || 'border-gray-200';
+  const iconColor = isError ? '#EF4444' : styles.primary;
 
   return (
     <div
@@ -30,12 +32,17 @@ export const EmptyState = memo(function EmptyState({
       role="status"
       aria-live="polite"
     >
-      {/* ICON — LEAF NODE ONLY */}
       <div className="p-4 bg-white rounded-full shadow-sm mb-4" aria-hidden="true">
-        <FilterX className="h-10 w-10" style={{ color: styles.primary }} />
+        {isError ? (
+          <AlertTriangle className="h-10 w-10 text-red-500" />
+        ) : (
+          <FilterX className="h-10 w-10" style={{ color: iconColor }} />
+        )}
       </div>
 
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+      <h3 className={`text-xl font-bold mb-2 ${isError ? 'text-red-900' : 'text-gray-900'}`}>
+        {title}
+      </h3>
 
       <p className="text-gray-500 max-w-xs mb-8">{description}</p>
 
@@ -46,8 +53,8 @@ export const EmptyState = memo(function EmptyState({
           className="text-sm min-w-[140px] font-bold border-2"
           style={{
             backgroundColor: 'white',
-            borderColor: styles.primary,
-            color: styles.primary,
+            borderColor: isError ? '#EF4444' : styles.primary,
+            color: isError ? '#EF4444' : styles.primary,
           }}
         >
           {buttonText}

@@ -34,13 +34,22 @@ export function CharacterList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
 
-  const { characters, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
-    useCharacters({
-      name: debouncedSearch || undefined,
-      status: filters.status,
-      species: filters.species,
-      gender: filters.gender,
-    });
+  const {
+    characters,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    totalCount,
+    error,
+    isFetching,
+  } = useCharacters({
+    name: debouncedSearch || undefined,
+    status: filters.status,
+    species: filters.species,
+    gender: filters.gender,
+  });
+  console.log('dasad', error);
 
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender
@@ -51,10 +60,14 @@ export function CharacterList() {
     setFilters({});
   }, [setSearchQuery, setFilters]);
 
+  const isRefetching = isFetching && !isLoading && !isFetchingNextPage;
+
   return (
     <ResourcePageLayout
       items={characters}
       isLoading={isLoading}
+      error={error}
+      isRefetching={isRefetching}
       totalCount={totalCount}
       title="Characters"
       headerExtra={<SimpleBanner src={banner} />}

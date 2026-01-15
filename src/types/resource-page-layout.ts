@@ -5,6 +5,8 @@ import { Theme } from '~/types';
 export interface ResourcePageLayoutProps<T> {
   items: T[];
   isLoading: boolean;
+  error?: Error | null;
+  isRefetching?: boolean;
   totalCount: number;
   title: string;
   subtitle?: ReactNode;

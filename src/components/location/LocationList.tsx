@@ -32,12 +32,23 @@ export function LocationList() {
   const { filters, setFilters, searchQuery, setSearchQuery, debouncedSearch } =
     useUrlSync(getInitialFiltersFromUrl);
 
-  const { locations, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
-    useLocations({
-      name: debouncedSearch || undefined,
-      type: filters.type,
-      dimension: filters.dimension,
-    });
+  const {
+    locations,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    totalCount,
+    error, // <--- Added
+    isFetching, // <--- Added
+  } = useLocations({
+    name: debouncedSearch || undefined,
+    type: filters.type,
+    dimension: filters.dimension,
+  });
+
+  // Calculate if we are updating the search/filters in the background
+  const isRefetching = isFetching && !isLoading && !isFetchingNextPage;
 
   const hasActiveFilters = Boolean(searchQuery.trim() || filters.type || filters.dimension);
 
@@ -52,6 +63,9 @@ export function LocationList() {
     <ResourcePageLayout
       items={locations}
       isLoading={isLoading}
+      // Pass the new props
+      error={error}
+      isRefetching={isRefetching}
       totalCount={totalCount}
       title="Multiverse Locations"
       headerExtra={<SimpleBanner src={banner} />}

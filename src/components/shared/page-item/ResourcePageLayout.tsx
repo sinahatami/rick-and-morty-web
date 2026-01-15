@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { ResourcePageLayoutProps } from '~/types';
 import { useTheme } from '~/context/ThemeContext';
 import { LoadingSpinner } from '../loading/LoadingSpinner';
@@ -20,9 +19,8 @@ export function ResourcePageLayout<T extends { id: string | number }>(
   }, []);
 
   const theme = props.theme || contextTheme;
-  const showLoader = props.isLoading && props.items.length === 0;
+  const isInitialLoad = props.isLoading && props.items.length === 0;
 
-  // 1. Handle Initial Hydration (Optional: keeps the first paint clean)
   if (!isMounted) {
     return (
       <Container className="py-28 space-y-10">
@@ -35,14 +33,12 @@ export function ResourcePageLayout<T extends { id: string | number }>(
 
   return (
     <Container className="py-28 space-y-10">
-      {/* 2. Top Section: ALWAYS VISIBLE (Header, Controls, Filters) */}
       <div className="space-y-8 animate-in fade-in duration-500">
         {props.headerExtra}
-
         <section aria-label="Page Controls" className="space-y-8">
           <PageHeader
             title={props.title}
-            visibleCount={showLoader ? 0 : props.items.length}
+            visibleCount={isInitialLoad ? 0 : props.items.length}
             subtitle={props.subtitle}
           />
           {props.controls}
@@ -50,9 +46,17 @@ export function ResourcePageLayout<T extends { id: string | number }>(
         </section>
       </div>
 
-      {/* 3. Content Section: Switches between Loader, Empty, or Data */}
       <section aria-label={`${props.title} List`} className="min-h-[40vh]">
-        {showLoader ? (
+        {props.error ? (
+          <EmptyState
+            title="Transmission Failed"
+            description={props.error.message || "We couldn't reach the server. Please try again."}
+            isError={true}
+            onClearFilters={props.onClearFilters}
+            buttonText="Retry"
+            theme={theme}
+          />
+        ) : isInitialLoad ? (
           <div className="py-12 flex items-center justify-center">
             <LoadingSpinner message="Scanning the multiverse..." />
           </div>
@@ -69,7 +73,13 @@ export function ResourcePageLayout<T extends { id: string | number }>(
           />
         ) : (
           <div className="space-y-12 animate-in slide-in-from-bottom-4 duration-500">
-            <Grid>{props.items.map(props.renderItem)}</Grid>
+            <div
+              className={`transition-opacity duration-300 ${
+                props.isRefetching ? 'opacity-50 grayscale-[0.5]' : 'opacity-100'
+              }`}
+            >
+              <Grid>{props.items.map(props.renderItem)}</Grid>
+            </div>
 
             {props.hasNextPage && (
               <LoadMoreButton

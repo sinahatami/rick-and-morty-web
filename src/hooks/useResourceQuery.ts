@@ -89,6 +89,7 @@ export function useResourceQuery<T, F extends { name?: string }>({
     isLoading: queryResult.isLoading,
     isError: queryResult.isError,
     error: queryResult.error,
+    isFetching: queryResult.isFetching,
     fetchNextPage: queryResult.fetchNextPage,
     hasNextPage: !!queryResult.hasNextPage,
     isFetchingNextPage: queryResult.isFetchingNextPage,

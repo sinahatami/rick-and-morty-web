@@ -34,11 +34,22 @@ export function EpisodeList() {
 
   const apiEpisodeFilter = `${filters.season || ''}${filters.episode || ''}`;
 
-  const { episodes, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, totalCount } =
-    useEpisodes({
-      name: debouncedSearch || undefined,
-      episode: apiEpisodeFilter || undefined,
-    });
+  const {
+    episodes,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    totalCount,
+    error,
+    isFetching,
+  } = useEpisodes({
+    name: debouncedSearch || undefined,
+    episode: apiEpisodeFilter || undefined,
+  });
+
+  // Calculate background refetch status
+  const isRefetching = isFetching && !isLoading && !isFetchingNextPage;
 
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
@@ -55,6 +66,8 @@ export function EpisodeList() {
       theme={PAGE_THEME}
       items={episodes}
       isLoading={isLoading}
+      error={error}
+      isRefetching={isRefetching}
       totalCount={totalCount ?? 0}
       headerExtra={<SimpleBanner src={banner} />}
       subtitle={
