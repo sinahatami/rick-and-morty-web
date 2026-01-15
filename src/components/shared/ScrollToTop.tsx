@@ -35,7 +35,6 @@ export function ScrollToTop(): any {
         backgroundColor: isHovered ? `${styles.primary}20` : 'rgba(255, 255, 255, 0.8)',
         transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
       }}
-      aria-label="Scroll to top"
     >
       <ChevronUp className="h-6 w-6" />
     </button>

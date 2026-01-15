@@ -26,14 +26,12 @@ export default function Footer() {
             <a
               href="https://github.com/sinahatami/"
               className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-[#00B5CC] hover:bg-[#00B5CC]/10 transition-colors"
-              aria-label="GitHub"
             >
               <Github className="w-5 h-5" />
             </a>
             <a
               href="https://www.linkedin.com/in/sina-hatami/"
               className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-[#00B5CC] hover:bg-[#00B5CC]/10 transition-colors"
-              aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" />
             </a>

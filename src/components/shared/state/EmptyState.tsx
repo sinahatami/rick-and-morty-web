@@ -1,6 +1,6 @@
-import { FilterX, AlertTriangle } from 'lucide-react'; // Added AlertTriangle
+import { FilterX, AlertTriangle } from 'lucide-react';
 import { memo } from 'react';
-import { EmptyStateProps } from '~/types'; // Add isError to interface here
+import { EmptyStateProps } from '~/types';
 import { getThemeStyles } from '~/lib/theme';
 import { Button } from '../Button';
 
@@ -11,7 +11,7 @@ export const EmptyState = memo(function EmptyState({
   showClearButton = true,
   buttonText = 'Clear All Filters',
   theme = 'portal',
-  isError = false, // New Prop
+  isError = false,
 }: EmptyStateProps) {
   const styles = getThemeStyles(theme);
 

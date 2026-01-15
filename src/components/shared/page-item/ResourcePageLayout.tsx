@@ -35,7 +35,7 @@ export function ResourcePageLayout<T extends { id: string | number }>(
     <Container className="py-28 space-y-10">
       <div className="space-y-8 animate-in fade-in duration-500">
         {props.headerExtra}
-        <section aria-label="Page Controls" className="space-y-8">
+        <section className="space-y-8">
           <PageHeader
             title={props.title}
             visibleCount={isInitialLoad ? 0 : props.items.length}
@@ -46,7 +46,7 @@ export function ResourcePageLayout<T extends { id: string | number }>(
         </section>
       </div>
 
-      <section aria-label={`${props.title} List`} className="min-h-[40vh]">
+      <section className="min-h-[40vh]">
         {props.error ? (
           <EmptyState
             title="Transmission Failed"
