@@ -49,7 +49,6 @@ export function CharacterList() {
     species: filters.species,
     gender: filters.gender,
   });
-  console.log('dasad', error);
 
   const hasActiveFilters = Boolean(
     searchQuery.trim() || filters.status || filters.species || filters.gender
