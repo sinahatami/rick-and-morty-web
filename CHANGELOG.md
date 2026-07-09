@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.0...v1.1.1) (2026-07-09)
+
+
+### Bug Fixes
+
+* add tailwind [@source](https://github.com/source) directive for proper css compilation ([736afe8](https://github.com/sinahatami/rick-and-morty-web/commit/736afe87ba7887d2d9e96e712d5213d781ff138e))
+
 # [1.1.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.0.0...v1.1.0) (2026-07-09)
 
 
