@@ -32,8 +32,11 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      - name: Run tests
+      - name: Run unit tests
         run: yarn test:once
 
       - name: Build application
         run: yarn build
+
+      - name: Run E2E tests
+        run: yarn test:e2e:ci
