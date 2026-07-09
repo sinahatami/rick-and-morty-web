@@ -30,9 +30,8 @@ class ApiClient {
     try {
       const response = await fetch(url.toString());
 
-      // Handle 404 specifically for "no results found"
       if (response.status === 404) {
-        throw new ApiError('No characters found matching your search criteria.', 404);
+        throw new ApiError('No results found matching your search criteria.', 404);
       }
 
       if (!response.ok) {

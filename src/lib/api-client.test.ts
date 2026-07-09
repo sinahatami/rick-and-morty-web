@@ -31,7 +31,7 @@ describe('ApiClient', () => {
       mockFetch.mockResolvedValue(createMockResponse({ error: 'Not found' }, 404, false));
 
       await expect(apiClient.characters.getAll({ name: 'Nonexistent' }))
-        .rejects.toThrow('No characters found matching your search criteria.');
+        .rejects.toThrow('No results found matching your search criteria.');
     });
 
     it('should throw a generic error when API returns 500', async () => {
