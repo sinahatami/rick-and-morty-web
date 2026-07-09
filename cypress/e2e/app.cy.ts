@@ -12,7 +12,7 @@ describe('Rick and Morty Web App', () => {
   it('can navigate between tabs', () => {
     // Click on the Locations tab
     cy.contains('Locations').click();
-    
+
     // Assert the URL changed and the locations heading/content is visible
     cy.url().should('include', '/locations');
     cy.contains('Locations').should('be.visible');
@@ -29,10 +29,10 @@ describe('Rick and Morty Web App', () => {
 
     // Find the search input, type "Rick"
     cy.get('input[type="text"][placeholder*="Filter by name"]').type('Rick');
-    
+
     // Wait for debounce and loading
     cy.wait(1000); // Usually you'd intercept the API request and wait for it instead
-    
+
     // Assert that the results contain "Rick"
     cy.contains('Rick Sanchez').should('be.visible');
   });
