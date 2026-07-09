@@ -73,21 +73,42 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #0f172a;
+  border-left: 1px solid #1e293b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 5px;
-  border: 2px solid #ffffff;
+  background: #00b5cc;
+  border-radius: 6px;
+  border: 3px solid #0f172a;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #b8e986;
+  border-color: #0b1e2d;
+}
+
+/* Base custom cursor rule for the entire body */
+body {
+  cursor:
+    url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23b8e986'/%3E%3Ccircle cx='12' cy='12' r='10' stroke='%2300b5cc' stroke-width='2' stroke-dasharray='4 4'/%3E%3C/svg%3E")
+      12 12,
+    auto;
+}
+
+a,
+button,
+[role='button'] {
+  cursor:
+    url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' fill='%2300b5cc' opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23b8e986'/%3E%3C/svg%3E")
+      12 12,
+    pointer !important;
 }
 
 html {
