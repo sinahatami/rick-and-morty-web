@@ -32,7 +32,7 @@ describe('useResourceQuery', () => {
 
     const { result } = renderHook(
       () =>
-        useResourceQuery({
+        useResourceQuery<{ id: number; name: string }, { name?: string }>({
           queryKeyPrefix: 'characters-test',
           filters: { name: 'Rick' },
           fetchFn: mockFetchFn,
@@ -65,7 +65,7 @@ describe('useResourceQuery', () => {
 
     const { result } = renderHook(
       () =>
-        useResourceQuery({
+        useResourceQuery<{ id: number; name: string }, { name?: string }>({
           queryKeyPrefix: 'characters-test-next',
           filters: {},
           fetchFn: mockFetchFn,
