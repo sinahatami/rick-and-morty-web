@@ -1,7 +1,6 @@
 {
   "homepage": "https://sinahatami.github.io/rick-and-morty-web",
   "name": "rick-and-morty-web",
-  "version": "0.0.0-development",
   "private": true,
   "scripts": {
     "dev": "next dev",
