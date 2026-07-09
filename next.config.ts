@@ -4,7 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === 'production' && process.env.BUILD_FOR_E2E !== 'true';
 const repoName = '/rick-and-morty-web';
 const basePath = isProd ? repoName : '';
 

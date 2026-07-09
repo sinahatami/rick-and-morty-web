@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:e2e": "BUILD_FOR_E2E=true next build",
     "start": "npx serve@latest out -p 3000",
     "lint": "eslint . --max-warnings 0 --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
