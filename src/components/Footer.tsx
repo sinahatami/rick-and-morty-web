@@ -42,7 +42,9 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <span>© {new Date().getFullYear()} Sina Hatami</span>
             <span className="text-gray-200">|</span>
-            <span>v{process.env.NEXT_PUBLIC_APP_VERSION || '0.0.0-dev'}</span>
+            <span>
+              v{process.env.NEXT_PUBLIC_APP_VERSION || require('../../package.json').version}
+            </span>
           </div>
           <span className="flex items-center gap-1">
             Made with <Heart className="w-3 h-3 text-red-500 fill-current" /> in Alpha Centauri
