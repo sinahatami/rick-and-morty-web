@@ -13,6 +13,9 @@ const queryClient = new QueryClient({
   },
 });
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
@@ -20,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ToastContainer position="bottom-right" theme="dark" />
       </ThemeProvider>
     </QueryClientProvider>
   );

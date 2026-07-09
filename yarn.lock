@@ -2815,6 +2815,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10/cdfb57fa6c7649bbff98d9028c2f0de2f91c86f551179541cf784b1cfdc1562dcb951955f46d54d930a3879931a980e32a46b598acaea274728dbe068deca919
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -6245,6 +6252,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-toastify@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "react-toastify@npm:11.1.0"
+  dependencies:
+    clsx: "npm:^2.1.1"
+  peerDependencies:
+    react: ^18 || ^19
+    react-dom: ^18 || ^19
+  checksum: 10/56cdc448a189503580f3bdb2b102c2a150323844844558563cb73503438ce787598a61fdc2a2444be10d6fecabb4b4cc9b04a852ea7274388a53d20ed30818f1
+  languageName: node
+  linkType: hard
+
 "react@npm:19.1.0":
   version: 19.1.0
   resolution: "react@npm:19.1.0"
@@ -6453,6 +6472,7 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.6.9"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
+    react-toastify: "npm:^11.1.0"
     tailwindcss: "npm:^4.1.18"
     typescript: "npm:5.3.3"
     vitest: "npm:^4.0.16"

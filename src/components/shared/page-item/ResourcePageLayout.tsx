@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { ResourcePageLayoutProps } from '~/types';
 import { useTheme } from '~/context/ThemeContext';
 import { LoadingSpinner } from '../loading/LoadingSpinner';
@@ -17,6 +18,12 @@ export function ResourcePageLayout<T extends { id: string | number }>(
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (props.error && props.items.length > 0) {
+      toast.error(props.error.message || "We couldn't reach the server. Please try again.");
+    }
+  }, [props.error, props.items.length]);
 
   const theme = props.theme || contextTheme;
   const isInitialLoad = props.isLoading && props.items.length === 0;
@@ -47,7 +54,7 @@ export function ResourcePageLayout<T extends { id: string | number }>(
       </div>
 
       <section className="min-h-[40vh]">
-        {props.error ? (
+        {props.error && props.items.length === 0 ? (
           <EmptyState
             title="Transmission Failed"
             description={props.error.message || "We couldn't reach the server. Please try again."}
