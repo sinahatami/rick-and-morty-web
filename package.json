@@ -18,7 +18,8 @@
     "test:once": "vitest run",
     "analyze": "ANALYZE=true next build",
     "deploy": "yarn build && yarn run gh-pages -d out -t",
-    "knip": "knip"
+    "knip": "knip",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
@@ -33,6 +34,8 @@
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@next/bundle-analyzer": "^16.1.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
@@ -58,6 +61,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.6.9",
+    "semantic-release": "^25.0.5",
     "tailwindcss": "^4.1.18",
     "typescript": "5.3.3",
     "vitest": "^4.0.16"
