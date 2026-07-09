@@ -19,6 +19,8 @@
     "test:preview": "jest-preview",
     "test:e2e": "start-server-and-test dev http://localhost:3000 'cypress run'",
     "test:e2e:ci": "start-server-and-test start http://localhost:3000 'cypress run'",
+    "test:e2e:full": "yarn build:e2e && yarn test:e2e:ci",
+    "verify": "yarn lint && yarn test:once && yarn test:e2e:full",
     "cypress:open": "start-server-and-test dev http://localhost:3000 'cypress open'",
     "analyze": "ANALYZE=true next build",
     "deploy": "yarn build && yarn run gh-pages -d out -t",
