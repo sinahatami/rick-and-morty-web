@@ -1,8 +1,7 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from '~/components/ui/sonner';
 
 import { Layout } from '~/components/Layout';
 import { ThemeProvider } from '~/context/ThemeContext';
@@ -26,7 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
-        <ToastContainer position="bottom-right" theme="dark" />
+        <Toaster position="bottom-right" theme="light" />
       </ThemeProvider>
     </QueryClientProvider>
   );
