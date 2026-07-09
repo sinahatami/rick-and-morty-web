@@ -6,7 +6,7 @@ describe('Rick and Morty Web App', () => {
 
   it('successfully loads the home page', () => {
     // Assert the main title or navigation is present
-    cy.contains('Rick and Morty Explorer').should('be.visible');
+    cy.contains('Characters').should('be.visible');
   });
 
   it('can navigate between tabs', () => {
@@ -28,7 +28,7 @@ describe('Rick and Morty Web App', () => {
     cy.contains('Characters').click();
 
     // Find the search input, type "Rick"
-    cy.get('input[type="text"][placeholder*="Search"]').type('Rick');
+    cy.get('input[type="text"][placeholder*="Filter by name"]').type('Rick');
     
     // Wait for debounce and loading
     cy.wait(1000); // Usually you'd intercept the API request and wait for it instead
