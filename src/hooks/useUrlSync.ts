@@ -72,7 +72,7 @@ export function useUrlSync<T extends Record<string, any>>(
     router.isReady,
     router.pathname,
     router.asPath,
-    router.push
+    router.push,
   ]);
 
   return {

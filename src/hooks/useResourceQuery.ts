@@ -51,7 +51,10 @@ export function useResourceQuery<T, F extends { name?: string }>({
         const pageParam = url.searchParams.get('page');
         return pageParam ? Number(pageParam) : undefined;
       } catch (error) {
-        console.error(`[useResourceQuery] Error parsing next page URL for ${queryKeyPrefix}:`, error);
+        console.error(
+          `[useResourceQuery] Error parsing next page URL for ${queryKeyPrefix}:`,
+          error
+        );
         return undefined;
       }
     },
