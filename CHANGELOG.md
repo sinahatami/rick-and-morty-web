@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.0.0...v1.1.0) (2026-07-09)
+
+
+### Bug Fixes
+
+* isolate cypress typescript config to resolve jest expect clashes ([fdb69b7](https://github.com/sinahatami/rick-and-morty-web/commit/fdb69b72d5d7902ffce481e0d499a98faab1d2e4))
+
+
+### Features
+
+* add global SEO component and fix react-query state initialization ([862ea2e](https://github.com/sinahatami/rick-and-morty-web/commit/862ea2efb1720ef896d3788e382d25b5a75c9149))
+* add premium custom cursor, scrollbar, and fix vscode scss warning ([94ba319](https://github.com/sinahatami/rick-and-morty-web/commit/94ba3190759d863a590a0ead0588f8bfcbeba359))
+
 # 1.0.0 (2026-07-09)
 
 
