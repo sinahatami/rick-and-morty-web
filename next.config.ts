@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
 
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
+  sassOptions: {
+    silenceDeprecations: ['legacy-js-api', 'import'],
+  },
   reactStrictMode: true,
   images: {
     unoptimized: true,
