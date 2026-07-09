@@ -1,4 +1,3 @@
-
 import { apiClient } from './api-client';
 
 import { Character, Location, Episode } from '~/types';

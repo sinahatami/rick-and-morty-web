@@ -1,4 +1,3 @@
-
 import { formatDate, extractIdFromUrl, parseEpisodeCode } from './string-helper';
 
 describe('string-helper', () => {

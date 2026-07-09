@@ -49,7 +49,7 @@ describe('useResourceQuery', () => {
     expect(result.current.items[0].name).toBe('Rick Sanchez');
     expect(result.current.totalCount).toBe(1);
     expect(result.current.totalPages).toBe(1);
-    
+
     // Check if fetchFn was called with the right params
     expect(mockFetchFn).toHaveBeenCalledWith({
       page: '1',
@@ -59,7 +59,12 @@ describe('useResourceQuery', () => {
 
   it('computes next page parameters correctly', async () => {
     const mockFetchFn = jest.fn().mockResolvedValue({
-      info: { count: 40, pages: 2, next: 'https://rickandmortyapi.com/api/character/?page=2', prev: null },
+      info: {
+        count: 40,
+        pages: 2,
+        next: 'https://rickandmortyapi.com/api/character/?page=2',
+        prev: null,
+      },
       results: [{ id: 1, name: 'Rick' }],
     });
 
@@ -79,7 +84,12 @@ describe('useResourceQuery', () => {
 
     // Mock next page fetch
     mockFetchFn.mockResolvedValueOnce({
-      info: { count: 40, pages: 2, next: null, prev: 'https://rickandmortyapi.com/api/character/?page=1' },
+      info: {
+        count: 40,
+        pages: 2,
+        next: null,
+        prev: 'https://rickandmortyapi.com/api/character/?page=1',
+      },
       results: [{ id: 2, name: 'Morty' }],
     });
 

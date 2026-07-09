@@ -48,7 +48,7 @@ describe('useDebounce', () => {
     });
 
     rerender({ value: 'update1' });
-    
+
     act(() => {
       jest.advanceTimersByTime(250);
     });

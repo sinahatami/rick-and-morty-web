@@ -1,4 +1,3 @@
-
 import { parseLocationData } from './location-helper';
 import { Location } from '~/types';
 
