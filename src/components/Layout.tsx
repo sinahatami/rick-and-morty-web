@@ -8,7 +8,7 @@ import { CustomCursor } from './shared/CustomCursor';
 
 import { SEO } from './shared/SEO';
 
-export interface LayoutProps {
+interface LayoutProps {
   children: ReactNode;
 }
 

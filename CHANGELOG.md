@@ -1,22 +1,20 @@
 # [1.2.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.2...v1.2.0) (2026-07-09)
 
-
 ### Bug Fixes
 
-* command menu hover styles ([979d365](https://github.com/sinahatami/rick-and-morty-web/commit/979d365db2751c11cfd3fc0eee0fb87ddb37697e))
-* command menu native hover styles ([c3bb6b8](https://github.com/sinahatami/rick-and-morty-web/commit/c3bb6b8edd7818dfcd7cbc090a0c51dd57475703))
-* read version dynamically from package.json in footer ([3567c82](https://github.com/sinahatami/rick-and-morty-web/commit/3567c821b2e0e2b6400f36b8aa958bae3bb80d03))
-* screenshot ([f486acf](https://github.com/sinahatami/rick-and-morty-web/commit/f486acfaa967c5393cc2aa9640d1e29058b66e70))
-* screenshot ([64e4ca0](https://github.com/sinahatami/rick-and-morty-web/commit/64e4ca0d79870cbd09d2dc53df03d2b876604db7))
-* visual contrast of nested items in command menu hover ([070562c](https://github.com/sinahatami/rick-and-morty-web/commit/070562c5909afffb3daeaace787c49b539da7448))
-
+- command menu hover styles ([979d365](https://github.com/sinahatami/rick-and-morty-web/commit/979d365db2751c11cfd3fc0eee0fb87ddb37697e))
+- command menu native hover styles ([c3bb6b8](https://github.com/sinahatami/rick-and-morty-web/commit/c3bb6b8edd7818dfcd7cbc090a0c51dd57475703))
+- read version dynamically from package.json in footer ([3567c82](https://github.com/sinahatami/rick-and-morty-web/commit/3567c821b2e0e2b6400f36b8aa958bae3bb80d03))
+- screenshot ([f486acf](https://github.com/sinahatami/rick-and-morty-web/commit/f486acfaa967c5393cc2aa9640d1e29058b66e70))
+- screenshot ([64e4ca0](https://github.com/sinahatami/rick-and-morty-web/commit/64e4ca0d79870cbd09d2dc53df03d2b876604db7))
+- visual contrast of nested items in command menu hover ([070562c](https://github.com/sinahatami/rick-and-morty-web/commit/070562c5909afffb3daeaace787c49b539da7448))
 
 ### Features
 
-* add command palette, sheet, sonner, and skeleton ([cf544f4](https://github.com/sinahatami/rick-and-morty-web/commit/cf544f4f7b6c344ae398fbcdef697e2baab00682))
-* integrate shadcn ui and radix primitives ([9a8ceb7](https://github.com/sinahatami/rick-and-morty-web/commit/9a8ceb7266cf92c7ff3ace49472805f8bf7863ea))
-* make command menu an omnisearch ([b38c74d](https://github.com/sinahatami/rick-and-morty-web/commit/b38c74d04fd38796fe0c24176898b2faca497e06))
-* replace loading spinner with shadcn skeleton grids ([85ac533](https://github.com/sinahatami/rick-and-morty-web/commit/85ac533177c4ab0c4e79838a28664a86a2b680c6))
+- add command palette, sheet, sonner, and skeleton ([cf544f4](https://github.com/sinahatami/rick-and-morty-web/commit/cf544f4f7b6c344ae398fbcdef697e2baab00682))
+- integrate shadcn ui and radix primitives ([9a8ceb7](https://github.com/sinahatami/rick-and-morty-web/commit/9a8ceb7266cf92c7ff3ace49472805f8bf7863ea))
+- make command menu an omnisearch ([b38c74d](https://github.com/sinahatami/rick-and-morty-web/commit/b38c74d04fd38796fe0c24176898b2faca497e06))
+- replace loading spinner with shadcn skeleton grids ([85ac533](https://github.com/sinahatami/rick-and-morty-web/commit/85ac533177c4ab0c4e79838a28664a86a2b680c6))
 
 ## [1.1.2](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.1...v1.1.2) (2026-07-09)
 

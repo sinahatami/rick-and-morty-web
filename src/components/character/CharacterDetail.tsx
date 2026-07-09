@@ -12,7 +12,7 @@ import { CharacterLocationHistory } from './components/CharacterLocationHistory'
 import { EpisodeGridSection } from '../episode/components/EpisodeGridSection';
 import { SEO } from '../shared/SEO';
 
-export interface CharacterDetailProps {
+interface CharacterDetailProps {
   id: string;
 }
 

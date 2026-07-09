@@ -5,7 +5,7 @@ import { EpisodeDetails } from './components/EpisodeDetails';
 import { parseEpisodeData, ParsedEpisodeData } from '../../utils/episode-helper';
 import { Episode } from '~/types';
 
-export interface EpisodeCardProps {
+interface EpisodeCardProps {
   episode: Episode;
 }
 

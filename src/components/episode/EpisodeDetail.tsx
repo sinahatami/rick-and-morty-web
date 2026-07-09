@@ -14,7 +14,7 @@ import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
 import { SEO } from '../shared/SEO';
 
-export interface EpisodeDetailProps {
+interface EpisodeDetailProps {
   id: string;
 }
 

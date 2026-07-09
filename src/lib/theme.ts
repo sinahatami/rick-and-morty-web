@@ -28,7 +28,7 @@ const THEME_COLORS = {
   },
 };
 
-export type ThemeKey = keyof typeof THEME_COLORS;
+type ThemeKey = keyof typeof THEME_COLORS;
 
 export function getThemeStyles(type?: string, name?: string) {
   const normalizedType = type?.toLowerCase() || 'default';
