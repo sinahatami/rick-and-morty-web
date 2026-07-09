@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.1...v1.1.2) (2026-07-09)
+
+
+### Bug Fixes
+
+* change start script to serve static export for cypress e2e ([d545b90](https://github.com/sinahatami/rick-and-morty-web/commit/d545b909f72a538330de48985c74644a22bf3776))
+
 ## [1.1.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.0...v1.1.1) (2026-07-09)
 
 ### Bug Fixes
