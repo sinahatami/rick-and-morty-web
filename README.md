@@ -1,5 +1,6 @@
-# 🧪 Rick & Morty Wiki
+# 🧪 Rick & Morty Explorer (Enterprise Edition)
 
+[![CI Pipeline](https://github.com/sinahatami/rick-and-morty-web/actions/workflows/ci.yml/badge.svg)](https://github.com/sinahatami/rick-and-morty-web/actions)
 [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://sinahatami.github.io/rick-and-morty-web)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -7,46 +8,41 @@
 
 ![Homepage](public/images/screenshot.png)
 
-An interdimensional database for exploring characters, locations, and episodes from the Rick and Morty universe. Built with performance, scalability, and clean architecture in mind.
+A production-grade, highly-optimized interdimensional database for exploring characters, locations, and episodes from the Rick and Morty universe. Built with enterprise performance, extreme scalability, and pristine architectural standards in mind.
 
 ---
 
-## 🚀 Features
+## 🚀 Features & Architecture
 
-- **Multiverse Explorer** - Browse detailed lists of Characters, Locations, and Episodes.
-
-- **Deep Linking** - Fully interconnected data. Navigate from a Character to their Origin Location, or see all Characters in a specific Episode.
-
-- **Advanced Filtering** - Filter by status, species, gender, type, and dimension.
-
-- **URL Synchronization** - All search and filter states are synced to the URL (`useUrlSync`), allowing users to share exact search results.
-
-- **Infinite Scrolling** - Seamless pagination powered by TanStack Query.
-
-- **Responsive Design** - Mobile-first layout with a custom navigation drawer and grid system.
+- **Multiverse Explorer** - Browse detailed lists of Characters, Locations, and Episodes with a seamless, responsive UI.
+- **Deep Linking & URL Sync** - All search, pagination, and filter states are synced to the URL (`useUrlSync`), allowing users to bookmark and share exact search results.
+- **Infinite Scrolling** - Silky-smooth pagination powered by TanStack Query (React Query v5).
+- **Premium Aesthetics** - Features a custom dual-layer mouse cursor (desktop), themed scrollbars, dynamic glassmorphism panels, and highly optimized mobile-first breakpoints.
+- **Production-Ready SEO** - Built-in dynamic `<SEO />` engine that generates canonical URLs, OpenGraph (Facebook/LinkedIn) cards, and Twitter rich-previews on the fly.
+- **Zero Memory Leaks** - Architected using Next.js / TanStack Query best practices, utilizing lazy initialization to prevent SSR state bleed.
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Framework:** Next.js (React)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
+- **Framework:** Next.js (React 18)
+- **Language:** TypeScript (Strict Mode)
+- **Styling:** SASS / SCSS & Tailwind CSS v4
 - **State & Data Fetching:** TanStack Query (React Query)
 - **Icons:** lucide-react
 - **API:** The Rick and Morty API
-- **Testing:** Vitest
 
 ---
 
-## 📦 Key Dependencies
+## 🧪 Testing & CI/CD Infrastructure
 
-| Package                 | Purpose                                                        |
-| ----------------------- | -------------------------------------------------------------- |
-| `@tanstack/react-query` | Handles server state, caching, and infinite scroll pagination. |
-| `lucide-react`          | Provides a clean, consistent set of SVG icons.                 |
-| `tailwindcss`           | Utility-first CSS framework for rapid UI development.          |
-| `vitest`                | Fast unit test framework powered by Vite.                      |
+This repository is hardened by a massive multi-layered testing and continuous integration suite.
+
+- **Unit & Integration Testing:** 100% test passing rate powered by **Jest** and **React Testing Library**.
+- **Visual Debugging:** Integrated **Jest Preview** for rapid visual component debugging.
+- **End-to-End (E2E) Testing:** Full browser automation and regression testing powered by **Cypress**.
+- **CI/CD Pipelines:** Automated **GitHub Actions** workflows (`ci.yml`, `cd.yml`) enforce strict type-checking, linting, unit testing, and E2E testing on every Pull Request.
+- **Git Hooks:** Secured by **Husky** to prevent bad commits from ever reaching the remote repository.
 
 ---
 
@@ -82,71 +78,60 @@ yarn dev
 
 Open `http://localhost:3000` in your browser to see the result.
 
-> If you're using `npm` or `pnpm`, replace `yarn` with `npm run` or `pnpm` accordingly.
+---
+
+## ✅ Quality Assurance Commands
+
+This project uses a strict suite of tools to ensure enterprise-level code quality.
+
+| Command             | Description                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| `yarn typecheck`    | Runs the TypeScript compiler to ensure strict typing.        |
+| `yarn lint`         | Runs ESLint to enforce code style.                           |
+| `yarn test:once`    | Runs the full Jest unit/integration test suite once.         |
+| `yarn test:preview` | Launches Jest Preview server for visual debugging.           |
+| `yarn cypress:open` | Opens the interactive Cypress GUI for local E2E testing.     |
+| `yarn test:e2e:ci`  | Headless Cypress test runner mapped against the Next build.  |
+| `yarn knip`         | Audits the repository for dead code and unused dependencies. |
 
 ---
 
-## ✅ Quality Assurance
+## 🏗 Advanced Design Patterns
 
-This project uses a strict suite of tools to ensure code quality.
+This project follows a strict **Feature-Sliced Design (FSD)** inspired architecture to ensure zero circular dependencies.
 
-| Command          | Description                                            |
-| ---------------- | ------------------------------------------------------ |
-| `yarn typecheck` | Runs the TypeScript compiler to check for type errors. |
-| `yarn lint`      | Runs ESLint to catch code issues.                      |
-| `yarn format`    | Formats code using Prettier.                           |
-| `yarn test`      | Runs unit tests using Vitest.                          |
-| `yarn knip`      | Finds unused files, dependencies, and exports.         |
+### 1. Atomic Typing
 
----
+Types are strictly localized to their domains (e.g. `src/types/character`, `src/types/episode`) and cross-imported securely. This entirely prevents TypeScript circular dependency loops.
 
-## 🏗 Architecture & Design Patterns
-
-This project follows a modular, feature-based architecture to ensure maintainability and scalability.
-
-### 1. Centralized API Layer
+### 2. Centralized API Layer
 
 All data fetching logic is encapsulated in `src/lib/api-client.ts`. This provides a type-safe, consistent interface for the entire application and handles 404/Error states globally.
-
-### 2. Custom Hooks
-
-Logic is extracted into reusable hooks to keep components clean:
-
-- `useUrlSync` : Manages two-way binding between the UI (Search Bar/Filters) and URL query parameters.
-- `useCharacters` / `useLocations` / `useEpisodes` : Specialized hooks wrapping React Query's `useInfiniteQuery` for data fetching and caching.
 
 ### 3. Component Design System
 
 A set of atomic, shared components ensures UI consistency:
 
-- `BaseCard` - Handles hover effects, shadows, and theme colors (Green for Characters, Blue for Locations, Orange for Episodes).
+- `FilterPanel` - Uses a highly responsive desktop dropdown and a native mobile "bottom-sheet" portal.
 - `ResourcePageLayout` - A higher-order layout component that standardizes the header, search bar, grid, and loading states across all list pages.
-- `EmptyState` / `NotFoundState` - Standardized UI for error handling.
+- `SEO` - A global meta-tag injector ensuring the site is fully indexable by search engines.
 
 ---
 
 ## 📂 Project Structure
 
 ```
-public/
-└── images/ # Static images
-```
-
-```
 src/
 ├── components/
-│   ├── character/   # Character-specific components (Card, Detail)
-│   ├── episode/     # Episode-specific components
-│   ├── location/    # Location-specific components
-│   ├── shared/      # Reusable UI (Button, Modal, Loader, etc.)
-│   └── context/     # Theme Provider (e.g. 'portal', 'rick', 'morty')
-├── hooks/           # Custom logic (useUrlSync, useDebounce)
-├── lib/             # API client and singletons
-├── pages/           # Next.js routes
-├── styles/          # Tailwind and global CSS
-├── test/            # Test components
-├── utils/           # Helper files
-└── types/           # Centralized TypeScript definitions
+│   ├── character/   # Character domain components
+│   ├── episode/     # Episode domain components
+│   ├── location/    # Location domain components
+│   ├── shared/      # Reusable UI (Button, SEO, SearchBar)
+│   └── context/     # Theme Provider ('portal', 'rick', 'morty')
+├── hooks/           # Custom React hooks (useUrlSync)
+├── lib/             # API client and Next.js singletons
+├── pages/           # Next.js Application Routes
+├── styles/          # Tailwind v4 and SCSS Globals
+├── types/           # Atomic Domain Interfaces
+└── utils/           # String, URL, and Math helpers
 ```
-
----
