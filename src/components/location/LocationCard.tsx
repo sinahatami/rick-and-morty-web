@@ -1,6 +1,6 @@
 import { BaseCard } from '../shared/card/BaseCard';
-import { LocationHeader } from './sub-components/LocationHeader';
-import { LocationDetails } from './sub-components/LocationDetails';
+import { LocationHeader } from './components/LocationHeader';
+import { LocationDetails } from './components/LocationDetails';
 import { Location } from '~/types';
 import { parseLocationData } from '../../utils/location-helper';
 

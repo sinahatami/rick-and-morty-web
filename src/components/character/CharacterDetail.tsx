@@ -3,13 +3,13 @@ import { Character } from '~/types';
 
 import { GoBackButton } from '../shared/GoBackButton';
 import { LoadingSpinner } from '../shared/loading/LoadingSpinner';
-import { CharacterIdentityCard } from './sub-components/CharacterIdentityCard';
+import { CharacterIdentityCard } from './components/CharacterIdentityCard';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
-import { CharacterBiometrics } from './sub-components/CharacterBiometrics';
-import { CharacterLocationHistory } from './sub-components/CharacterLocationHistory';
-import { EpisodeGridSection } from '../episode/sub-components/EpisodeGridSection';
+import { CharacterBiometrics } from './components/CharacterBiometrics';
+import { CharacterLocationHistory } from './components/CharacterLocationHistory';
+import { EpisodeGridSection } from '../episode/components/EpisodeGridSection';
 
 export interface CharacterDetailProps {
   id: string;

@@ -1,7 +1,7 @@
 import { BaseCard } from '../shared/card/BaseCard';
-import { EpisodeHeader } from './sub-components/EpisodeHeader';
-import { EpisodeInfo } from './sub-components/EpisodeInfo';
-import { EpisodeDetails } from './sub-components/EpisodeDetails';
+import { EpisodeHeader } from './components/EpisodeHeader';
+import { EpisodeInfo } from './components/EpisodeInfo';
+import { EpisodeDetails } from './components/EpisodeDetails';
 import { parseEpisodeData, ParsedEpisodeData } from '../../utils/episode-helper';
 import { Episode } from '~/types';
 

@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { useMemo, useCallback } from 'react';
 
 import { BaseCard } from '../shared/card/BaseCard';
-import { CharacterImage } from './sub-components/CharacterImage';
-import { CharacterInfo } from './sub-components/CharacterInfo';
-import { CharacterLocations } from './sub-components/CharacterLocations';
+import { CharacterImage } from './components/CharacterImage';
+import { CharacterInfo } from './components/CharacterInfo';
+import { CharacterLocations } from './components/CharacterLocations';
 import { CharacterCardProps } from '~/types';
 
 export function CharacterCard({ character }: CharacterCardProps) {
