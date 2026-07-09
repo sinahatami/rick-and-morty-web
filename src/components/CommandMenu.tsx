@@ -90,7 +90,7 @@ export function CommandMenu() {
                   onSelect={() =>
                     runCommand(() => router.push(ROUTES.CHARACTERS.DETAIL(character.id.toString())))
                   }
-                  className="cursor-pointer flex items-center gap-3 py-2"
+                  className="group cursor-pointer flex items-center gap-3 py-2"
                 >
                   <div className="relative h-8 w-8 rounded-full overflow-hidden border border-gray-200 shrink-0">
                     <Image
@@ -103,7 +103,7 @@ export function CommandMenu() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{character.name}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs opacity-70">
                       {character.species} • {character.status}
                     </span>
                   </div>
@@ -121,14 +121,14 @@ export function CommandMenu() {
                   onSelect={() =>
                     runCommand(() => router.push(ROUTES.LOCATIONS.DETAIL(location.id.toString())))
                   }
-                  className="cursor-pointer flex items-center gap-3 py-2"
+                  className="group cursor-pointer flex items-center gap-3 py-2"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 shrink-0">
-                    <Map className="h-4 w-4 text-blue-600" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 shrink-0 group-hover:bg-white/20 group-data-[selected=true]:bg-white/20">
+                    <Map className="h-4 w-4 text-blue-600 group-hover:text-white group-data-[selected=true]:text-white" />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{location.name}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs opacity-70">
                       {location.type} • {location.dimension}
                     </span>
                   </div>
@@ -146,14 +146,14 @@ export function CommandMenu() {
                   onSelect={() =>
                     runCommand(() => router.push(ROUTES.EPISODES.DETAIL(episode.id.toString())))
                   }
-                  className="cursor-pointer flex items-center gap-3 py-2"
+                  className="group cursor-pointer flex items-center gap-3 py-2"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 shrink-0">
-                    <Film className="h-4 w-4 text-purple-600" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 shrink-0 group-hover:bg-white/20 group-data-[selected=true]:bg-white/20">
+                    <Film className="h-4 w-4 text-purple-600 group-hover:text-white group-data-[selected=true]:text-white" />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{episode.name}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs opacity-70">
                       {episode.episode} • {episode.air_date}
                     </span>
                   </div>
@@ -169,25 +169,25 @@ export function CommandMenu() {
                 <CommandItem
                   value="navigate-characters"
                   onSelect={() => runCommand(() => router.push(ROUTES.CHARACTERS.LIST))}
-                  className="cursor-pointer font-bold"
+                  className="group cursor-pointer font-bold"
                 >
-                  <UsersRound className="mr-2 h-4 w-4 text-[#00B5CC]" />
+                  <UsersRound className="mr-2 h-4 w-4 text-primary group-hover:text-white group-data-[selected=true]:text-white" />
                   <span>Browse All Characters</span>
                 </CommandItem>
                 <CommandItem
                   value="navigate-locations"
                   onSelect={() => runCommand(() => router.push(ROUTES.LOCATIONS.LIST))}
-                  className="cursor-pointer font-bold"
+                  className="group cursor-pointer font-bold"
                 >
-                  <Map className="mr-2 h-4 w-4 text-[#00B5CC]" />
+                  <Map className="mr-2 h-4 w-4 text-primary group-hover:text-white group-data-[selected=true]:text-white" />
                   <span>Browse All Locations</span>
                 </CommandItem>
                 <CommandItem
                   value="navigate-episodes"
                   onSelect={() => runCommand(() => router.push(ROUTES.EPISODES.LIST))}
-                  className="cursor-pointer font-bold"
+                  className="group cursor-pointer font-bold"
                 >
-                  <Film className="mr-2 h-4 w-4 text-[#00B5CC]" />
+                  <Film className="mr-2 h-4 w-4 text-primary group-hover:text-white group-data-[selected=true]:text-white" />
                   <span>Browse All Episodes</span>
                 </CommandItem>
               </CommandGroup>
