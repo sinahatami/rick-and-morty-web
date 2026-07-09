@@ -72,26 +72,28 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
 
-::-webkit-scrollbar-track {
-  background: #0f172a;
-  border-left: 1px solid #1e293b;
-}
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+    border-left: 1px solid #1e293b;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #00b5cc;
-  border-radius: 6px;
-  border: 3px solid #0f172a;
-  transition: all 0.3s ease;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #00b5cc;
+    border-radius: 6px;
+    border: 3px solid #0f172a;
+    transition: all 0.3s ease;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #b8e986;
-  border-color: #0b1e2d;
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b8e986;
+    border-color: #0b1e2d;
+  }
 }
 
 /* Base custom cursor rule for the entire body */
@@ -135,8 +137,10 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Add hover scale micro-animations globally for interactive elements */
-a:hover,
-button:hover {
-  transform: scale(1.02);
+/* Add hover scale micro-animations globally for interactive elements, only on devices with a mouse */
+@media (hover: hover) and (pointer: fine) {
+  a:hover,
+  button:hover {
+    transform: scale(1.02);
+  }
 }
