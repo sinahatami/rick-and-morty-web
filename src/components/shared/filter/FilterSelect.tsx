@@ -1,6 +1,13 @@
-import { ChevronDown, Circle } from 'lucide-react';
+import { Circle } from 'lucide-react';
 import { getThemeStyles } from '~/lib/theme';
 import { FilterSelectProps } from '~/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select';
 
 export function FilterSelect({
   label,
@@ -21,34 +28,36 @@ export function FilterSelect({
         {isActive && <Circle className="w-2 h-2 fill-current" style={{ color: styles.primary }} />}
       </div>
 
-      <div className="relative">
-        <select
-          value={value}
-          onChange={e => onChange(e.target.value)}
+      <Select value={value || 'all'} onValueChange={val => onChange(val === 'all' ? '' : val)}>
+        <SelectTrigger
           className={`
-            w-full h-14 pl-5 pr-12
-            bg-gray-50 border-2 rounded-2xl
+            w-full h-14 pl-5 pr-5
+            bg-gray-50 border-2 rounded-2xl focus:ring-0 focus:ring-offset-0
             text-sm font-bold transition-all duration-200
-            appearance-none cursor-pointer outline-none
             ${isActive ? 'text-gray-900 border-opacity-100' : 'text-gray-400 border-gray-100 hover:border-gray-200'}
           `}
           style={{ borderColor: isActive ? styles.primary : undefined }}
         >
-          <option value="">All {label}s</option>
+          <SelectValue placeholder={`All ${label}s`} />
+        </SelectTrigger>
+        <SelectContent className="bg-white rounded-2xl border-2 border-gray-100 shadow-xl p-1">
+          <SelectItem
+            value="all"
+            className="font-bold text-gray-400 focus:bg-gray-50 rounded-xl cursor-pointer"
+          >
+            All {label}s
+          </SelectItem>
           {options.map(opt => (
-            <option key={opt} value={opt} className="text-gray-900 font-sans font-medium">
+            <SelectItem
+              key={opt}
+              value={opt}
+              className="font-bold text-gray-900 focus:bg-gray-50 rounded-xl cursor-pointer"
+            >
               {opt}
-            </option>
+            </SelectItem>
           ))}
-        </select>
-
-        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none transition-transform group-hover:translate-y-[-40%]">
-          <ChevronDown
-            className="h-5 w-5 transition-colors"
-            style={{ color: isActive ? styles.primary : '#D1D5DB' }}
-          />
-        </div>
-      </div>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
