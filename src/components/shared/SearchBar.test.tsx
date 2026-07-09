@@ -1,12 +1,16 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { debug } from 'jest-preview';
 import { SearchBar } from './SearchBar';
 
 describe('SearchBar Component', () => {
   it('renders correctly with default placeholder', () => {
     const onChangeMock = jest.fn();
     render(<SearchBar value="" onChange={onChangeMock} />);
+
+    // THIS LINE TELLS JEST TO SEND THE HTML TO THE DASHBOARD!
+    debug();
 
     const input = screen.getByPlaceholderText('Search...');
     expect(input).toBeInTheDocument();
