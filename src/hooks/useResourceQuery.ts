@@ -7,15 +7,17 @@ import { PaginatedResponse } from '~/types';
 
 type ResourceType = 'characters' | 'locations' | 'episodes';
 
-interface UseResourceQueryOptions<F> {
-  resource: ResourceType;
+interface UseResourceQueryOptions<T, F> {
+  queryKeyPrefix: string;
   filters: F;
+  fetchFn: (params: Record<string, string>) => Promise<PaginatedResponse<T>>;
 }
 
 export function useResourceQuery<T, F extends { name?: string }>({
-  resource,
+  queryKeyPrefix,
   filters,
-}: UseResourceQueryOptions<F>) {
+  fetchFn,
+}: UseResourceQueryOptions<T, F>) {
   const debouncedName = useDebounce(filters.name, 300);
 
   const optimizedFilters = useMemo(
@@ -27,7 +29,7 @@ export function useResourceQuery<T, F extends { name?: string }>({
   );
 
   const queryResult = useInfiniteQuery({
-    queryKey: [resource, optimizedFilters],
+    queryKey: [queryKeyPrefix, optimizedFilters],
     queryFn: ({ pageParam = 1 }) => {
       const params: Record<string, string> = {
         page: pageParam.toString(),
@@ -39,16 +41,7 @@ export function useResourceQuery<T, F extends { name?: string }>({
         }
       });
 
-      switch (resource) {
-        case 'characters':
-          return apiClient.characters.getAll(params) as Promise<PaginatedResponse<T>>;
-        case 'locations':
-          return apiClient.locations.getAll(params) as Promise<PaginatedResponse<T>>;
-        case 'episodes':
-          return apiClient.episodes.getAll(params) as Promise<PaginatedResponse<T>>;
-        default:
-          throw new Error(`Invalid resource type: ${resource}`);
-      }
+      return fetchFn(params);
     },
     getNextPageParam: (lastPage: PaginatedResponse<T>) => {
       if (!lastPage.info.next) return undefined;
@@ -58,7 +51,7 @@ export function useResourceQuery<T, F extends { name?: string }>({
         const pageParam = url.searchParams.get('page');
         return pageParam ? Number(pageParam) : undefined;
       } catch (error) {
-        console.error(`[useResourceQuery] Error parsing next page URL for ${resource}:`, error);
+        console.error(`[useResourceQuery] Error parsing next page URL for ${queryKeyPrefix}:`, error);
         return undefined;
       }
     },
