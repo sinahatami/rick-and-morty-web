@@ -6,6 +6,8 @@
 
 # Testing
 **/coverage
+cypress/videos/
+cypress/screenshots/
 
 # NodeJS
 node_modules/
