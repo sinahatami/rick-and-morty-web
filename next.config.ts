@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
 
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || require('./package.json').version,
   },
 
   eslint: { ignoreDuringBuilds: false },
