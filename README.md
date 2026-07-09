@@ -14,12 +14,13 @@ A production-grade, highly-optimized interdimensional database for exploring cha
 
 ## 🚀 Features & Architecture
 
-- **Multiverse Explorer** - Browse detailed lists of Characters, Locations, and Episodes with a seamless, responsive UI.
+- **Universal Command Palette (Omnisearch)** - Instantly search across Characters, Locations, and Episodes with a keyboard-first `⌘K` command menu powered by `cmdk`.
+- **Premium Headless UI** - Built with **Radix UI** primitives and **Shadcn UI** components to ensure massive accessibility (a11y), focus management, and keyboard navigation.
+- **Multiverse Explorer** - Browse detailed lists of Characters, Locations, and Episodes with a seamless, responsive UI featuring dynamic **Skeleton Grid Loaders**.
 - **Deep Linking & URL Sync** - All search, pagination, and filter states are synced to the URL (`useUrlSync`), allowing users to bookmark and share exact search results.
 - **Infinite Scrolling** - Silky-smooth pagination powered by TanStack Query (React Query v5).
-- **Premium Aesthetics** - Features a custom dual-layer mouse cursor (desktop), themed scrollbars, dynamic glassmorphism panels, and highly optimized mobile-first breakpoints.
+- **Mobile-First UX** - Utilizes native slide-out **Sheets** for mobile navigation and filters, completely eliminating clunky mobile dropdowns.
 - **Production-Ready SEO** - Built-in dynamic `<SEO />` engine that generates canonical URLs, OpenGraph (Facebook/LinkedIn) cards, and Twitter rich-previews on the fly.
-- **Zero Memory Leaks** - Architected using Next.js / TanStack Query best practices, utilizing lazy initialization to prevent SSR state bleed.
 
 ---
 
@@ -27,6 +28,7 @@ A production-grade, highly-optimized interdimensional database for exploring cha
 
 - **Framework:** Next.js (React 18)
 - **Language:** TypeScript (Strict Mode)
+- **UI Components:** Shadcn UI & Radix UI Primitives
 - **Styling:** SASS / SCSS & Tailwind CSS v4
 - **State & Data Fetching:** TanStack Query (React Query)
 - **Icons:** lucide-react
@@ -123,15 +125,16 @@ A set of atomic, shared components ensures UI consistency:
 ```
 src/
 ├── components/
+│   ├── ui/          # Shadcn / Radix Primitive UI components
 │   ├── character/   # Character domain components
 │   ├── episode/     # Episode domain components
 │   ├── location/    # Location domain components
 │   ├── shared/      # Reusable UI (Button, SEO, SearchBar)
 │   └── context/     # Theme Provider ('portal', 'rick', 'morty')
-├── hooks/           # Custom React hooks (useUrlSync)
+├── hooks/           # Custom React hooks (useUrlSync, useCharacters)
 ├── lib/             # API client and Next.js singletons
 ├── pages/           # Next.js Application Routes
-├── styles/          # Tailwind v4 and SCSS Globals
+├── styles/          # SCSS Globals and Tailwind Configuration
 ├── types/           # Atomic Domain Interfaces
 └── utils/           # String, URL, and Math helpers
 ```
