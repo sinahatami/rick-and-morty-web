@@ -1,5 +1,8 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Layout } from '~/components/Layout';
 import { ThemeProvider } from '~/context/ThemeContext';
@@ -7,16 +10,16 @@ import { DEFAULT_QUERY_OPTIONS } from '~/lib/query-config';
 
 import '~/styles/globals.scss';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: DEFAULT_QUERY_OPTIONS,
-  },
-});
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: DEFAULT_QUERY_OPTIONS,
+        },
+      })
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="portal">

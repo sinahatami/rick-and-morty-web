@@ -12,6 +12,7 @@ import { getThemeStyles } from '~/lib/theme';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
+import { SEO } from '../shared/SEO';
 
 export interface EpisodeDetailProps {
   id: string;
@@ -53,6 +54,10 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <SEO
+        title={`${episode.name} - ${episode.episode}`}
+        description={`Details, cast, and air date for ${episode.name} (${episode.episode}), a Rick and Morty episode.`}
+      />
       <GoBackButton />
 
       {/* Header Card */}

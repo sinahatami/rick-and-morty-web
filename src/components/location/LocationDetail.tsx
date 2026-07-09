@@ -12,6 +12,7 @@ import { Location } from '~/types';
 import { useEntityDetail } from '~/hooks/useEntityDetail';
 import { extractIdFromUrl, formatDate } from '~/utils/string-helper';
 import { NotFoundState } from '../shared/state/NotFoundState';
+import { SEO } from '../shared/SEO';
 
 interface LocationDetailProps {
   id: string;
@@ -51,6 +52,10 @@ export function LocationDetail({ id }: LocationDetailProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <SEO
+        title={`${location.name} Location`}
+        description={`Explore ${location.name}, a ${location.type} in the ${location.dimension}. Discover known residents and details from Rick and Morty.`}
+      />
       <GoBackButton />
 
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden relative group">
