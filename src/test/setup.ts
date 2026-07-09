@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { jestPreviewConfigure } from 'jest-preview';
 // Import CSS for jest-preview
-import '../styles/globals.css';
+import '../styles/globals.scss';
 
 jestPreviewConfigure({ autoPreview: false });
