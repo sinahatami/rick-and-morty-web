@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest';
+
 import { apiClient } from './api-client';
 
 import { Character, Location, Episode } from '~/types';
 
 // Setup Global Fetch Mock with explicit typing
-const mockFetch = vi.fn() as Mock;
+const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
 // Helper to create typed responses easily
@@ -18,11 +18,11 @@ const createMockResponse = (data: unknown, status = 200, ok = true) => {
 
 describe('ApiClient', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('Error Handling', () => {

@@ -1,14 +1,14 @@
 import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
 import { useDebounce } from './useDebounce';
 
 describe('useDebounce', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   it('should return the initial value immediately', () => {
@@ -31,13 +31,13 @@ describe('useDebounce', () => {
 
     // Fast-forward time slightly, but not enough
     act(() => {
-      vi.advanceTimersByTime(250);
+      jest.advanceTimersByTime(250);
     });
     expect(result.current).toBe('initial');
 
     // Fast-forward past the delay
     act(() => {
-      vi.advanceTimersByTime(250);
+      jest.advanceTimersByTime(250);
     });
     expect(result.current).toBe('updated');
   });
@@ -50,7 +50,7 @@ describe('useDebounce', () => {
     rerender({ value: 'update1' });
     
     act(() => {
-      vi.advanceTimersByTime(250);
+      jest.advanceTimersByTime(250);
     });
     expect(result.current).toBe('initial');
 
@@ -59,14 +59,14 @@ describe('useDebounce', () => {
 
     // Advance 250ms (would have triggered update1 if not cancelled)
     act(() => {
-      vi.advanceTimersByTime(250);
+      jest.advanceTimersByTime(250);
     });
     // Still initial because the timer for update2 just started 250ms ago
     expect(result.current).toBe('initial');
 
     // Advance another 250ms to trigger update2
     act(() => {
-      vi.advanceTimersByTime(250);
+      jest.advanceTimersByTime(250);
     });
     expect(result.current).toBe('update2');
   });

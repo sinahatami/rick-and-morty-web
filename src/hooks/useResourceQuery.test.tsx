@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { ReactNode } from 'react';
-import { expect, it, describe, vi, beforeEach } from 'vitest';
+
 import { useResourceQuery } from './useResourceQuery';
 
 const createTestQueryClient = () =>
@@ -25,7 +25,7 @@ describe('useResourceQuery', () => {
   });
 
   it('fetches data successfully with initial parameters', async () => {
-    const mockFetchFn = vi.fn().mockResolvedValue({
+    const mockFetchFn = jest.fn().mockResolvedValue({
       info: { count: 1, pages: 1, next: null, prev: null },
       results: [{ id: 1, name: 'Rick Sanchez' }],
     });
@@ -58,7 +58,7 @@ describe('useResourceQuery', () => {
   });
 
   it('computes next page parameters correctly', async () => {
-    const mockFetchFn = vi.fn().mockResolvedValue({
+    const mockFetchFn = jest.fn().mockResolvedValue({
       info: { count: 40, pages: 2, next: 'https://rickandmortyapi.com/api/character/?page=2', prev: null },
       results: [{ id: 1, name: 'Rick' }],
     });
