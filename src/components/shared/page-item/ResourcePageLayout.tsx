@@ -8,6 +8,7 @@ import { EmptyState } from '../state/EmptyState';
 import { PageHeader } from './PageHeader';
 import { Grid } from '../Grid';
 import { Container } from '../Container';
+import { Skeleton } from '~/components/ui/skeleton';
 
 export function ResourcePageLayout<T extends { id: string | number }>(
   props: ResourcePageLayoutProps<T>
@@ -64,8 +65,21 @@ export function ResourcePageLayout<T extends { id: string | number }>(
             theme={theme}
           />
         ) : isInitialLoad ? (
-          <div className="py-12 flex items-center justify-center">
-            <LoadingSpinner message="Scanning the multiverse..." />
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <Grid>
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col space-y-4 p-4 border border-gray-200/50 rounded-2xl bg-white/50 shadow-sm h-[320px]"
+                >
+                  <Skeleton className="h-[200px] w-full rounded-xl" />
+                  <div className="space-y-3">
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </div>
+                </div>
+              ))}
+            </Grid>
           </div>
         ) : props.items.length === 0 ? (
           <EmptyState
