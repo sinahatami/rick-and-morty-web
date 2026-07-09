@@ -21,4 +21,4 @@ export const DIMENSION_OPTIONS = [
 ] as const;
 
 export type LocationType = (typeof TYPE_OPTIONS)[number];
-export type LocationDimention = (typeof DIMENSION_OPTIONS)[number];
+export type LocationDimension = (typeof DIMENSION_OPTIONS)[number];

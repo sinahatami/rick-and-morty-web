@@ -1,8 +1,8 @@
-import { LocationDimention, LocationType } from './location-type-dimention';
+import { LocationDimension, LocationType } from './location-type-dimension';
 
 export interface LocationFilters {
   name?: string;
   type?: LocationType;
-  dimension?: LocationDimention;
+  dimension?: LocationDimension;
   [key: string]: string | undefined;
 }
