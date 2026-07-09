@@ -16,9 +16,9 @@ export function BaseCard({
     <Link href={href} className="block group h-full">
       <div
         className={`
-          relative flex flex-col h-full bg-white rounded-2xl overflow-hidden
-          border border-gray-200 transition-all duration-300 ease-out
-          shadow-sm hover:-translate-y-1 
+          relative flex flex-col h-full glass rounded-2xl overflow-hidden
+          border border-gray-200/50 transition-all duration-300 ease-out
+          shadow-sm hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-2 
           ${className}
         `}
       >

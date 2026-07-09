@@ -5,7 +5,7 @@ import { Layout } from '~/components/Layout';
 import { ThemeProvider } from '~/context/ThemeContext';
 import { DEFAULT_QUERY_OPTIONS } from '~/lib/query-config';
 
-import '~/styles/globals.css';
+import '~/styles/globals.scss';
 
 const queryClient = new QueryClient({
   defaultOptions: {

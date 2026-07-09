@@ -1,10 +1,11 @@
 import { Github, Linkedin, Heart } from 'lucide-react';
+import packageInfo from '../../package.json';
 
 import { Container } from './shared/Container';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 mt-auto">
+    <footer className="glass border-t border-gray-200/50 mt-auto">
       <Container className="py-12">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
@@ -39,7 +40,11 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
-          <span>© {new Date().getFullYear()} Sina Hatami</span>{' '}
+          <div className="flex items-center gap-3">
+            <span>© {new Date().getFullYear()} Sina Hatami</span>
+            <span className="text-gray-200">|</span>
+            <span>v{packageInfo.version}</span>
+          </div>
           <span className="flex items-center gap-1">
             Made with <Heart className="w-3 h-3 text-red-500 fill-current" /> in Alpha Centauri
           </span>
