@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.5...v1.2.6) (2026-07-10)
+
+
+### Bug Fixes
+
+* use standard local URLs and move basePath to CI env ([d413e18](https://github.com/sinahatami/rick-and-morty-web/commit/d413e1832544c46fc90c26bdf7b5655e5d7d3d69))
+
 ## [1.2.5](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.4...v1.2.5) (2026-07-10)
 
 
