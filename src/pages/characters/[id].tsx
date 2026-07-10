@@ -1,25 +1,17 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { CharacterDetail } from '~/components/character/CharacterDetail';
-import { apiClient } from '~/lib/api-client';
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const { id } = context.params as { id: string };
-  const queryClient = new QueryClient();
+// Static export: detail pages are rendered client-side via TanStack Query.
+// We don't enumerate all character IDs at build time; the component handles fetching.
+export const getStaticPaths: GetStaticPaths = async () => {
+  return { paths: [], fallback: false };
+};
 
-  await queryClient.prefetchQuery({
-    queryKey: ['character', id],
-    queryFn: () => apiClient.characters.getById(id),
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
+export const getStaticProps: GetStaticProps = async () => {
+  return { props: {} };
 };
 
 export default function CharacterDetailPage() {

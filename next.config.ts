@@ -5,6 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const nextConfig: NextConfig = {
+  output: 'export', // Static export for GitHub Pages
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
   sassOptions: {
@@ -12,7 +13,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   images: {
-    unoptimized: false, // Enabled for Vercel deployment
+    unoptimized: true, // Required for static export (no Next.js server)
     remotePatterns: [
       {
         protocol: 'https',

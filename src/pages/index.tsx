@@ -1,11 +1,11 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { SEO } from '~/components/shared/SEO';
 import { CharacterList } from '~/components/character/CharacterList';
 import { apiClient } from '~/lib/api-client';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
