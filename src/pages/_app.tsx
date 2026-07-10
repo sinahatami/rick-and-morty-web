@@ -1,13 +1,21 @@
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, HydrationBoundary } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Toaster } from '~/components/ui/sonner';
+import { Inter } from 'next/font/google';
 
 import { Layout } from '~/components/Layout';
 import { ThemeProvider } from '~/context/ThemeContext';
 import { DEFAULT_QUERY_OPTIONS } from '~/lib/query-config';
 
 import '~/styles/globals.scss';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -19,13 +27,21 @@ export default function App({ Component, pageProps }: AppProps) {
       })
   );
 
+  const router = useRouter();
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="portal">
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <Toaster position="bottom-right" theme="light" />
+        <div className={`${inter.variable} font-sans`}>
+          <Layout>
+            <div key={router.asPath} className="page-transition-enter">
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <Component {...pageProps} />
+              </HydrationBoundary>
+            </div>
+          </Layout>
+          <Toaster position="bottom-right" theme="light" />
+        </div>
       </ThemeProvider>
     </QueryClientProvider>
   );

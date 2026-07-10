@@ -60,10 +60,11 @@ export function ActiveFilterTags({
               }
             }}
             className="p-1 rounded-md transition-colors cursor-pointer"
+            aria-label={`Remove filter ${key}`}
             style={{ color: styles.primary }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = styles.primary;
-              e.currentTarget.style.color = 'white';
+              e.currentTarget.style.color = '#0f172a'; // Ensure dark text for bright primary backgrounds
             }}
             onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent';

@@ -1,49 +1,25 @@
-import { useState, useEffect } from 'react';
-
+import { useQuery } from '@tanstack/react-query';
 import { UseEntityDetailResult } from '~/types';
 
 export function useEntityDetail<T>(
+  queryKeyPrefix: string,
   fetchFn: (id: string) => Promise<T>,
   id: string,
   errorMessage = 'Failed to load data'
 ): UseEntityDetailResult<T> {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [queryKeyPrefix, id],
+    queryFn: () => fetchFn(id),
+    enabled: !!id,
+    retry: (failureCount, error: any) => {
+      if (error?.status === 404 || error?.status === 0) return false;
+      return failureCount < 2;
+    },
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchData = async () => {
-      // Reset state when ID changes
-      setLoading(true);
-      setError(null);
-
-      try {
-        const result = await fetchFn(id);
-        if (isMounted) {
-          setData(result);
-        }
-      } catch (err) {
-        console.error(err);
-        if (isMounted) {
-          setError(errorMessage);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    if (id) {
-      fetchData();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id, fetchFn, errorMessage]);
-
-  return { data, loading, error };
+  return {
+    data: data || null,
+    loading: isLoading,
+    error: isError ? errorMessage : null,
+  };
 }

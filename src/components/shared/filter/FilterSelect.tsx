@@ -30,6 +30,7 @@ export function FilterSelect({
 
       <Select value={value || 'all'} onValueChange={val => onChange(val === 'all' ? '' : val)}>
         <SelectTrigger
+          aria-label={`Filter by ${label}`}
           className={`
             w-full h-14 pl-5 pr-5
             bg-gray-50 border-2 rounded-2xl focus:ring-0 focus:ring-offset-0

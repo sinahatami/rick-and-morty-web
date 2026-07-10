@@ -24,7 +24,12 @@ export function EpisodeDetail({ id }: EpisodeDetailProps) {
     data: episode,
     loading,
     error,
-  } = useEntityDetail<Episode>(apiClient.episodes.getById, id, 'Failed to load episode details');
+  } = useEntityDetail<Episode>(
+    'episode',
+    apiClient.episodes.getById,
+    id,
+    'Failed to load episode details'
+  );
 
   const theme = 'morty';
   const styles = getThemeStyles(theme);

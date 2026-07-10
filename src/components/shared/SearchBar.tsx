@@ -16,6 +16,7 @@ export function SearchBar({
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
+        aria-label={placeholder}
         className="
           w-full h-14 pl-14 pr-12
           bg-white border border-gray-200 rounded-2xl 
@@ -29,6 +30,7 @@ export function SearchBar({
         <button
           onClick={() => onChange('')}
           className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 hover:bg-red-50 rounded-xl transition-colors cursor-pointer group/clear"
+          aria-label="Clear search"
         >
           <X className="h-4 w-4 text-gray-400 group-hover/clear:text-red-500 transition-colors" />
         </button>

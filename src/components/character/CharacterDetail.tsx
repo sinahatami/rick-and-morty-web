@@ -22,6 +22,7 @@ export function CharacterDetail({ id }: CharacterDetailProps) {
     loading,
     error,
   } = useEntityDetail<Character>(
+    'character',
     apiClient.characters.getById,
     id,
     'Failed to load character details'

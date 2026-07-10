@@ -20,6 +20,7 @@ export function ScrollToTop(): any {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      aria-label="Scroll to top"
       className={`
         fixed bottom-8 right-8 z-50 
         p-3 rounded-full 

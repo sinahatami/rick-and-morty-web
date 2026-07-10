@@ -84,6 +84,7 @@ export function FilterPanel({
         <button
           onClick={() => setIsOpen(false)}
           className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+          aria-label="Close filters"
         >
           <X className="h-5 w-5 text-gray-400" />
         </button>

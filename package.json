@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:e2e": "BUILD_FOR_E2E=true next build",
-    "start": "npx serve@latest out -p 3000",
+    "start": "next start",
     "lint": "eslint . --max-warnings 0 --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",

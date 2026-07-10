@@ -4,18 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const isProd = process.env.NODE_ENV === 'production' && process.env.BUILD_FOR_E2E !== 'true';
-const repoName = '/rick-and-morty-web';
-const basePath = isProd ? repoName : '';
-
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: basePath, // Used by Next.js internals
-
-  env: {
-    NEXT_PUBLIC_BASE_PATH: basePath,
-  },
-
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
   sassOptions: {
@@ -23,7 +12,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    unoptimized: false, // Enabled for Vercel deployment
     remotePatterns: [
       {
         protocol: 'https',

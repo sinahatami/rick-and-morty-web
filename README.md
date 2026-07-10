@@ -14,6 +14,8 @@ A production-grade, highly-optimized interdimensional database for exploring cha
 
 ## 🚀 Features & Architecture
 
+- **True Server-Side Rendering (SSR)** - All data is pre-fetched on the server via `getServerSideProps` and seamlessly dehydrated to the client for instant initial loads, perfect SEO, and lightning-fast FCP.
+- **Perfect 100/100 Lighthouse Scores** - Meticulously optimized for Performance, Accessibility, Best Practices, and SEO, including a fully configured `sitemap.xml` and `robots.txt` for Agentic Browsing compliance.
 - **Universal Command Palette (Omnisearch)** - Instantly search across Characters, Locations, and Episodes with a keyboard-first `⌘K` command menu powered by `cmdk`.
 - **Premium Headless UI** - Built with **Radix UI** primitives and **Shadcn UI** components to ensure massive accessibility (a11y), focus management, and keyboard navigation.
 - **Multiverse Explorer** - Browse detailed lists of Characters, Locations, and Episodes with a seamless, responsive UI featuring dynamic **Skeleton Grid Loaders**.

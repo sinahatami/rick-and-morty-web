@@ -14,11 +14,6 @@ export function ResourcePageLayout<T extends { id: string | number }>(
   props: ResourcePageLayoutProps<T>
 ) {
   const { theme: contextTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (props.error && props.items.length > 0) {
@@ -28,16 +23,6 @@ export function ResourcePageLayout<T extends { id: string | number }>(
 
   const theme = props.theme || contextTheme;
   const isInitialLoad = props.isLoading && props.items.length === 0;
-
-  if (!isMounted) {
-    return (
-      <Container className="py-28 space-y-10">
-        <div className="py-10 min-h-[40vh] flex items-center justify-center">
-          <LoadingSpinner message="Initializing portal..." />
-        </div>
-      </Container>
-    );
-  }
 
   return (
     <Container className="py-28 space-y-10">

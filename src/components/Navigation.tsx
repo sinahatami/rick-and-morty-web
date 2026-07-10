@@ -64,7 +64,10 @@ const Navigation = () => {
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <button
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  aria-label="Open menu"
+                >
                   <Menu className="h-6 w-6 text-gray-700" />
                 </button>
               </SheetTrigger>

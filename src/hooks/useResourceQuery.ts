@@ -20,13 +20,15 @@ export function useResourceQuery<T, F extends { name?: string }>({
 }: UseResourceQueryOptions<T, F>) {
   const debouncedName = useDebounce(filters.name, 300);
 
-  const optimizedFilters = useMemo(
-    () => ({
-      ...filters,
-      name: debouncedName,
-    }),
-    [filters, debouncedName]
-  );
+  const optimizedFilters = useMemo(() => {
+    const result = { ...filters };
+    if (debouncedName !== undefined) {
+      result.name = debouncedName;
+    } else if ('name' in result && result.name === undefined) {
+      delete result.name;
+    }
+    return result;
+  }, [filters, debouncedName]);
 
   const queryResult = useInfiniteQuery({
     queryKey: [queryKeyPrefix, optimizedFilters],

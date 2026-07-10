@@ -23,7 +23,12 @@ export function LocationDetail({ id }: LocationDetailProps) {
     data: location,
     loading,
     error,
-  } = useEntityDetail<Location>(apiClient.locations.getById, id, 'Failed to load location details');
+  } = useEntityDetail<Location>(
+    'location',
+    apiClient.locations.getById,
+    id,
+    'Failed to load location details'
+  );
 
   const isCitadel =
     location?.name?.toLowerCase().includes('citadel') || location?.name === 'Last Known Location';
