@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.4...v1.2.5) (2026-07-10)
+
+
+### Bug Fixes
+
+* use assetPrefix for static assets instead of BASE_PATH ([4c0abf2](https://github.com/sinahatami/rick-and-morty-web/commit/4c0abf27ecad885a6b7e9a90781a251ad2a50928))
+
 ## [1.2.4](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.3...v1.2.4) (2026-07-10)
 
 
