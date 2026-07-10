@@ -8,6 +8,7 @@ export function SimpleBanner({ src }: { src: StaticImageData | string }) {
           src={src}
           alt="Rick and Morty Banner"
           className="max-h-[700px] w-full object-cover block rounded-xl"
+          sizes="(max-width: 1000px) 100vw, 1000px"
           priority
         />
       </div>

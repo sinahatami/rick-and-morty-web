@@ -25,12 +25,14 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/sinahatami/"
+              aria-label="GitHub Profile"
               className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-[#00B5CC] hover:bg-[#00B5CC]/10 transition-colors"
             >
               <Github className="w-5 h-5" />
             </a>
             <a
               href="https://www.linkedin.com/in/sina-hatami/"
+              aria-label="LinkedIn Profile"
               className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-[#00B5CC] hover:bg-[#00B5CC]/10 transition-colors"
             >
               <Linkedin className="w-5 h-5" />

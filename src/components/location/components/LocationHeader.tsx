@@ -29,9 +29,9 @@ export function LocationHeader({ location, theme }: LocationHeaderProps) {
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-black text-gray-900 line-clamp-1 group-hover:text-[#00B5CC] transition-colors duration-200 mb-2">
+      <h2 className="text-xl font-black text-gray-900 line-clamp-1 group-hover:text-[#00B5CC] transition-colors duration-200 mb-2">
         {location.name}
-      </h3>
+      </h2>
 
       {/* Subtitle/Dimension */}
       <div className="flex items-center gap-2 text-sm">

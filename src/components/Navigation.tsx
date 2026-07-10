@@ -39,7 +39,6 @@ const Navigation = () => {
               width={42}
               height={42}
               priority
-              unoptimized
             />
           </Link>
 
@@ -74,13 +73,7 @@ const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-white border-l">
                 <SheetHeader className="text-left mb-6 mt-4">
                   <SheetTitle className="text-xl font-black text-[#00B5CC] uppercase tracking-widest flex items-center gap-2">
-                    <Image
-                      src={`${BASE_PATH}/images/icon.png`}
-                      alt="Logo"
-                      width={28}
-                      height={28}
-                      unoptimized
-                    />
+                    <Image src={`${BASE_PATH}/images/icon.png`} alt="Logo" width={28} height={28} />
                     Portal Menu
                   </SheetTitle>
                 </SheetHeader>

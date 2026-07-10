@@ -43,7 +43,7 @@ export function CharacterCard({ character }: CharacterCardProps) {
           gender={character.gender}
         />
 
-        <div className="h-px bg-gray-100 w-full mb-4 group-hover:bg-[#B8E986]/30 transition-colors" />
+        <div className="h-px bg-gray-100 w-full mb-4 group-hover:bg-[#2E7D32]/30 transition-colors" />
 
         <CharacterLocations {...locationProps} />
       </div>
