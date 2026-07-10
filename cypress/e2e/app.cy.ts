@@ -35,8 +35,10 @@ describe('Rick and Morty Web App', () => {
     // Make sure we are on Characters
     cy.contains('Characters').should('be.visible').click();
 
-    // Find the search input, type "Rick"
-    cy.get('input[type="text"][placeholder*="Filter by name"]').type('Rick');
+    // Wait for the Characters page to load and search input to be present
+    cy.get('input[type="text"][placeholder*="Filter by name"]', { timeout: 5000 })
+      .should('be.visible')
+      .type('Rick');
 
     // Wait for debounce and loading
     cy.wait(1000); // Usually you'd intercept the API request and wait for it instead
