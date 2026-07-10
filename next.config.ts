@@ -4,9 +4,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH;
+
 const nextConfig: NextConfig = {
-  basePath: '/rick-and-morty-web',
-  assetPrefix: '/rick-and-morty-web/',
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   output: 'export', // Static export for GitHub Pages
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
