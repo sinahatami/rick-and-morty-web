@@ -8,6 +8,7 @@ import { NavLink } from './shared/navigation/NavLink';
 import { Container } from './shared/Container';
 import { NavItem } from '~/types';
 import { ROUTES } from '~/lib/routes';
+import { BASE_PATH } from '~/lib/constants';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '~/components/ui/sheet';
 import dynamic from 'next/dynamic';
 const CommandMenu = dynamic(() => import('./CommandMenu').then(mod => mod.CommandMenu), {
@@ -35,7 +36,13 @@ const Navigation = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link href={ROUTES.HOME} className="flex items-center gap-2">
-            <Image src="/images/icon.png" alt="Logo" width={42} height={42} priority />
+            <Image
+              src={`${BASE_PATH}/images/icon.png`}
+              alt="Logo"
+              width={42}
+              height={42}
+              priority
+            />
           </Link>
 
           {/* Desktop */}
@@ -69,7 +76,7 @@ const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-white border-l">
                 <SheetHeader className="text-left mb-6 mt-4">
                   <SheetTitle className="text-xl font-black text-[#00B5CC] uppercase tracking-widest flex items-center gap-2">
-                    <Image src="/images/icon.png" alt="Logo" width={28} height={28} />
+                    <Image src={`${BASE_PATH}/images/icon.png`} alt="Logo" width={28} height={28} />
                     Portal Menu
                   </SheetTitle>
                 </SheetHeader>

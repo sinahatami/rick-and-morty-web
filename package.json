@@ -24,7 +24,7 @@
     "verify": "yarn lint && yarn test:once && yarn test:e2e:full",
     "cypress:open": "start-server-and-test dev http://localhost:3000 'cypress open'",
     "analyze": "ANALYZE=true next build",
-    "deploy": "yarn build && yarn run gh-pages -d out -t",
+    "deploy": "NEXT_PUBLIC_BASE_PATH=/rick-and-morty-web yarn build && yarn run gh-pages -d out -t",
     "knip": "knip",
     "semantic-release": "semantic-release"
   },

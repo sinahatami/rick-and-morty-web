@@ -7,31 +7,27 @@
 
 ## [1.2.4](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.3...v1.2.4) (2026-07-10)
 
-
 ### Bug Fixes
 
-* add .nojekyll to fix GitHub Pages Jekyll processing and ensure basePath is set ([85f9347](https://github.com/sinahatami/rick-and-morty-web/commit/85f93474b242638a405c09933a5aded310deb351))
+- add .nojekyll to fix GitHub Pages Jekyll processing and ensure basePath is set ([85f9347](https://github.com/sinahatami/rick-and-morty-web/commit/85f93474b242638a405c09933a5aded310deb351))
 
 ## [1.2.3](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.2...v1.2.3) (2026-07-10)
 
-
 ### Bug Fixes
 
-* replace next start with serve for static export e2e compatibility ([bbafd06](https://github.com/sinahatami/rick-and-morty-web/commit/bbafd0674fad48312e0e379f851d34e0906b1d8f))
+- replace next start with serve for static export e2e compatibility ([bbafd06](https://github.com/sinahatami/rick-and-morty-web/commit/bbafd0674fad48312e0e379f851d34e0906b1d8f))
 
 ## [1.2.2](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.1...v1.2.2) (2026-07-10)
 
-
 ### Bug Fixes
 
-* convert to static export for GitHub Pages deployment ([2876730](https://github.com/sinahatami/rick-and-morty-web/commit/2876730ee197e8a70be4c212be5ffff6686b2e39))
+- convert to static export for GitHub Pages deployment ([2876730](https://github.com/sinahatami/rick-and-morty-web/commit/2876730ee197e8a70be4c212be5ffff6686b2e39))
 
 ## [1.2.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.0...v1.2.1) (2026-07-10)
 
-
 ### Performance Improvements
 
-* optimize LCP, TBT, and a11y for perfect Lighthouse scores, add LHCI to CI ([9eae542](https://github.com/sinahatami/rick-and-morty-web/commit/9eae5422cebe4871fa3a6148b7a02c4816294a01))
+- optimize LCP, TBT, and a11y for perfect Lighthouse scores, add LHCI to CI ([9eae542](https://github.com/sinahatami/rick-and-morty-web/commit/9eae5422cebe4871fa3a6148b7a02c4816294a01))
 
 # [1.2.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.2...v1.2.0) (2026-07-09)
 

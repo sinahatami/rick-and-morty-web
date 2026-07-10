@@ -81,7 +81,7 @@ yarn install
 yarn dev
 ```
 
-Open `http://localhost:3000` in your browser to see the result.
+Open `http://localhost:3000/rick-and-morty-web` in your browser to see the result.
 
 ---
 

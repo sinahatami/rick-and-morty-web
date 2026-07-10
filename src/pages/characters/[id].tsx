@@ -4,10 +4,18 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { CharacterDetail } from '~/components/character/CharacterDetail';
 
-// Static export: detail pages are rendered client-side via TanStack Query.
-// We don't enumerate all character IDs at build time; the component handles fetching.
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: false };
+  try {
+    const res = await fetch('https://rickandmortyapi.com/api/character');
+    const data = await res.json();
+    const count = data.info?.count || 826;
+    const paths = Array.from({ length: count }, (_, i) => ({
+      params: { id: (i + 1).toString() },
+    }));
+    return { paths, fallback: false };
+  } catch (error) {
+    return { paths: [], fallback: false };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async () => {
