@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.3...v1.2.4) (2026-07-10)
+
+
+### Bug Fixes
+
+* add .nojekyll to fix GitHub Pages Jekyll processing and ensure basePath is set ([85f9347](https://github.com/sinahatami/rick-and-morty-web/commit/85f93474b242638a405c09933a5aded310deb351))
+
 ## [1.2.3](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.2...v1.2.3) (2026-07-10)
 
 
