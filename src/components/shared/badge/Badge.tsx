@@ -17,11 +17,11 @@ export function Badge({ label, icon: Icon, className = '', theme: propTheme }: B
         ${className}
       `}
       style={{
-        color: styles.primary,
+        color: styles.textHex || styles.primary,
         borderColor: `${styles.primary}40`,
       }}
     >
-      {Icon && <Icon className="h-3.5 w-3.5" style={{ color: styles.primary }} />}
+      {Icon && <Icon className="h-3.5 w-3.5" style={{ color: styles.textHex || styles.primary }} />}
       <span>{label}</span>
     </span>
   );

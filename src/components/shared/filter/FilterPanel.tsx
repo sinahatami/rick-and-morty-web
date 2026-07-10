@@ -80,7 +80,7 @@ export function FilterPanel({
   const FilterContent = (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-        <h3 className="text-lg font-black text-gray-900 tracking-tight">Refine Search</h3>
+        <h2 className="text-lg font-black text-gray-900 tracking-tight">Refine Search</h2>
         <button
           onClick={() => setIsOpen(false)}
           className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"

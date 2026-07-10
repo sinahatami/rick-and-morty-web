@@ -28,7 +28,7 @@ export function Button({
       style={{
         backgroundColor: `${styles.primary}40`,
         borderColor: `${styles.primary}4D`,
-        color: styles.primary,
+        color: styles.textHex || styles.primary,
         ...style,
       }}
       {...props}

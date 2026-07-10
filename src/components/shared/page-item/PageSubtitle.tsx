@@ -21,7 +21,7 @@ export function PageSubtitle({
   const finalDecoration = decorationClass || `decoration-[${styles.primary}]/30`;
 
   return (
-    <div className="flex flex-wrap items-baseline gap-x-2 text-gray-400 font-medium text-lg animate-in slide-in-from-bottom-2 duration-500 delay-100">
+    <div className="flex flex-wrap items-baseline gap-x-2 text-gray-600 font-medium text-lg animate-in slide-in-from-bottom-2 duration-500 delay-100">
       <span>{prefix}</span>
       <span
         className={`
@@ -33,7 +33,7 @@ export function PageSubtitle({
       >
         {highlight}
       </span>
-      <span className="tracking-widest uppercase text-[13px] font-bold text-gray-400">
+      <span className="tracking-widest uppercase text-[13px] font-bold text-gray-600">
         {suffix}
       </span>
     </div>

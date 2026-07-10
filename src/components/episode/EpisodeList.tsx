@@ -2,7 +2,12 @@ import { useCallback } from 'react';
 
 import { EpisodeCard } from './EpisodeCard';
 import { SearchBar } from '../shared/SearchBar';
-import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
+import dynamic from 'next/dynamic';
+
+const ActiveFilterTags = dynamic(
+  () => import('../shared/filter/ActiveFilterTags').then(mod => mod.ActiveFilterTags),
+  { ssr: false }
+);
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { PageSubtitle } from '../shared/page-item/PageSubtitle';

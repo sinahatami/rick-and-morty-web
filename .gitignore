@@ -36,3 +36,6 @@ out/
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Lighthouse CI
+.lighthouseci/

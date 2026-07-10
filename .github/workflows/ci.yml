@@ -40,3 +40,6 @@ jobs:
 
       - name: Run E2E tests
         run: yarn test:e2e:ci
+
+      - name: Run Lighthouse CI
+        run: yarn lhci autorun

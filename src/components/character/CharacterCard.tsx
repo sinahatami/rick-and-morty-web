@@ -7,7 +7,7 @@ import { CharacterInfo } from './components/CharacterInfo';
 import { CharacterLocations } from './components/CharacterLocations';
 import { CharacterCardProps } from '~/types';
 
-export function CharacterCard({ character }: CharacterCardProps) {
+export function CharacterCard({ character, priority }: CharacterCardProps) {
   const router = useRouter();
 
   // Memoize the click handler
@@ -34,7 +34,12 @@ export function CharacterCard({ character }: CharacterCardProps) {
 
   return (
     <BaseCard href={`/characters/${character.id}`} theme="portal">
-      <CharacterImage image={character.image} name={character.name} status={character.status} />
+      <CharacterImage
+        image={character.image}
+        name={character.name}
+        status={character.status}
+        priority={priority}
+      />
 
       <div className="p-5 flex flex-col bg-white">
         <CharacterInfo

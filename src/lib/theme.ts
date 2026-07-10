@@ -3,6 +3,7 @@ const THEME_COLORS = {
     primary: '#B8E986', // Portal Green
     secondary: '#97C06B',
     text: 'text-green-700',
+    textHex: '#2E7D32',
     lightBg: 'bg-[#B8E986]/10',
     lightBorder: 'border-[#B8E986]/20',
     gradient: 'from-[#B8E986] via-[#43D45D] to-[#B8E986]',
@@ -11,7 +12,8 @@ const THEME_COLORS = {
   rick: {
     primary: '#00B5CC', // Rick Blue
     secondary: '#0091A3',
-    text: 'text-[#0091A3]',
+    text: 'text-[#007080]',
+    textHex: '#007080',
     lightBg: 'bg-[#00B5CC]/10',
     lightBorder: 'border-[#00B5CC]/20',
     gradient: 'from-[#00B5CC] via-[#00E5FF] to-[#00B5CC]',
@@ -21,6 +23,7 @@ const THEME_COLORS = {
     primary: '#FF9800', // Morty Orange
     secondary: '#F57C00',
     text: 'text-[#E65100]',
+    textHex: '#E65100',
     lightBg: 'bg-[#FF9800]/10',
     lightBorder: 'border-[#FF9800]/20',
     gradient: 'from-orange-400 via-amber-300 to-yellow-400',

@@ -26,7 +26,7 @@ export const CharacterInfo = memo(function CharacterInfo({
           className="group-hover:border-[#2E7D32]/30 group-hover:text-[#2E7D32]"
         />
 
-        <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wide ml-1">
+        <span className="text-[11px] font-medium text-gray-600 uppercase tracking-wide ml-1">
           {gender}
         </span>
       </div>

@@ -17,7 +17,7 @@ export interface ResourcePageLayoutProps<T> {
   onLoadMore: () => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
-  renderItem: (item: T) => ReactNode;
+  renderItem: (item: T, index: number) => ReactNode;
   emptyTitle?: string;
   emptyDescription?: string;
   theme?: Theme;

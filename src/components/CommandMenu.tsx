@@ -103,7 +103,7 @@ export function CommandMenu() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{character.name}</span>
-                    <span className="text-xs opacity-70">
+                    <span className="text-xs text-gray-600">
                       {character.species} • {character.status}
                     </span>
                   </div>
@@ -128,7 +128,7 @@ export function CommandMenu() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{location.name}</span>
-                    <span className="text-xs opacity-70">
+                    <span className="text-xs text-gray-600">
                       {location.type} • {location.dimension}
                     </span>
                   </div>
@@ -153,7 +153,7 @@ export function CommandMenu() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold">{episode.name}</span>
-                    <span className="text-xs opacity-70">
+                    <span className="text-xs text-gray-600">
                       {episode.episode} • {episode.air_date}
                     </span>
                   </div>

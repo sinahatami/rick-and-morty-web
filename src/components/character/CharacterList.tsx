@@ -2,7 +2,12 @@ import { useCallback } from 'react';
 
 import { FilterPanel } from '../shared/filter/FilterPanel';
 import { SearchBar } from '../shared/SearchBar';
-import { ActiveFilterTags } from '../shared/filter/ActiveFilterTags';
+import dynamic from 'next/dynamic';
+
+const ActiveFilterTags = dynamic(
+  () => import('../shared/filter/ActiveFilterTags').then(mod => mod.ActiveFilterTags),
+  { ssr: false }
+);
 import { CharacterCard } from './CharacterCard';
 import { SimpleBanner } from '../shared/SimpleBanner';
 import { PageSubtitle } from '../shared/page-item/PageSubtitle';
@@ -117,7 +122,9 @@ export function CharacterList() {
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       emptyTitle="Character Not Found"
-      renderItem={character => <CharacterCard key={character.id} character={character} />}
+      renderItem={(character, index) => (
+        <CharacterCard key={character.id} character={character} priority={index < 4} />
+      )}
     />
   );
 }

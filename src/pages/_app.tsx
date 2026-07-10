@@ -2,7 +2,11 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider, HydrationBoundary } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Toaster } from '~/components/ui/sonner';
+import dynamic from 'next/dynamic';
+
+const Toaster = dynamic(() => import('~/components/ui/sonner').then(mod => mod.Toaster), {
+  ssr: false,
+});
 import { Inter } from 'next/font/google';
 
 import { Layout } from '~/components/Layout';

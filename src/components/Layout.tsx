@@ -3,8 +3,15 @@ import { ReactNode } from 'react';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import { GlobalLoading } from './shared/loading/GlobalLoading';
-import { ScrollToTop } from './shared/ScrollToTop';
-import { CustomCursor } from './shared/CustomCursor';
+import dynamic from 'next/dynamic';
+
+const ScrollToTop = dynamic(() => import('./shared/ScrollToTop').then(mod => mod.ScrollToTop), {
+  ssr: false,
+});
+
+const CustomCursor = dynamic(() => import('./shared/CustomCursor').then(mod => mod.CustomCursor), {
+  ssr: false,
+});
 
 import { SEO } from './shared/SEO';
 

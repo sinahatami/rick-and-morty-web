@@ -15,7 +15,7 @@ export default function Footer() {
                 href="https://rickandmortyapi.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[#00B5CC] hover:underline"
+                className="text-[#007080] hover:underline"
               >
                 The Rick and Morty API
               </a>
@@ -40,7 +40,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+        <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
           <div className="flex items-center gap-3">
             <span>© {new Date().getFullYear()} Sina Hatami</span>
             <span className="text-gray-200">|</span>

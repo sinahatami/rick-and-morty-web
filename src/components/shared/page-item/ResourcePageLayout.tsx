@@ -84,7 +84,7 @@ export function ResourcePageLayout<T extends { id: string | number }>(
                 props.isRefetching ? 'opacity-50 grayscale-[0.5]' : 'opacity-100'
               }`}
             >
-              <Grid>{props.items.map(props.renderItem)}</Grid>
+              <Grid>{props.items.map((item, index) => props.renderItem(item, index))}</Grid>
             </div>
 
             {props.hasNextPage && (

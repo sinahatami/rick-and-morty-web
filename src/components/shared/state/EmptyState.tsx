@@ -40,9 +40,9 @@ export const EmptyState = memo(function EmptyState({
         )}
       </div>
 
-      <h3 className={`text-xl font-bold mb-2 ${isError ? 'text-red-900' : 'text-gray-900'}`}>
+      <h2 className={`text-xl font-bold mb-2 ${isError ? 'text-red-900' : 'text-gray-900'}`}>
         {title}
-      </h3>
+      </h2>
 
       <p className="text-gray-500 max-w-xs mb-8">{description}</p>
 

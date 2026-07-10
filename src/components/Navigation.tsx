@@ -10,7 +10,10 @@ import { NavItem } from '~/types';
 import { ROUTES } from '~/lib/routes';
 import { BASE_PATH } from '~/lib/constants';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '~/components/ui/sheet';
-import { CommandMenu } from './CommandMenu';
+import dynamic from 'next/dynamic';
+const CommandMenu = dynamic(() => import('./CommandMenu').then(mod => mod.CommandMenu), {
+  ssr: false,
+});
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
