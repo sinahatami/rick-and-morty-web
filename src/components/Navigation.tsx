@@ -31,7 +31,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 glass border-b border-gray-200/50">
+    <nav className="fixed top-0 inset-x-0 z-[1000] glass border-b border-gray-200/50">
       <Container>
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
