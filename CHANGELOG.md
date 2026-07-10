@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.0...v1.2.1) (2026-07-10)
+
+
+### Performance Improvements
+
+* optimize LCP, TBT, and a11y for perfect Lighthouse scores, add LHCI to CI ([9eae542](https://github.com/sinahatami/rick-and-morty-web/commit/9eae5422cebe4871fa3a6148b7a02c4816294a01))
+
 # [1.2.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.1.2...v1.2.0) (2026-07-09)
 
 ### Bug Fixes
