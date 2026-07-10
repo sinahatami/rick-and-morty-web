@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.2...v1.2.3) (2026-07-10)
+
+
+### Bug Fixes
+
+* replace next start with serve for static export e2e compatibility ([bbafd06](https://github.com/sinahatami/rick-and-morty-web/commit/bbafd0674fad48312e0e379f851d34e0906b1d8f))
+
 ## [1.2.2](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.1...v1.2.2) (2026-07-10)
 
 
