@@ -5,6 +5,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const nextConfig: NextConfig = {
+  basePath: '/rick-and-morty-web',
+  assetPrefix: '/rick-and-morty-web/',
   output: 'export', // Static export for GitHub Pages
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
