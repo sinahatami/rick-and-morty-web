@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.6...v1.2.7) (2026-07-10)
+
+
+### Bug Fixes
+
+* restore dynamic basePath config to fix CI e2e hydration ([3c77e0e](https://github.com/sinahatami/rick-and-morty-web/commit/3c77e0e539878170e479260f79a5290ac36b6d4c))
+
 ## [1.2.6](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.5...v1.2.6) (2026-07-10)
 
 
