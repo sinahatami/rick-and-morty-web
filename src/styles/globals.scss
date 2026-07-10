@@ -191,3 +191,14 @@ button {
   background: var(--color-primary);
   color: white;
 }
+
+/* Ensure character images never intercept pointer events and sit behind interactive UI */
+.character-image,
+.character-image img {
+  pointer-events: none !important;
+}
+
+/* Make sure transformed images don't create a new stacking context above nav */
+.character-image {
+  z-index: 0;
+}

@@ -11,7 +11,7 @@ export const CharacterImage = memo(function CharacterImage({
   priority = false,
 }: CharacterImageProps) {
   return (
-    <div className="relative aspect-square w-full bg-gray-100 overflow-hidden border-b border-gray-100">
+    <div className="character-image relative aspect-square w-full bg-gray-100 overflow-hidden border-b border-gray-100">
       <div className="absolute inset-0 pointer-events-none z-0">
         <Image
           src={image}

@@ -10,28 +10,30 @@ describe('Rick and Morty Web App', () => {
   });
 
   it('can navigate between tabs', () => {
-    // Scroll to top to ensure navigation is visible
+    // Ensure navigation is present and visible
+    cy.get('nav').should('be.visible');
     cy.scrollTo('top');
 
     // Click on the Locations tab
-    cy.contains('Locations').click();
+    cy.contains('Locations').should('be.visible').click();
 
     // Assert the URL changed and the locations heading/content is visible
     cy.url().should('include', '/locations');
     cy.contains('Locations').should('be.visible');
 
     // Click on the Episodes tab
-    cy.contains('Episodes').click();
+    cy.contains('Episodes').should('be.visible').click();
     cy.url().should('include', '/episodes');
     cy.contains('Episodes').should('be.visible');
   });
 
   it('can type into the search bar and see results', () => {
-    // Scroll to top to ensure navigation is visible
+    // Ensure navigation is present and visible
+    cy.get('nav').should('be.visible');
     cy.scrollTo('top');
 
     // Make sure we are on Characters
-    cy.contains('Characters').click();
+    cy.contains('Characters').should('be.visible').click();
 
     // Find the search input, type "Rick"
     cy.get('input[type="text"][placeholder*="Filter by name"]').type('Rick');
