@@ -14,14 +14,14 @@ describe('Rick and Morty Web App', () => {
     cy.scrollTo('top');
 
     // Click on the Locations tab
-    cy.contains('Locations').click({ force: true });
+    cy.contains('Locations').click();
 
     // Assert the URL changed and the locations heading/content is visible
     cy.url().should('include', '/locations');
     cy.contains('Locations').should('be.visible');
 
     // Click on the Episodes tab
-    cy.contains('Episodes').click({ force: true });
+    cy.contains('Episodes').click();
     cy.url().should('include', '/episodes');
     cy.contains('Episodes').should('be.visible');
   });
@@ -31,7 +31,7 @@ describe('Rick and Morty Web App', () => {
     cy.scrollTo('top');
 
     // Make sure we are on Characters
-    cy.contains('Characters').click({ force: true });
+    cy.contains('Characters').click();
 
     // Find the search input, type "Rick"
     cy.get('input[type="text"][placeholder*="Filter by name"]').type('Rick');
