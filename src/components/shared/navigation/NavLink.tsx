@@ -14,6 +14,7 @@ export function NavLink({ href, label, icon, isActive, onClick, isMobile = false
       <Link
         href={href}
         onClick={onClick}
+        data-testid={`nav-${label.toLowerCase()}`}
         className={`
           group flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm
           transition-all duration-200 ease-in-out
@@ -65,6 +66,7 @@ export function NavLink({ href, label, icon, isActive, onClick, isMobile = false
     <Link
       href={href}
       onClick={onClick}
+      data-testid={`nav-mobile-${label.toLowerCase()}`}
       className={`
         flex items-center justify-center gap-3 px-4 py-4 font-semibold text-lg
         transition-all duration-200 w-full
