@@ -9,6 +9,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH;
 const nextConfig: NextConfig = {
   ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   output: 'export', // Static export for GitHub Pages
+  trailingSlash: true,
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
   sassOptions: {
