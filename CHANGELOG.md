@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.7...v1.2.8) (2026-07-11)
+
+
+### Bug Fixes
+
+* **config:** add trailingSlash to prevent GH Pages redirect loops ([5d99da8](https://github.com/sinahatami/rick-and-morty-web/commit/5d99da8da0c4948ade503267fb4b71f761ca0111))
+
 ## [1.2.7](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.6...v1.2.7) (2026-07-10)
 
 
