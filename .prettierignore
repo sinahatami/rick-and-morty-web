@@ -4,6 +4,9 @@ out/
 build/
 dist/
 coverage/
+playwright-report/
+test-results/
 public/
-yarn.lock
-package-lock.json
+pnpm-lock.yaml
+next-env.d.ts
+CHANGELOG.md

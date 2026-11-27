@@ -1,0 +1,5 @@
+# pnpm settings: https://pnpm.io/settings
+
+# Only install releases that have been public for at least a day (in minutes). This gives the
+# registry time to take down a compromised release before it reaches this project.
+minimumReleaseAge: 1440

@@ -1,23 +1,30 @@
+import { readFileSync } from 'node:fs';
+
 import type { NextConfig } from 'next';
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as {
+  version: string;
+};
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH;
 
 const nextConfig: NextConfig = {
-  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
-  output: 'export', // Static export for GitHub Pages
-  trailingSlash: true,
-  eslint: { ignoreDuringBuilds: false },
-  typescript: { ignoreBuildErrors: false },
-  sassOptions: {
-    silenceDeprecations: ['legacy-js-api', 'import'],
+  env: {
+    // Release builds override this through .env.production (written by the release job).
+    NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION ?? version,
   },
+  // Static export: the site is served by GitHub Pages, there is no Node.js server at runtime.
+  output: 'export',
+  trailingSlash: true,
   reactStrictMode: true,
+  // `next dev` would otherwise generate extra files in the repository root.
+  agentRules: false,
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   images: {
-    unoptimized: true, // Required for static export (no Next.js server)
+    // The Next.js image optimizer needs a server.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -28,4 +35,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;
