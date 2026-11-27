@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.8...v1.3.0) (2026-11-27)
+
+### Features
+
+* rebuild the site on the Next.js 16 App Router ([c9a27a5](https://github.com/sinahatami/rick-and-morty-web/commit/c9a27a5870f1e8c58c8a7b78c8ec23bbda21ac8e))
+
 ## [1.2.8](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.7...v1.2.8) (2026-07-11)
 
 
