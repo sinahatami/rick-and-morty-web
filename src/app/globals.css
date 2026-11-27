@@ -1,0 +1,203 @@
+@import 'tailwindcss' source('../');
+@import 'tw-animate-css';
+
+/* ---------------------------------------------------------------------------------------------
+ * Design tokens
+ * ------------------------------------------------------------------------------------------- */
+@theme {
+  --color-primary: #00b5cc;
+  --color-primary-light: #33c3d6;
+  --color-primary-dark: #0091a3;
+  --color-primary-ink: #006878;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #b8e986;
+  --color-secondary-light: #c6eea3;
+  --color-secondary-dark: #97c460;
+  --color-secondary-foreground: #0f172a;
+
+  --color-accent: #ff9800;
+  --color-accent-light: #ffb74d;
+  --color-accent-dark: #f57c00;
+  --color-accent-foreground: #ffffff;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0f172a;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+
+  --color-surface: #f9fafb;
+  --color-border: #e5e7eb;
+  --color-input: #e2e8f0;
+  --color-ring: #00b5cc;
+
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+
+  --color-ink: #0b1e2d;
+
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem;
+
+  --shadow-card: 0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover:
+    0 12px 24px -8px rgba(0, 181, 204, 0.15), 0 4px 12px -4px rgba(0, 0, 0, 0.05);
+
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+@theme inline {
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', sans-serif;
+
+  /* Section theme: resolved at runtime from the nearest [data-theme] element. */
+  --color-theme: var(--theme-color);
+  --color-theme-ink: var(--theme-ink);
+  --color-theme-from: var(--theme-from);
+  --color-theme-via: var(--theme-via);
+  --color-theme-to: var(--theme-to);
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Section themes. Characters are green (portal), locations blue (rick), episodes orange (morty).
+ * `--theme-ink` is the text color for that theme: at least 4.5:1 on white and on the tinted
+ * (up to 25%) backgrounds built from `--theme-color`.
+ * ------------------------------------------------------------------------------------------- */
+:root,
+[data-theme='portal'] {
+  --theme-color: #b8e986;
+  --theme-ink: #2a6f2d;
+  --theme-from: #b8e986;
+  --theme-via: #43d45d;
+  --theme-to: #b8e986;
+}
+
+[data-theme='rick'] {
+  --theme-color: #00b5cc;
+  --theme-ink: #006878;
+  --theme-from: #00b5cc;
+  --theme-via: #00e5ff;
+  --theme-to: #00b5cc;
+}
+
+[data-theme='morty'] {
+  --theme-color: #ff9800;
+  --theme-ink: #b53d00;
+  --theme-from: #fb923c;
+  --theme-via: #fcd34d;
+  --theme-to: #facc15;
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Branded cursors, for devices with a precise pointer only. */
+@media (pointer: fine) {
+  body {
+    cursor:
+      url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23b8e986'/%3E%3Ccircle cx='12' cy='12' r='10' stroke='%2300b5cc' stroke-width='2' stroke-dasharray='4 4'/%3E%3C/svg%3E")
+        12 12,
+      auto;
+  }
+
+  a,
+  button,
+  [role='button'] {
+    cursor:
+      url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' fill='%2300b5cc' opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23b8e986'/%3E%3C/svg%3E")
+        12 12,
+      pointer;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+    border-left: 1px solid #1e293b;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #00b5cc;
+    border-radius: 6px;
+    border: 3px solid #0f172a;
+    transition: all 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b8e986;
+    border-color: #0b1e2d;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Components
+ * ------------------------------------------------------------------------------------------- */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .page-transition-enter {
+    animation: page-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* Transform only: content that starts invisible (opacity 0) delays the largest contentful paint. */
+@keyframes page-fade-in {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

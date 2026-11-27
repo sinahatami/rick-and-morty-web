@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://sinahatami.github.io/rick-and-morty-web/sitemap.xml

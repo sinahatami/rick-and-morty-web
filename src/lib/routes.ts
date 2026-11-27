@@ -1,15 +1,16 @@
+// Every route ends with a slash (`trailingSlash: true`), so links never trigger a redirect.
 export const ROUTES = {
-  HOME: '/',
-  CHARACTERS: {
-    LIST: '/',
-    DETAIL: (id: string) => `/characters/${id}`,
+  home: '/',
+  characters: {
+    list: '/',
+    detail: (id: number | string) => `/characters/${id}/`,
   },
-  LOCATIONS: {
-    LIST: '/locations',
-    DETAIL: (id: string) => `/locations/${id}`,
+  locations: {
+    list: '/locations/',
+    detail: (id: number | string) => `/locations/${id}/`,
   },
-  EPISODES: {
-    LIST: '/episodes',
-    DETAIL: (id: string) => `/episodes/${id}`,
+  episodes: {
+    list: '/episodes/',
+    detail: (id: number | string) => `/episodes/${id}/`,
   },
-};
+} as const;
