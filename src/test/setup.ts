@@ -1,6 +1,8 @@
-import '@testing-library/jest-dom';
-import { jestPreviewConfigure } from 'jest-preview';
-// Import CSS for jest-preview
-import '../styles/globals.scss';
+import '@testing-library/jest-dom/vitest';
 
-jestPreviewConfigure({ autoPreview: false });
+import { cleanup } from '@testing-library/react';
+import { afterEach } from 'vitest';
+
+afterEach(() => {
+  cleanup();
+});
