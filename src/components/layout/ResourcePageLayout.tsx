@@ -69,9 +69,10 @@ export function ResourcePageLayout<T>({
 
   return (
     <Container className="space-y-10 py-12">
-      <div className="animate-in space-y-8 duration-500 fade-in">
+      <div className="space-y-8">
+        {/* The banner is the largest contentful paint: it must not start at opacity 0. */}
         <Banner src={banner} />
-        <section className="space-y-8">
+        <section className="animate-in space-y-8 duration-500 fade-in">
           <PageHeader
             title={title}
             visibleCount={isInitialLoad ? 0 : items.length}
