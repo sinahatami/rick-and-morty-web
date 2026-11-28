@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.3.0...v1.3.1) (2026-11-28)
+
+### Performance Improvements
+
+* **shared:** keep the list banner out of the fade-in wrapper ([fb47974](https://github.com/sinahatami/rick-and-morty-web/commit/fb479741dbc07d9b65fd8d9ba0453ef86f8cea26))
+
 # [1.3.0](https://github.com/sinahatami/rick-and-morty-web/compare/v1.2.8...v1.3.0) (2026-11-27)
 
 ### Features
