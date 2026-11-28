@@ -9,6 +9,7 @@
     "url": "git+https://github.com/sinahatami/rick-and-morty-web.git"
   },
   "author": "Sina Hatami",
+  "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@12.23.0",
   "engines": {
