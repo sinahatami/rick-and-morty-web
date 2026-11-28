@@ -1,0 +1,6 @@
+:HL["/rick-and-morty-web/_next/static/chunks/0gbtxf0llk3c1.css","style"]
+:HL["/rick-and-morty-web/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":{"n":"id","t":"d","k":"127","s":[]},"h":65632,"c":"$Q3"}]]
+1:[["children",{"s":"characters","h":131136,"c":"$Q2"}]]
+0:{"b":"_VxBygmEPgFKpfWWg6KYD","t":{"t":{"s":"","h":131088,"c":"$Q1"}}}

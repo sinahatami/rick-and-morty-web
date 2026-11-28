@@ -1,0 +1,4 @@
+:HL["/rick-and-morty-web/_next/static/chunks/0gbtxf0llk3c1.css","style"]
+:HL["/rick-and-morty-web/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+1:[["children",{"s":"__PAGE__","h":128}]]
+0:{"b":"_VxBygmEPgFKpfWWg6KYD","t":{"t":{"s":"","h":16,"c":"$Q1"}}}

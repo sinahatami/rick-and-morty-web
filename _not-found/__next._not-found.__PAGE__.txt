@@ -1,0 +1,31 @@
+2:"$Sreact.fragment"
+3:"/rick-and-morty-web/_next/static/chunks/29ka_3t0_my2k.js"
+4:"/rick-and-morty-web/_next/static/chunks/0lopazp-xwazz.js"
+5:"/rick-and-morty-web/_next/static/chunks/0dpuriuypoas8.js"
+6:"/rick-and-morty-web/_next/static/chunks/40aq4rs3ubfad.js"
+7:"/rick-and-morty-web/_next/static/chunks/1p7hzvbzk9kcj.js"
+8:I[11886,["$3","$4","$5","$6","$7"],"default"]
+9:I[90354,["$3","$4","$5","$6","$7"],"default"]
+e:I[31420,["$3","$4","$5","$6","$7"],"default"]
+f:I[53628,["$3","$4","$5","$6","$7"],""]
+10:I[47665,["$3","$4","$5","$6","$7"],"OutletBoundary"]
+11:"$Sreact.suspense"
+14:"ViewportBoundary"
+15:I[47665,["$3","$4","$5","$6","$7"],"$14"]
+16:"MetadataBoundary"
+17:I[47665,["$3","$4","$5","$6","$7"],"$16"]
+18:I[32586,["$3","$4","$5","$6","$7"],"IconMark"]
+b:X
+b:C
+c:X
+d:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$2","c",{"children":[["$","div",null,{"className":"mx-auto mt-24 flex max-w-lg flex-col items-center justify-center p-12 text-center","children":[["$","div",null,{"className":"mb-6 rounded-full bg-theme/10 p-6","children":["$","$Le",null,{"icon":{"name":"circle-exclamation-point","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["line",{"x1":"12","x2":"12","y1":"8","y2":"12","key":"1pkeuh"}],["line",{"x1":"12","x2":"12.01","y1":"16","y2":"16","key":"4dfq90"}]],"aliases":["alert-circle","circle-alert"]},"className":"h-12 w-12 text-theme-ink","aria-hidden":"true"}]}],["$","h1",null,{"className":"mb-2 text-2xl font-black text-gray-900","children":"Lost in the multiverse"}],["$","p",null,{"className":"mb-8 text-gray-600","children":"The page you are looking for does not exist in this dimension."}],["$","$Lf",null,{"href":"/","className":"inline-flex items-center justify-center rounded-xl border-2 border-theme/30 bg-theme/25 px-8 py-3 font-bold text-theme-ink transition-all duration-200 active:scale-95","children":"Return to Safety"}]]}],null,["$","$L10",null,{"children":["$","$11",null,{"name":"Next.MetadataOutlet","children":"$@12"}]}]]}],"p":"$@13","v":null,"s":"$c"}}]]
+1:[["children",{"s":"/_not-found","h":64,"d":{"r":["$","$2","c",{"children":[null,["$","$L8",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@a","v":"$b","s":"$c"},"c":"$Qd"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L15",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#00b5cc"}]]}],["$","$L17",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$11",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Rick and Morty Explorer"}],["$","meta","1",{"name":"description","content":"The ultimate encyclopedia for Rick and Morty characters, episodes and locations. Search, filter and explore the whole multiverse."}],["$","link","2",{"rel":"author","href":"https://github.com/sinahatami/"}],["$","meta","3",{"name":"author","content":"Sina Hatami"}],["$","meta","4",{"property":"og:title","content":"Rick and Morty Explorer"}],["$","meta","5",{"property":"og:description","content":"The ultimate encyclopedia for Rick and Morty characters, episodes and locations. Search, filter and explore the whole multiverse."}],["$","meta","6",{"property":"og:site_name","content":"Rick and Morty Explorer"}],["$","meta","7",{"property":"og:locale","content":"en_US"}],["$","meta","8",{"property":"og:image","content":"https://sinahatami.github.io/rick-and-morty-web/images/og-image.png"}],["$","meta","9",{"property":"og:type","content":"website"}],["$","meta","10",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","11",{"name":"twitter:title","content":"Rick and Morty Explorer"}],["$","meta","12",{"name":"twitter:description","content":"The ultimate encyclopedia for Rick and Morty characters, episodes and locations. Search, filter and explore the whole multiverse."}],["$","meta","13",{"name":"twitter:image","content":"https://sinahatami.github.io/rick-and-morty-web/images/og-image.png"}],["$","link","14",{"rel":"icon","href":"/rick-and-morty-web/icon.png?icon.1yka_lpqd8r_z.png","sizes":"192x178","type":"image/png"}],["$","$L18","15",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@19","v":null,"s":"$c"}},"a":"$@1a","u":"$@1b","b":"_VxBygmEPgFKpfWWg6KYD"}
+12:null
+1b:true
+c:300
+c:C
+1a:0
+a:"$undefined"
+19:"$undefined"
+13:"$undefined"
