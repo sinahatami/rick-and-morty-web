@@ -80,7 +80,7 @@ jobs:
       # The static build reads a snapshot of the public API (see scripts/fetch-api-data.mjs). Reusing
       # a recent one keeps the build fast and spares the API.
       - name: Restore the API snapshot
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/api
           key: api-snapshot-${{ github.run_id }}
@@ -90,7 +90,7 @@ jobs:
         run: pnpm build
 
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -144,7 +144,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Restore the API snapshot
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/api
           key: api-snapshot-${{ github.run_id }}
