@@ -110,7 +110,10 @@ export function FilterPanelContent({
           align="end"
           sideOffset={12}
           aria-label="Refine search"
-          className="w-96 overflow-hidden rounded-3xl border-gray-100 p-0 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]"
+          // On a short window the panel must not run off the screen: it takes the room that is left
+          // and scrolls inside itself (a fixed popover cannot be scrolled into view with the page).
+          collisionPadding={16}
+          className="max-h-(--radix-popover-content-available-height) w-96 overflow-y-auto rounded-3xl border-gray-100 p-0 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]"
           onCloseAutoFocus={restoreFocus}
         >
           {accent}

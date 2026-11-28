@@ -55,6 +55,31 @@ test('the filter panel can be reset', async ({ openApp, page }) => {
   await expect(page.getByRole('button', { name: 'Filter', exact: true })).toBeVisible();
 });
 
+test('the filter panel fits a short window and its buttons stay reachable', async ({
+  openApp,
+  page,
+}) => {
+  // Shorter than the panel itself: it can only fit if it shrinks and scrolls inside.
+  const windowHeight = 480;
+  await page.setViewportSize({ width: 1280, height: windowHeight });
+  await openApp('/');
+
+  await page.getByRole('button', { name: 'Filter', exact: true }).click();
+
+  const panel = page.getByRole('dialog', { name: 'Refine search' });
+  await expect(panel).toBeVisible();
+  // The popover zooms in for a moment: wait until it has settled inside the window.
+  await expect
+    .poll(async () => {
+      const box = await panel.boundingBox();
+      return box !== null && box.y >= 0 && box.y + box.height <= windowHeight;
+    })
+    .toBe(true);
+
+  await page.getByRole('button', { name: 'Apply' }).click();
+  await expect(panel).toBeHidden();
+});
+
 test('locations can be searched too', async ({ openApp, page }) => {
   await openApp('/locations/');
 
