@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/sinahatami/rick-and-morty-web/compare/v1.3.1...v1.3.2) (2026-11-28)
+
+### Bug Fixes
+
+* **shared:** keep the filter panel inside short windows ([d4c9389](https://github.com/sinahatami/rick-and-morty-web/commit/d4c93892c18d9b335f84e51dd3531a6a9fa6b3df))
+
 ## [1.3.1](https://github.com/sinahatami/rick-and-morty-web/compare/v1.3.0...v1.3.1) (2026-11-28)
 
 ### Performance Improvements
